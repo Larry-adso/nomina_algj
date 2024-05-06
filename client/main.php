@@ -23,8 +23,22 @@
             <!-- place navbar here -->
         </header>
         <main>
-
-        <h1>hola mundo</h1>
+        <div
+            class="d-none d-sm-block"
+        >
+            Some Word
+        </div>
+        <nav
+            class="nav justify-content-center  "
+        >
+            <a class="nav-link active" href="#" aria-current="page"
+                >Active link</a
+            >
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled link</a>
+        </nav>
+        
+        <h1>hola</h1>
         </main>
         <footer>
             <!-- place footer here -->
