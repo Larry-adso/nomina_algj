@@ -41,8 +41,7 @@
         <h1>hola</h1>
         </main>
         <footer>
-            <!-- place footer here -->
-        </footer>
+<h3>ardilla amlvada ardilla encarcelada</h3>        </footer>
         <!-- Bootstrap JavaScript Libraries -->
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
