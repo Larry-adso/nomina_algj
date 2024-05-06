@@ -22,7 +22,10 @@
         <header>
             <!-- place navbar here -->
         </header>
-        <main></main>
+        <main>
+
+        <h1>hola mundo</h1>
+        </main>
         <footer>
             <!-- place footer here -->
         </footer>
