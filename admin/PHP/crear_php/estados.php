@@ -22,7 +22,7 @@
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa-solid fa-traffic-light fa-stack-1x"></i>
                 </span>
-                <h2>Inserta Un Nuevo Estado</h2>
+                <h2>Inserta Un Nuevo Estado2</h2>
                 <?php
     include '../../conexion/db.php';
 
