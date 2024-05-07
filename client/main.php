@@ -23,8 +23,17 @@
             <!-- place navbar here -->
         </header>
         <main>
+<<<<<<< HEAD
 
         <h1>hola mundo</h1>
+=======
+        <div
+            class="d-none d-sm-block"
+        >
+            Some Word
+        </div>
+
+>>>>>>> Angie
         </main>
         <footer>
             <!-- place footer here -->
