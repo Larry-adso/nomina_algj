@@ -22,9 +22,13 @@
         <header>
             <!-- place navbar here -->
         </header>
-        <main></main>
+        <main>
+
+        <h1>hola mundo</h1>
+        </main>
         <footer>
-<h3>ardilla amlvada ardilla encarcelada</h3>        </footer>
+            <!-- place footer here -->
+        </footer>
         <!-- Bootstrap JavaScript Libraries -->
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
