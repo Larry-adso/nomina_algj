@@ -1,5 +1,4 @@
 <?php
-include "../conexion/db.php";
 session_start();
 
 if (!isset($_SESSION['id_us'])) {
@@ -12,6 +11,7 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
+include "../../conexion/db.php";
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '4') {
@@ -21,7 +21,6 @@ if ($id_rol == '4') {
         $NIT = isset($_POST["NIT"]) ? $_POST["NIT"] : "";
         $Nombre = isset($_POST["Nombre"]) ? $_POST["Nombre"] : "";
         $Id_licencia = isset($_POST["ID_Licencia"]) ? $_POST["ID_Licencia"] : "";
-        $password = isset($_POST["password"]) ? $_POST["password"] : "";
         $password = hash('sha512', $password);
         $Correo = isset($_POST["Correo"]) ? $_POST["Correo"] : "";
         $Telefono = isset($_POST["Telefono"]) ? $_POST["Telefono"] : "";
@@ -38,10 +37,9 @@ if ($id_rol == '4') {
     </script>';
         } else {
             // Insertar el nuevo registro en la tabla empresas
-            $sentencia = $conexion->prepare("INSERT INTO empresas(NIT, Nombre, password, Correo, Telefono, ID_Licencia) VALUES (:NIT, :Nombre, :password, :Correo, :Telefono, :ID_Licencia)");
+            $sentencia = $conexion->prepare("INSERT INTO empresas(NIT, Nombre, Correo, Telefono, ID_Licencia) VALUES (:NIT, :Nombre, :Correo, :Telefono, :ID_Licencia)");
             $sentencia->bindParam(":NIT", $NIT);
             $sentencia->bindParam(":Nombre", $Nombre);
-            $sentencia->bindParam(":password", $password);
             $sentencia->bindParam(":Correo", $Correo);
             $sentencia->bindParam(":Telefono", $Telefono);
             $sentencia->bindParam(":ID_Licencia", $Id_licencia);
@@ -98,13 +96,13 @@ if ($id_rol == '4') {
                         <form action="" class="form" method="POST">
 
                             <div class="inputContainer mb-3">
+                            <label class="label">NIT</label>
                                 <input type="text" name="NIT" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el NIT">
-                                <label class="label">NIT</label>
                             </div>
 
                             <div class="inputContainer mb-3">
+                            <label class="label">Nombre</label>
                                 <input type="text" name="Nombre" class="form-control" required placeholder="Ingrese el nombre">
-                                <label class="label">Nombre</label>
                             </div>
 
                             <div class="inputContainer mb-3">
@@ -120,19 +118,17 @@ if ($id_rol == '4') {
                             </div>
 
                             <div class="inputContainer mb-3">
+                            <label class="label">Correo</label>
+
                                 <input type="email" name="Correo" class="form-control" required placeholder="Ingrese el correo">
-                                <label class="label">Correo</label>
                             </div>
 
                             <div class="inputContainer mb-3">
+                            <label class="label">Telefono</label>
+
                                 <input type="tel" name="Telefono" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el teléfono">
-                                <label class="label">Telefono</label>
                             </div>
 
-                            <div class="inputContainer mb-3">
-                                <input type="password" name="password" class="form-control" required placeholder="Ingrese la contraseña">
-                                <label class="label">Password</label>
-                            </div>
 
                             <div class="d-grid gap-2 mb-3">
                                 <button type="submit" class="btn btn-primary">Registrar</button>

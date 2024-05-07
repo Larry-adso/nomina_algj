@@ -1,5 +1,4 @@
 <?php
-include "conexion/db.php";
 
 session_start();
 
@@ -13,6 +12,8 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
+
+include "../conexion/db.php";
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '4') {
@@ -56,36 +57,10 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Menu desarrollador</title>
 
-        <link rel="stylesheet" href="nav/css/estilos.css">
+        <link rel="stylesheet" href="PHP/css/dev.css">
 
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
     </head>
-    <style>
-        /* Estilos adicionales para la tabla */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-            border: 1px solid #4f89e0;
-        }
-
-        th {
-            background-color: #1783db;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #a7bcdb;
-        }
-
-        tbody tr:hover {
-            background-color: #4f85d6;
-        }
-    </style>
 
     <body id="body">
 
@@ -107,7 +82,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
             </div>
             <div class="options__menu">
 
-                <br><br>
+                <br>
 
                 <a href="#" class="selected">
                     <div class="option">
@@ -136,6 +111,13 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                         <h4>Registrar Dev</h4>
                     </div>
                 </a>
+                <a href="PHP/developer/devs.php">
+                    <div class="option">
+                        <i class="fa-solid fa-children"></i>
+
+                        <h4>Ver Devs</h4>
+                    </div>
+                </a>
 
                 <a href="PHP/developer/activacion.php">
                     <div class="option">
@@ -144,7 +126,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                     </div>
                 </a>
 
-                <a href="../modulo_brian/index_estado.php">
+                <a href="PHP/developer/estados.php">
                     <div class="option">
                         <i class="far fa-address-card" title="Nosotros"></i>
                         <h4>Opciones de estados</h4>
@@ -201,8 +183,46 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         </main>
 
 
-        <script src="nav/js/script.js">
+        <script>
+            //Ejecutar función en el evento click
+            document.getElementById("btn_open").addEventListener("click", open_close_menu);
 
+            //Declaramos variables
+            var side_menu = document.getElementById("menu_side");
+            var btn_open = document.getElementById("btn_open");
+            var body = document.getElementById("body");
+
+            //Evento para mostrar y ocultar menú
+            function open_close_menu() {
+                body.classList.toggle("body_move");
+                side_menu.classList.toggle("menu__side_move");
+            }
+
+            //Si el ancho de la página es menor a 760px, ocultará el menú al recargar la página
+
+            if (window.innerWidth < 760) {
+
+                body.classList.add("body_move");
+                side_menu.classList.add("menu__side_move");
+            }
+
+            //Haciendo el menú responsive(adaptable)
+
+            window.addEventListener("resize", function() {
+
+                if (window.innerWidth > 760) {  
+
+                    body.classList.remove("body_move");
+                    side_menu.classList.remove("menu__side_move");
+                }
+
+                if (window.innerWidth < 760) {
+
+                    body.classList.add("body_move");
+                    side_menu.classList.add("menu__side_move");
+                }
+
+            });
         </script>
     </body>
     </body>

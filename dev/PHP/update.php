@@ -1,5 +1,4 @@
 <?php
-include "../conexion/db.php";
 
 session_start();
 if (!isset($_SESSION['id_us'])) {
@@ -12,6 +11,7 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
+include "../../conexion/db.php";
 
 // Obtener el ID del usuario actual
 $id_usuario = $_SESSION['id_us'];
