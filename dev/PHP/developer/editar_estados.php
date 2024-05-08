@@ -10,7 +10,6 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
-
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
 ?>
@@ -36,7 +35,7 @@ if ($id_rol == '5') {
         $id = $_GET['id'];
 
         $sql = "SELECT * FROM estado WHERE ID_Es = $id";
-        $result = $conn->query($sql);
+        $result = $conexion->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -76,10 +75,10 @@ if ($id_rol == '5') {
 
         $sql = "UPDATE estado SET Estado='$valors' WHERE ID_Es =$id";
 
-        if ($conn->query($sql) === TRUE) {
+        if ($conexion->query($sql) === TRUE) {
             $mensaje = "El Estado ha sido actualizado correctamente.";
         } else {
-            $mensaje = "Error al actualizar el Estado: " . $conn->error;
+            $mensaje = "Error al actualizar el Estado: " . $conexion->error;
         }
 
         // Redirigir a esta página con un mensaje codificado en la URL

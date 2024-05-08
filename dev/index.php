@@ -58,6 +58,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         <title>Menu desarrollador</title>
 
         <link rel="stylesheet" href="PHP/css/dev.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
     </head>
@@ -67,12 +68,9 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         <header>
             <div class="icon__menu">
                 <i class="fas fa-bars" id="btn_open"></i>
-
             </div>
         </header>
-
         <div class="menu__side" id="menu_side">
-
             <div class="name__page">
                 <i class="far fa-solid fa-user"></i>
                 <h4>DEV </h4>
@@ -81,8 +79,6 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
 
             </div>
             <div class="options__menu">
-
-                <br>
 
                 <a href="#" class="selected">
                     <div class="option">
@@ -139,50 +135,48 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                     </div>
                 </a>
             </div>
-
         </div>
 
         <main>
             <h4>Empresas que han adquirido el software</h4>
 
             <div class="table-responsive">
-
-                <table class="table table-primary table-bordered">
+                <table class="table table-primary table-bordered" id="gameTable">
+                    <!-- Encabezados de la tabla -->
+                    <br>
                     <thead>
                         <tr>
                             <th scope="col">NIT</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">ID licencia </th>
                             <th scope="col">Correo</th>
+                            <th scope="col">ID licencia </th>
+
                             <th scope="col">Seriales</th>
                             <th scope="col">Estado Licencia</th>
                             <th scope="col">fecha inicio </th>
                             <th scope="col">fecha fin </th>
                             <th scope="col">Tipo licenia </th>
-
                         </tr>
                     </thead>
+                    <!-- Cuerpo de la tabla -->
                     <tbody>
                         <?php foreach ($consulta_ as $info) { ?>
                             <tr>
                                 <td scope="row"><?php echo $info['NIT']; ?></td>
                                 <td><?php echo $info['Nombre']; ?></td>
-                                <td><?php echo $info['ID_Licencia']; ?></td>
                                 <td><?php echo $info['Correo']; ?></td>
+                                <td><?php echo $info['ID_Licencia']; ?></td>
                                 <td><?php echo $info['Serial']; ?></td>
                                 <td><?php echo $info['Estado']; ?></td>
                                 <td><?php echo $info['F_inicio']; ?></td>
                                 <td><?php echo $info['F_fin']; ?></td>
                                 <td><?php echo $info['Tipo_Licencia']; ?></td>
-
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
             </div>
         </main>
-
-
         <script>
             //Ejecutar función en el evento click
             document.getElementById("btn_open").addEventListener("click", open_close_menu);
@@ -210,7 +204,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
 
             window.addEventListener("resize", function() {
 
-                if (window.innerWidth > 760) {  
+                if (window.innerWidth > 760) {
 
                     body.classList.remove("body_move");
                     side_menu.classList.remove("menu__side_move");
@@ -224,10 +218,24 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
 
             });
         </script>
-    </body>
+
+        <!-- JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Inicializar DataTable y activar paginación
+                $('#gameTable').DataTable({
+                    "paging": true
+                });
+            });
+        </script>
     </body>
 
     </html>
+
 <?php
 } else {
     echo '

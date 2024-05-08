@@ -50,61 +50,59 @@ if ($id_rol == '4') {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" conexiontent="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://uniconexions.iconexionscout.com/release/v2.1.9/css/uniconexions.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://uniconnect.uniconnectscout.com/release/v2.1.9/css/uniconnect.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Document</title>
+    <style>
+        body {
+            background-color: white;
+        }
+    </style>
 </head>
 
-<body class="" style="background-color: white;">
-    <div class="justify-conexiontent-center section text-center conexiontainer-sm">
-        <div class="row full-height">
-
-            <h1 class="mb-4 pb-3">REGISTRO DE DESARROLLADOR</h1>
+<body>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="card">
             <div class="card-body">
+                <h1 class="mb-4 pb-3 text-center">REGISTRO DE DESARROLLADOR</h1>
                 <form action="#" name="form" method="post">
-
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label>* Cedula</label>
-                            <input type="number" title="Solo se permiten números conexion un máximo de 10 dígitos" class="form-conexiontrol border border-dark mb-3" name="id_us" placeholder="Cedula del usuario" required>
+                            <input type="number" title="Solo se permiten números con un máximo de 10 dígitos" class="form-control border border-dark mb-3" name="id_us" placeholder="Cedula del usuario" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label>Nombre</label>
-                            <input type="text" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" class="form-conexiontrol border border-dark mb-3" name="nombre_us" placeholder="Nombre Completo">
+                            <input type="text" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" class="form-control border border-dark mb-3" name="nombre_us" placeholder="Nombre Completo">
                         </div>
-
                         <div class="form-group col-md-4">
                             <label>Apellido</label>
-                            <input type="text" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" class="form-conexiontrol border border-dark mb-3" name="apellido_us" placeholder="Apellido completo">
+                            <input type="text" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" class="form-control border border-dark mb-3" name="apellido_us" placeholder="Apellido completo">
                         </div>
-
                         <div class="form-group col-md-5">
                             <label>Correo</label>
-                            <input type="email" class="form-conexiontrol border border-dark mb-3" name="correo_us" placeholder="Correo electronico" required>
+                            <input type="email" class="form-control border border-dark mb-3" name="correo_us" placeholder="Correo electronico" required>
                         </div>
-
                         <div class="form-group col-md-4">
-                            <label>conexiontraseña</label>
-                            <input type="password" title="Debe ser alfanumérico de al menos 10 caracteres" class="form-conexiontrol border border-dark mb-3" name="pass" required>
-
+                            <label>Contraseña</label>
+                            <input type="password" title="Debe ser alfanumérico de al menos 10 caracteres" class="form-control border border-dark mb-3" name="pass" required>
                         </div>
-
                         <div class="form-group col-md-3">
                             <label>Telefono</label>
-                            <input type="tel" pattern="[0-9]{10}" title="Debe ser un número de 10 dígitos" class="form-conexiontrol border border-dark mb-3" name="tel_us" placeholder="" required>
+                            <input type="tel" pattern="[0-9]{10}" title="Debe ser un número de 10 dígitos" class="form-control border border-dark mb-3" name="tel_us" placeholder="" required>
                         </div>
-
                         <div class="form-group col-md-3">
                             <label>Codigo de seguridad</label>
-                            <input type="number" title="Debe ser un número de 10 dígitos" class="form-conexiontrol border border-dark mb-3" name="Codigo" placeholder="" required>
+                            <input type="number" title="Debe ser un número de 10 dígitos" class="form-control border border-dark mb-3" name="Codigo" placeholder="" required>
                         </div>
-
                     </div>
-                    <input class="btn btn-primary" type="submit" name="validar" value="Registrar">
+                    <div class="text-center">
+                        <input class="btn btn-primary" type="submit" name="validar" value="Registrar">
+                        <a class="btn btn-danger" href="../../index.php">Inicio</a>
+                    </div>
                     <input type="hidden" name="MM_insert" value="regm">
-                    <a class="btn btn-danger" href="../../index.php">Inicio</a>
                 </form>
             </div>
         </div>
@@ -112,6 +110,7 @@ if ($id_rol == '4') {
 </body>
 
 </html>
+
 <?php
 
 } else {
