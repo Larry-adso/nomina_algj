@@ -18,15 +18,8 @@ include "../conexion/db.php";
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '4') {
 
-    $consulta = $conexion->prepare("SELECT empresas.NIT,
-empresas.Nombre,
-empresas.ID_Licencia,
-empresas.Correo,
-licencia.Serial,
-licencia.F_inicio,
-licencia.F_fin,
-tp_licencia.Tipo AS Tipo_Licencia,
-estado.Estado
+    $consulta = $conexion->prepare("SELECT empresas.NIT,empresas.Nombre,empresas.ID_Licencia,empresas.Correo,licencia.Serial,licencia.F_inicio,licencia.F_fin,
+tp_licencia.Tipo AS Tipo_Licencia,estado.Estado
 FROM empresas
 INNER JOIN licencia ON empresas.ID_Licencia = licencia.ID
 INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID
@@ -118,7 +111,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                 <a href="PHP/developer/activacion.php">
                     <div class="option">
                         <i class="far fa-id-badge" title="activar licencia "></i>
-                        <h4>activar licencias</h4>
+                        <h4>Activar Licencias</h4>
                     </div>
                 </a>
 
