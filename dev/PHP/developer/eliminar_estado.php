@@ -78,6 +78,7 @@ if ($id_rol == '5') {
                     <input type="submit" name="delete" value="Eliminar" class="login-submit" onclick="confirmDelete(event)" />
                 </form>
             </div>
+            <h2>--</h2>
 
             <script>
                 function confirmDelete(event) {
