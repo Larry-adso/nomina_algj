@@ -15,9 +15,11 @@ if ($id_rol == '4') {
 
     include("../../../conexion/db.php");
 
-    $consultaUsuarios = $conexion->prepare("SELECT * FROM usuarios WHERE id_rol = 4");
+    $consultaUsuarios = $conexion->prepare("SELECT usuarios.*, roles.TP_user AS TP_user FROM usuarios 
+    INNER JOIN roles ON usuarios.id_rol = roles.ID WHERE usuarios.id_rol IN (4, 5)");
     $consultaUsuarios->execute();
     $usuarios = $consultaUsuarios->fetchAll(PDO::FETCH_ASSOC);
+    
 
 ?>
 
@@ -53,7 +55,7 @@ if ($id_rol == '4') {
                         <th>Apellidos</th>
                         <th>Email</th>
                         <th>Telefono</th>
-
+                        <th>Roll</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -65,7 +67,7 @@ if ($id_rol == '4') {
                             <td><?php echo $usuario['apellido_us']; ?></td>
                             <td><?php echo $usuario['correo_us']; ?></td>
                             <td><?php echo $usuario['tel_us']; ?></td>
-
+                            <td><?php echo $usuario['TP_user']; ?></td>
                             <td>
                                 <a href="editar_usuario.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-primary">Editar</a>
                                 <a href="borrar_usuario.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-danger">Borrar</a>

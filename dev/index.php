@@ -97,14 +97,14 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                 <a href="PHP/developer/register.php">
                     <div class="option">
                         <i class="far fa-regular fa-user" title="Login"></i>
-                        <h4>Registrar Dev</h4>
+                        <h4>Registrar Personas</h4>
                     </div>
                 </a>
                 <a href="PHP/developer/devs.php">
                     <div class="option">
                         <i class="fa-solid fa-children"></i>
 
-                        <h4>Ver Devs</h4>
+                        <h4>Ver Personas</h4>
                     </div>
                 </a>
 

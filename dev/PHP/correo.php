@@ -1,36 +1,22 @@
 <?php
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "nomina_algj";
-
-try {
-    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Establecer el modo de error PDO en excepción
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Establecer el conjunto de caracteres a UTF-8
-    $conexion->exec("SET CHARACTER SET utf8");
-} catch (PDOException $e) {
-    echo "Error de conexión a la base de datos: " . $e->getMessage();
-}
-
 session_start();
+
+include("../../conexion/db.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_us = $_POST["id_us"];
-    $correo_us = $_POST["correo_us"];
 
-    $consulta = $conexion->prepare("SELECT * FROM usuarios WHERE id_us = :id_us AND correo_us = :correo_us ");
+    $consulta = $conexion->prepare("SELECT correo_us, pass FROM usuarios WHERE id_us = :id_us");
     $consulta->bindParam(":id_us", $id_us);
-    $consulta->bindParam(":correo_us", $correo_us);
     $consulta->execute();
 
     // Verificamos si se encontró un usuario
     if ($consulta->rowCount() > 0) {
-        // Si se encontró, obtenemos la contraseña y enviamos el correo
-        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
-        $pass = $usuario['pass']; // Obtener la contraseña
+        // Si se encontró, obtenemos el correo asociado al usuario
+        $correo_resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        $correo_us = $correo_resultado['correo_us'];
+        $pass = $correo_resultado['pass'];
+
 
         // Crear sesión con id_us
         $_SESSION['id_us'] = $id_us;
@@ -40,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tucorreo = "From: senatrabajos2022@gmail.com";
 
         if (mail($correo_us, $titulo, $msj, $tucorreo)) {
-
             echo '<script>
             alert("Su código de verificación fue enviado a: ' . $correo_us . '. Gracias por usar el sistema de recuperación.");
             window.location = "code.php";
@@ -53,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -127,9 +112,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="" method="post">
                 <label for="ID">Documento:</label>
                 <input type="text" name="id_us" pattern="[0-9]{10}" maxlength="10" required>
-
-                <label for="correo">Correo:</label>
-                <input type="email" name="correo_us" required>
                 <button type="submit" class="btn-success">Enviar</button>
             </form>
         </div>
