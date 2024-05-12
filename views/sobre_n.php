@@ -7,8 +7,8 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>NOMINAS</title>
-		<link rel="stylesheet" href="css/styles.css" />
+		<title>SOBRE NOSOTROS</title>
+		<link rel="stylesheet" href="../css/styles.css" />
 	</head>
 	<body>
 		<header>
@@ -38,45 +38,113 @@
 				<nav class="navbar container">
 					<i class="fa-solid fa-bars"></i>
 					<ul class="menu">
-						<li><a href="">Inicio</a></li>
-						<li><a href="views/sobre_n.php">Sobre nosotros</a></li>
-						<li><a href="views/contactenos.php">Contactenos</a></li>
+						<li><a href="../index.php">Inicio</a></li>
+						<li><a href="sobre_n.php">Sobre nosotros</a></li>
+						<li><a href="contactenos.php">Contactenos</a></li>
 					</ul>
 
-					<ul class="menu">
-						<li>
-					<a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
-					</li>									
-						</ul>
+					<form class="search-form">
+						<input type="search" placeholder="Buscar..." />
+						<button class="btn-search">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+					</form>
 				</nav>
 			</div>
 		</header>
 
-		<section class="banner">
-			<div class="content-banner">
-				<p>Simplifica el cálculo, optimiza la administración y libera tiempo para lo que realmente importa:</p>
-				<h2> ¡Nóminas sin complicaciones, <br /> resultados con excelencia!</h2>
-				<a href="#">Ir a registrarse</a>
-			</div>
-		</section>
+		
 
-		<main class="main-content">
+		<main class="main-content">	
+<br><br><br>
+			<section class="container blogs">
+				<h1 class="heading-1">Acerca de Nosotros</h1>
+				<center><p class="text-center">Nuestro software ofrece una solución completa para la administración de salarios, impuestos, beneficios y más. <br> Simplifica tus procesos y ahorra tiempo con nuestra plataforma intuitiva y eficiente.
 
-			<section class="container top-categories">
-				<h1 class="heading-1">Lo que nuestro software te ofrece</h1>
-				<div class="container-categories">
-					<div class="card-category category-moca">
-						<span>Cálculo preciso y automatizado</span>
-						
+</p></center>
+<br>
+				<div class="container-blogs">
+					<div class="card-blog">
+						<div class="container-img">
+							<img src="../img/sobre_n_1.jpg" alt="Imagen Blog 1" />
+							<div class="button-group-blog">
+								<span>
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</span>
+								<span>
+									<i class="fa-solid fa-link"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content-blog">
+							<h3>Gestión Laboral Integral</h3>
+							<p>
+							Administra fácilmente aspectos como registros de horas, vacaciones, y más.
+							</p>
+						</div>
 					</div>
-					<div class="card-category category-expreso">
-						<span>Gestión eficiente de registros <br>de empleados</span>
+					<div class="card-blog">
+						<div class="container-img">
+							<img src="../img/sobre_n_2.jpg" alt="Imagen Blog 2" />
+							<div class="button-group-blog">
+								<span>
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</span>
+								<span>
+									<i class="fa-solid fa-link"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content-blog">
+							<h3>Generación Automatizada de Nóminas</h3>
+							<p>
+							Genera nóminas precisas y actualizadas con solo unos pocos clics.
+							</p>
+						</div>
 					</div>
-					<div class="card-category category-capuchino">
-						<span>Informes detallados para <br>cumplimiento normativo</span>
+					<div class="card-blog">
+						<div class="container-img">
+							<img src="../img/sobre_n_3.jpg" alt="Imagen Blog 3" />
+							<div class="button-group-blog">
+								<span>
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</span>
+								<span>
+									<i class="fa-solid fa-link"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content-blog">
+							<h3>Reportes Detallados</h3>
+							<p>
+							Accede a informes detallados sobre costos laborales, deducciones fiscales y más.
+							</p>
+							<br><br><br><br>
+						</div>
 					</div>
 				</div>
 			</section>
+
+
+			<section class="container top-categories">
+				<h1 class="heading-1">Nuestro equipo</h1>
+				<div class="container-categories">
+					<div class="card-category category-larry">
+						<p>Larry Garcia Morales</p>
+						<span>Líder de Proyecto</span>
+					</div>
+					<div class="card-category category-brian">
+						<p>Brian Avila</p>
+						<span>Programador Backend</span>
+					</div>
+					<div class="card-category category-angie">
+						<p>Angie Tatiana Gutierrez</p>
+						<span>Desarrollador frontend</span>
+					</div>
+
+				</div>
+			</section>
+			<br><br><br>
 		</main>
 
 		<footer class="footer">
