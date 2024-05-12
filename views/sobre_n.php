@@ -18,7 +18,7 @@
 						<i class="fa-solid fa-headset"></i>
 						<div class="content-customer-support">
 							<span class="text">Soporte al cliente</span>
-							<span class="number">+58 318 773 86 47</span>
+							<span class="number">+57 318 773 86 47</span>
 						</div>
 					</div>
 
