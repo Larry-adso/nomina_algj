@@ -25,7 +25,7 @@
                 </span>
                 <h2>Inserta Un Nuevo Estado2</h2>
                 <?php
-    include '../../conexion/db.php';
+    include '../../../conexion/conexio.php';
 
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
