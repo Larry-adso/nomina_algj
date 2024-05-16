@@ -27,6 +27,14 @@
                     // Incluimos el archivo de conexión a la base de datos
                     include '../../../conexion/db.php';
 
+                    // Realizamos la conexión a la base de datos utilizando mysqli
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    // Verificamos si hay errores en la conexión
+                    if ($conn->connect_error) {
+                        die("Error de conexión a la base de datos: " . $conn->connect_error);
+                    }
+
                     // Realizamos la consulta SQL para obtener los estados
                     $sql = "SELECT * FROM estado";
                     $result = $conn->query($sql);
@@ -46,6 +54,8 @@
                         // Si no hay estados registrados, mostramos un mensaje
                         echo "<tr><td colspan='4'>No hay estados registrados.</td></tr>";
                     }
+                    // Cerramos la conexión
+                    $conn->close();
                     ?>
                 </tbody>
             </table>
