@@ -24,7 +24,7 @@
                 </span>
                 <h2>Inserta Un Nuevo Tipo De Usuario</h2>
                 <?php
-    include '../../conexion/db.php';
+    include '../../../conexion/db.php';
 
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
