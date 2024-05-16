@@ -8,7 +8,8 @@ function togglePasswordVisibility() {
 }
 function showTerms() {
 var session1 = document.getElementById("session1");
-session1.style.display = "block";
+session1.style.display = "flex";
+
 }
 
 const $btnSignIn = document.querySelector('.sign-in-btn'),
@@ -29,7 +30,7 @@ localStorage.setItem('termsAccepted', 'true');
 var session1 = document.getElementById("session1");
 session1.style.display = "none";
 var signInForm = document.querySelector('.container-form.sign-in');
-signInForm.style.display = "block";
+signInForm.style.display = "flex";
 }
 
 
@@ -39,6 +40,7 @@ if (termsAccepted === 'true') {
 var session1 = document.getElementById("session1");
 session1.style.display = "none";
 var signInForm = document.querySelector('.container-form.sign-in');
-signInForm.style.display = "block";
+signInForm.style.display = "flex";
+
 }
 }

@@ -7,7 +7,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Contactenos</title>
 	<link rel="stylesheet" href="../css/styles.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 </head>
 
@@ -28,7 +27,7 @@
 				</div>
 
 				<div class="container-user">
-					<i class="fa-solid fa-user"></i>
+				<a href="../dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>
 
 				</div>
 			</div>
@@ -58,22 +57,22 @@
 			<div class="card-feature">
 				<i class="fa-solid fa-phone"></i>
 				<div class="feature-content">
-					<span>Envío gratuito a nivel mundial</span>
-					<p>En pedido superior a $150</p>
+					<span>+57 318 773 86 47</span>
+					<p>Llama cuando quieras</p>
 				</div>
 			</div>
 			<div class="card-feature">
 				<i class="fa-solid fa-map"></i>
 				<div class="feature-content">
-					<span>Contrareembolso</span>
-					<p>100% garantía de devolución de dinero</p>
+					<span>SENA </span>
+					<p>centro de industria y construcción</p>
 				</div>
 			</div>
 			<div class="card-feature">
 				<i class="fa-solid fa-envelope"></i>
 				<div class="feature-content">
-					<span>Tarjeta regalo especial</span>
-					<p>Ofrece bonos especiales con regalo</p>
+					<span>SyscPay@gmail.com</span>
+					<p>Atencion Personalizada</p>
 				</div>
 			</div>
 
@@ -88,36 +87,15 @@
 
 		<section class="container top-categories">
 			<h1 class="heading-1">Consulta con nosotros!</h1>
-			<div class="container-map">
-				<form action="/action_page.php">
-					<div class="row">
-						<div class="col-25">
-							<label for="fname">First Name</label>
-						</div>
-						<div class="col-75">
-							<input type="text" id="fname" name="firstname" placeholder="Your name..">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-25">
-							<label for="lname">Last Name</label>
-						</div>
-						<div class="col-75">
-							<input type="text" id="lname" name="lastname" placeholder="Your last name..">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-25">
-							<label for="subject">Subject</label>
-						</div>
-						<div class="col-75">
-							<textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-						</div>
-					</div>
-					<div class="row">
-						<input type="submit" value="Submit">
-					</div>
-				</form>
+			<div class="container-com">
+    <form action="#" method="POST">
+      <label for="nombre"><h2>Correo:</h2></label>
+      <input type="text" id="correo" name="correo" required>
+      <label for="comentario"><h2>Comentario:</h2></label>
+      <textarea id="comentario" name="comentario" rows="4" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
 		</section>
 	</main>
 

@@ -22,11 +22,11 @@
 				</div>
 
 				<div class="container-logo">
-					<h1 class="logo"><a href="/">NOMINAS SYNCPAY</a></h1>
+					<h1 class="logo"><a href="img/logo_algj.png">NOMINAS SYNCPAY</a></h1>
 				</div>
 
 				<div class="container-user">
-					<i class="fa-solid fa-user"></i>
+				  <a href="dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>	
 
 				</div>
 			</div>
