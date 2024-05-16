@@ -51,8 +51,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         <title>Menu desarrollador</title>
 
         <link rel="stylesheet" href="PHP/css/dev.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
     </head>
 
@@ -134,7 +133,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
             <h4>Empresas que han adquirido el software</h4>
 
             <div class="table-responsive">
-                <table class="table table-primary table-bordered" id="gameTable">
+                <table class="table table-primary table-bordered" id="datatable_users">
                     <!-- Encabezados de la tabla -->
                     <br>
                     <thead>
@@ -214,16 +213,99 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
 
         <!-- JavaScript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 
-        <script>
+        <!-- <script>
             $(document).ready(function() {
                 // Inicializar DataTable y activar paginación
                 $('#gameTable').DataTable({
-                    "paging": true
+                    "paging": true,
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json"
+                    }
                 });
             });
+
+            
+        </script> -->
+        <!-- <script src="PHP/js/data.js"></script> -->
+        <script>
+            let dataTable;
+let dataTableIsInitialized = false;
+
+const dataTableOptions = {
+    //scrollX: "2000px",
+    lengthMenu: [1, 10, 15, 20, 100, 200, 500],
+    columnDefs: [
+        { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
+        { orderable: false, targets: [5, 6] },
+        { searchable: false, targets: [1] }
+        //{ width: "50%", targets: [0] }
+    ],   
+    pageLength: 3,
+    destroy: true,
+    language: {
+        lengthMenu: "Mostrar _MENU_ registros por página",
+        zeroRecords: "Ningún usuario encontrado",
+        info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+        infoEmpty: "Ningún usuario encontrado",
+        infoFiltered: "(filtrados desde _MAX_ registros totales)",
+        search: "Buscar:",
+        loadingRecords: "Cargando...",
+        paginate: {
+            first: "Primero",
+            last: "Último",
+            next: "Siguiente",
+            previous: "Anterior"
+        }
+    }
+};
+
+const initDataTable = async () => {
+    if (dataTableIsInitialized) {
+        dataTable.destroy();
+    }
+
+    await listUsers();
+
+    dataTable = $("#datatable_users").DataTable(dataTableOptions);
+
+    dataTableIsInitialized = true;
+};
+
+const listUsers = async () => {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        const users = await response.json();
+
+        let content = ``;
+        users.forEach((user, index) => {
+            content += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.address.city}</td>
+                    <td>${user.company.name}</td>
+                    <td><i class="fa-solid fa-check" style="color: green;"></i></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                </tr>`;
+        });
+        tableBody_users.innerHTML = content;
+    } catch (ex) {
+        alert(ex);
+    }
+};
+
+window.addEventListener("load", async () => {
+    await initDataTable();
+});
+
         </script>
     </body>
 
