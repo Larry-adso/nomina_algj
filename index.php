@@ -26,14 +26,10 @@
 				</div>
 
 				<div class="container-user">
-<<<<<<< HEAD
-				  <a href="dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>	
 
-=======
 					<a href="dev/PHP/login.php">
 						<i class="fa-solid fa-user"></i>
 					</a>
->>>>>>> f63467e9833d848bc063c0805f3b1d825fe3a255
 				</div>
 			</div>
 		</div>

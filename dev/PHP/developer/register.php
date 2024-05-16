@@ -27,21 +27,12 @@ if ($id_rol == '4') {
         $id_rol = $_POST['id_rol'];
         $id_empresa = $_POST['id_empresa'];
         $pass = hash('sha512', $pass);
-
-        $sql = $conexion->prepare("SELECT * FROM usuarios where id_us = '$id_us'");
-        $sql->execute();
-        $fila = $sql->fetchALL(PDO::FETCH_ASSOC);
-
-        if ($id_us == "" || $nombre_us == "" || $apellido_us == "" || $correo_us == "" || $tel_us == "" ||  $pass == "" || $id_rol == "" || $Codigo == "") {
-            echo '<script>alert("EXISTEN DATOS VACIOS"); </script>';
-        } else if ($fila) {
-            echo '<script>alert("Usuario o telefono ya registrado");</script>';
-        } else {
+     
             $insertSQL = $conexion->prepare("INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, id_rol, Codigo,id_empresa) 
-                                                VALUES ('$id_us','$nombre_us', '$apellido_us','$correo_us','$tel_us','$pass', $id_rol , '$Codigo','$id_empresa)");
+                                                VALUES ('$id_us','$nombre_us', '$apellido_us','$correo_us','$tel_us','$pass', $id_rol , '$Codigo','$id_empresa')");
             $insertSQL->execute();
             echo '<script>alert("Registro exitoso"); </script>';
-        }
+        
     }
 
     $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
