@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['id_us'])) {
@@ -18,13 +17,35 @@ include "../conexion/db.php";
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '4') {
 
-    $consulta = $conexion->prepare("SELECT empresas.NIT,empresas.Nombre,empresas.ID_Licencia,empresas.Correo,licencia.Serial,licencia.F_inicio,licencia.F_fin,
-tp_licencia.Tipo AS Tipo_Licencia,estado.Estado
-FROM empresas
-INNER JOIN licencia ON empresas.ID_Licencia = licencia.ID
-INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID
-INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
-");
+    // Paginación
+    $results_per_page = 5;
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+    } else {
+        $page = 1;
+    }
+    $start_from = ($page - 1) * $results_per_page;
+
+    // Filtro de tablas
+    $filter = "";
+    if (isset($_POST['filter'])) {
+        $filter = $_POST['filter'];
+    }
+
+    // Búsqueda
+    $search = "";
+    if (isset($_POST['search'])) {
+        $search = $_POST['search'];
+    }
+
+    $consulta = $conexion->prepare("SELECT empresas.NIT, empresas.Nombre, empresas.ID_Licencia, empresas.Correo, licencia.Serial, licencia.F_inicio, licencia.F_fin, tp_licencia.Tipo AS Tipo_Licencia, estado.Estado
+        FROM empresas
+        INNER JOIN licencia ON empresas.ID_Licencia = licencia.ID
+        INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID
+        INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es
+        WHERE empresas.Nombre LIKE '%$search%'
+        ORDER BY empresas.Nombre
+        LIMIT $start_from, $results_per_page");
     $consulta->execute();
     $consulta_ = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
@@ -41,6 +62,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
 
 
 ?>
+
     <!DOCTYPE html>
     <html lang="en">
 
@@ -51,16 +73,17 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         <title>Menu desarrollador</title>
 
         <link rel="stylesheet" href="PHP/css/dev.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
+
+        </style>
     </head>
 
     <body id="body">
 
         <header>
             <div class="icon__menu">
-                <i class="fas fa-bars" id="btn_open"></i>
+               
             </div>
         </header>
         <div class="menu__side" id="menu_side">
@@ -73,7 +96,7 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
             </div>
             <div class="options__menu">
 
-                <a href="#" class="selected">
+                <a href="../index.php" class="selected">
                     <div class="option">
                         <i class="fas fa-home" title="Inicio"></i>
                         <h4>Inicio</h4>
@@ -133,8 +156,20 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
         <main>
             <h4>Empresas que han adquirido el software</h4>
 
+
+            <div class="form-container">
+
+                <form method="POST">
+                    <div class="search-container">
+                        <input type="text" name="search" placeholder="Buscar por nombre...">
+                        <input type="submit" value="Buscar">
+                    </div>
+
+                </form>
+            </div>
+
             <div class="table-responsive">
-                <table class="table table-primary table-bordered" id="gameTable">
+                <table class="table table-primary table-bordered" id="datatable_users">
                     <!-- Encabezados de la tabla -->
                     <br>
                     <thead>
@@ -143,7 +178,6 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                             <th scope="col">Nombre</th>
                             <th scope="col">Correo</th>
                             <th scope="col">ID licencia </th>
-
                             <th scope="col">Seriales</th>
                             <th scope="col">Estado Licencia</th>
                             <th scope="col">fecha inicio </th>
@@ -169,62 +203,31 @@ INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es;
                     </tbody>
                 </table>
             </div>
+
+            <!-- Paginación -->
+            <?php
+            $sql = "SELECT COUNT(*) AS total FROM empresas";
+            $result = $conexion->query($sql);
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $total_pages = ceil($row["total"] / $results_per_page);
+            ?>
+            <div class="pagination">
+                <?php
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<a href='?page=" . $i . "'>" . $i . "</a>";
+                }
+                ?>
+            </div>
         </main>
         <script>
-            //Ejecutar función en el evento click
-            document.getElementById("btn_open").addEventListener("click", open_close_menu);
 
-            //Declaramos variables
-            var side_menu = document.getElementById("menu_side");
-            var btn_open = document.getElementById("btn_open");
-            var body = document.getElementById("body");
-
-            //Evento para mostrar y ocultar menú
-            function open_close_menu() {
-                body.classList.toggle("body_move");
-                side_menu.classList.toggle("menu__side_move");
-            }
-
-            //Si el ancho de la página es menor a 760px, ocultará el menú al recargar la página
-
-            if (window.innerWidth < 760) {
-
-                body.classList.add("body_move");
-                side_menu.classList.add("menu__side_move");
-            }
-
-            //Haciendo el menú responsive(adaptable)
-
-            window.addEventListener("resize", function() {
-
-                if (window.innerWidth > 760) {
-
-                    body.classList.remove("body_move");
-                    side_menu.classList.remove("menu__side_move");
-                }
-
-                if (window.innerWidth < 760) {
-
-                    body.classList.add("body_move");
-                    side_menu.classList.add("menu__side_move");
-                }
-
-            });
         </script>
 
         <!-- JavaScript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
-        <script>
-            $(document).ready(function() {
-                // Inicializar DataTable y activar paginación
-                $('#gameTable').DataTable({
-                    "paging": true
-                });
-            });
-        </script>
+        <script src="PHP/js/data.js"></script>
+
     </body>
 
     </html>

@@ -94,39 +94,38 @@ if ($id_rol == '4') {
                         <h1 class="title text-center mb-4">Registro De Empresa</h1>
 
                         <form action="" class="form" method="POST">
-
-                            <div class="inputContainer mb-3">
-                            <label class="label">NIT</label>
-                                <input type="text" name="NIT" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el NIT">
-                            </div>
-
-                            <div class="inputContainer mb-3">
-                            <label class="label">Nombre</label>
-                                <input type="text" name="Nombre" class="form-control" required placeholder="Ingrese el nombre">
-                            </div>
-
-                            <div class="inputContainer mb-3">
-                                <label class="label">ID_Licencia</label>
+                        <div class="inputContainer mb-3">
+                            <label class="label">ID_Licencia <a style="text-decoration: none;" href="#" onclick="abrirVentanaSerial()">Crear</a></label>
                                 <select class="form-select form-select-sm input" name="ID_Licencia" id="id_licencia" required>
                                     <option value="" selected disabled>Seleccione una licencia</option>
                                     <?php foreach ($Tp_licencia as $licencia_) { ?>
                                         <option value="<?php echo $licencia_['ID']; ?>">
-                                            <?php echo "ID: " . $licencia_['ID'] . " - Serial: " . $licencia_['Serial'] . " - Tiempo: " . $licencia_['Tipo']; ?>
+                                            <?php echo  "  Serial: " . $licencia_['Serial'] . " - Tiempo: " . $licencia_['Tipo']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>
                             </div>
+                            <div class="inputContainer mb-3">
+                            <label class="label">NIT</label>
+                                <input type="text" name="NIT" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el NIT de la empresa">
+                            </div>
+
+                            <div class="inputContainer mb-3">
+                            <label class="label">Nombre</label>
+                                <input type="text" name="Nombre" class="form-control" required placeholder="Ingrese el nombre de la empresa">
+                            </div>
+
 
                             <div class="inputContainer mb-3">
                             <label class="label">Correo</label>
 
-                                <input type="email" name="Correo" class="form-control" required placeholder="Ingrese el correo">
+                                <input type="email" name="Correo" class="form-control" required placeholder="Ingrese el correo de la empresa">
                             </div>
 
                             <div class="inputContainer mb-3">
                             <label class="label">Telefono</label>
 
-                                <input type="tel" name="Telefono" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el teléfono">
+                                <input type="tel" name="Telefono" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el teléfono de la empresa">
                             </div>
 
 
@@ -135,7 +134,7 @@ if ($id_rol == '4') {
                             </div>
 
                             <div class="d-grid gap-2">
-                                <a class="btn btn-danger" href="../index.php" role="button">Inicio</a>
+                                <a class="btn btn-danger" href="../index.php" role="button">Regresar</a>
                             </div>
 
                         </form>
@@ -143,9 +142,7 @@ if ($id_rol == '4') {
                 </div>
             </div>
         </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
+       <script src="js/empresa.js"></script>
         <!-- Bootstrap JavaScript Libraries -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
