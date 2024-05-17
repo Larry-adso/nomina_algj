@@ -34,13 +34,13 @@ if ($id_rol == '4') {
         echo '<script>alert("Registro exitoso"); </script>';
     }
 
-    $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
-    $con->execute();
-    $cons = $con->fetchAll(PDO::FETCH_ASSOC);
-    
-    $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
-    $con->execute();
-    $cons = $con->fetchAll(PDO::FETCH_ASSOC);
+    $conx = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
+    $conx->execute();
+    $conz = $conx->fetchAll(PDO::FETCH_ASSOC);
+
+    $cons = $conexion->prepare("SELECT * FROM empresas");
+    $cons->execute();
+    $empresas = $cons->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -89,15 +89,16 @@ if ($id_rol == '4') {
                                 <input type="password" class="form-control" title="Debe ser alfanumérico de al menos 10 caracteres" name="pass" id="pass" required>
                             </div>
                             <div class="col-md-4">
-                                <label for="id_empresa" class="form-label">NIT_empresa</label>
+                                <label for="id_empresa" class="form-label">NIT_empresa <a style="text-decoration: none;" href="#" onclick="abrirVentanaEmpresa()"> Crear</a></label> 
                                 <select class="form-select form-select-sm input" name="id_empresa" id="id_empresa" required>
-                                    <option value="" selected disabled>Seleccione una EMpresa</option>
-                                    <?php foreach ($Tp_licencia as $licencia_) { ?>
-                                        <option value="<?php echo $licencia_['ID']; ?>">
-                                            <?php echo  "  Serial: " . $licencia_['Serial'] . " - Tiempo: " . $licencia_['Tipo']; ?>
+                                    <option value="" selected disabled>Seleccione una empresa</option>
+                                    <?php foreach ($empresas as $empresas_m) { ?>
+                                        <option value="<?php echo $empresas_m['NIT']; ?>">
+                                            <?php echo  "  NIT: " . $empresas_m['NIT'] . " - Nombre: " . $empresas_m['Nombre']; ?>
                                         </option>
                                     <?php } ?>
-                                </select>                            </div>  
+                                </select>
+                            </div>
                             <div class="col-md-4">
                                 <label for="tel_us" class="form-label">Telefono</label>
                                 <input type="tel" class="form-control" pattern="[0-9]{10}" title="Debe ser un número de 10 dígitos" name="tel_us" id="tel_us" placeholder="" required>
@@ -110,7 +111,7 @@ if ($id_rol == '4') {
                                 <label for="id_rol" class="form-label">Usuarios</label>
                                 <select class="form-select" name="id_rol" id="id_rol" required>
                                     <option value="" selected disabled>Seleccione un tipo de usuario</option>
-                                    <?php foreach ($cons as $pregunta) { ?>
+                                    <?php foreach ($conz as $pregunta) { ?>
                                         <option value="<?php echo $pregunta['ID']; ?>">
                                             <?php echo $pregunta['TP_user']; ?>
                                         </option>
@@ -128,6 +129,7 @@ if ($id_rol == '4') {
             </div>
         </div>
     </body>
+    <script src="../js/register_modal.js"></script>
 
     </html>
 
