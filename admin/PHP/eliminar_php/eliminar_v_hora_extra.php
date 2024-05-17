@@ -5,81 +5,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eliminar Valor De Hora Extra</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="underlay-photo"></div>
-    <div class="underlay-black"></div>
-
-    <?php
-    include '../../conexion/db.php';
-
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
-        $id = $_GET['id'];
-
-        if (isset($_GET['confirm']) && $_GET['confirm'] == 'true') {
-            $sql = "DELETE FROM v_h_extra WHERE ID = $id";
-
-            if ($conn->query($sql) === TRUE) {
-                $mensaje = "Valor de hora extra eliminado correctamente.";
-                header("Location:../../index.php?mensaje=" . urlencode($mensaje));
-            } else {
-                $mensaje = "Error al eliminar el valor de hora extra: " . $conn->error;
-                echo "<h2>$mensaje</h2>";
-            }
-            exit();
-        }
-
-        $sql = "SELECT * FROM v_h_extra WHERE ID = $id";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $valor = $row['V_H_extra'];
-    ?>
-
-            <div class="login-form">
-                <h1 style="color:white;">Eliminar Valor De Hora Extra</h1>
-                <p class="login-text">
-                    <span class="fa-stack">
-                        <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa-solid fa-sack-dollar fa-stack-1x"></i>
-                    </span>
-                    <h2>Eliminar Valor De Hora Extra</h2>
-                </p>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
                 <?php
-                // Mostrar mensaje si existe
-                if (isset($_GET['mensaje'])) {
-                    echo "<h2>" . urldecode($_GET['mensaje']) . "</h2>";
-                }
-                ?>
-                <p style="color:white;">¿Estás seguro de que deseas eliminar este valor de hora extra?</p>
-                <form id="delete-form" action="" method="get">
-                    <input type="hidden" name="id" value="<?php echo $id; ?>">
-                    <input type="hidden" name="confirm" value="true">
-                    <input type="submit" name="delete" value="Eliminar" class="login-submit" onclick="confirmDelete(event)" />
-                </form>
-            </div>
+                include '../../../conexion/db.php';
 
-            <script>
-                function confirmDelete(event) {
-                    event.preventDefault();
-                    var confirmDelete = confirm("¿Estás seguro de que deseas eliminar este valor de hora extra?");
-                    if (confirmDelete) {
-                        document.getElementById('delete-form').submit();
+                if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
+                    $id = $_GET['id'];
+
+                    if (isset($_GET['confirm']) && $_GET['confirm'] == 'true') {
+                        $sql = "DELETE FROM v_h_extra WHERE ID = :id";
+                        $stmt = $conexion->prepare($sql);
+                        $stmt->bindParam(':id', $id);
+
+                        try {
+                            $stmt->execute();
+                            $mensaje = "Valor de hora extra eliminado correctamente.";
+                            header("Location:../index.php?mensaje=" . urlencode($mensaje));
+                        } catch (PDOException $e) {
+                            $mensaje = "Error al eliminar el valor de hora extra: " . $e->getMessage();
+                            echo "<h2>$mensaje</h2>";
+                        }
+                        exit();
+                    }
+
+                    $sql = "SELECT * FROM v_h_extra WHERE ID = :id";
+                    $stmt = $conexion->prepare($sql);
+                    $stmt->bindParam(':id', $id);
+                    $stmt->execute();
+                    $hora_extra = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($hora_extra) {
+                ?>
+
+                        <div class="card">
+                            <div class="card-header bg-danger text-white">
+                                <h3 class="card-title">Eliminar Valor De Hora Extra</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>¿Estás seguro de que deseas eliminar este valor de hora extra?</p>
+                                <form id="delete-form" action="" method="get">
+                                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                    <input type="hidden" name="confirm" value="true">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.getElementById('delete-form').addEventListener('submit', function(event) {
+                                event.preventDefault();
+                                var confirmDelete = confirm("¿Estás seguro de que deseas eliminar este valor de hora extra?");
+                                if (confirmDelete) {
+                                    this.submit();
+                                }
+                            });
+                        </script>
+
+                <?php
+                    } else {
+                        echo "<p class='text-danger'>No se encontró la hora extra con el ID proporcionado.</p>";
                     }
                 }
-            </script>
-
-    <?php
-        } else {
-            echo "No se encontró la hora extra con el ID proporcionado.";
-        }
-    }
-    ?>
-
+                ?>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
