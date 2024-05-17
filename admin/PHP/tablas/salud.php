@@ -51,7 +51,7 @@
                                 echo "<tr>";
                                 echo "<td>" . $row['ID'] . "</td>";
                                 echo "<td>" . $row['Valor'] . " %" . "</td>";
-                                echo "<td><a href='../PHP/editar_php/editar_salud.php?id=" . $row['ID'] . "'>Editar</a> | <a href='../PHP/eliminar_php/eliminar_salud.php?id=" . $row['ID'] . "'>Eliminar</a></td>";
+                                echo "<td><a   class='btn btn-success' href='../editar_php/editar_salud.php?id=" . $row['ID'] . "'>Editar</a> | <a  class='btn btn-warning'  href='../eliminar_php/eliminar_salud.php?id=" . $row['ID'] . "'>Eliminar</a></td>";
                                 echo "</tr>";
                             }
                         } else {

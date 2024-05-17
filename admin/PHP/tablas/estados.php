@@ -17,13 +17,14 @@
         <div class="container">
             <h2 class="mb-5">TABLA ESTADOS</h2>
             <div class="table-responsive">
+                <a href="../crear_php/estados.php" class=" btn btn-success">Cargar Estados</a>
                 <table class="table table-striped custom-table">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">ESTADO</th>
                             <th scope="col">Acciones</th>
-                            <th scope="col">CARGAR</th>
+                            
                         </tr>
                     </thead>
                     <tbody class="tbody">
@@ -50,8 +51,7 @@
                                 echo "<tr>";
                                 echo "<td>" . $row['ID_Es'] . "</td>";
                                 echo "<td>" . $row['Estado'] . "</td>";
-                                echo "<td><a href='../PHP/editar_php/editar_estados.php?id=" . $row['ID_Es'] . "'>Editar</a> | <a href='../PHP/eliminar_php/eliminar_estado.php?id=" . $row['ID_Es'] . "'>Eliminar</a></td>";
-                                echo "<td><a href='../PHP/crear_php/estados.php'>CARGAR</a></td>";
+                                echo "<td><a   class='btn btn-success' href='../editar_php/editar_estados.php?id=" . $row['ID_Es'] . "'>Editar</a> | <a    class='btn btn-warning'  href='../eliminar_php/eliminar_estado.php?id=" . $row['ID_Es'] . "'>Eliminar</a></td>";
                                 echo "</tr>";
                             }
                         } else {
