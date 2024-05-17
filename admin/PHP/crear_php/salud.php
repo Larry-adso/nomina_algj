@@ -5,53 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cargar Salud</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="underlay-photo"></div>
-    <div class="underlay-black"></div>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Cargar Valor Salud</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        include '../../../conexion/db.php';
 
-    
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $valor = $_POST['valor'];
 
-    <form class="login-form" action="salud.php" method="post">
-        <h1>Cargar Valor Salud</h1>
-        <p class="login-text">
-            <span class="fa-stack">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-heart-pulse fa-stack-1x"></i>
-                </span>
-                <h2>Inserta Un nuevo valor de Salud</h2>
-                <?php
-    include '../../conexion/db.php';
+                            if ($conexion) {
+                                $sql = "INSERT INTO salud (valor) VALUES ('$valor')";
 
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $valor = $_POST['valor'];
-        $sql = "INSERT INTO salud (valor) VALUES ('$valor')";
-
-        if ($conn->query($sql) === TRUE) {
-            $mensaje = "el Valor de Salud"." "."'".$valor."%"."'"." "."ha sido insertado correctamente.";
-        } else {
-            $mensaje = "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-        
-        header("Location: salud.php?mensaje=" . urlencode($mensaje));
-        exit(); 
-    }
-
-   
-    if (isset($_GET['mensaje'])) {
-        echo "<h2>" . urldecode($_GET['mensaje']) . "</h2>";
-    }
-    ?>
-
-        </p>
-        <input type="number" class="login-username" autofocus="true" required="true" placeholder="VALOR_SALUD" name="valor" />
-        <input type="submit" name="Login" value="Registrar Valor " class="login-submit" />
-    </form>
+                                if ($conexion->query($sql)) {
+                                    echo '<script>alert("El valor de Salud \'' . $valor . '%\' ha sido insertado correctamente."); window.location.href = "../index.php";</script>';
+                                } else {
+                                    echo '<script>alert("Error al insertar el valor: ' . $conexion->errorInfo()[2] . '"); window.location.href = "../index.php";</script>';
+                                }
+                            } else {
+                                echo '<script>alert("Error al establecer la conexión a la base de datos."); window.location.href = "salud.php";</script>';
+                            }
+                        }
+                        ?>
+                        <form action="salud.php" method="post">
+                            <div class="form-group">
+                                <label for="valor">Valor de Salud</label>
+                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Ingrese el valor de Salud" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registrar Valor</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

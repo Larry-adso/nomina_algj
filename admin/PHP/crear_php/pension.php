@@ -4,54 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar Pensión</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
+    <title>Cargar Salud</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="underlay-photo"></div>
-    <div class="underlay-black"></div>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Cargar Valor pension</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        include '../../../conexion/db.php';
 
-    
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $valor = $_POST['pension'];
 
-    <form class="login-form" action="pension.php" method="post">
-        <h1>Cargar Valor Pensión</h1>
-        <p class="login-text">
-            <span class="fa-stack">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-person-circle-check fa-stack-1x"></i>
-                </span>
-                <h2>Inserta Un nuevo valor de Pensión</h2>
-                <?php
-    include '../../conexion/db.php';
+                            if ($conexion) {
+                                $sql = "INSERT INTO pension (valor) VALUES ('$valor')";
 
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $valor = $_POST['valor'];
-        $sql = "INSERT INTO pension (valor) VALUES ('$valor')";
-
-        if ($conn->query($sql) === TRUE) {
-            $mensaje = "el Valor de Pensión"." "."'".$valor."%"."'"." "."ha sido insertado correctamente.";
-        } else {
-            $mensaje = "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-        
-        header("Location: pension.php?mensaje=" . urlencode($mensaje));
-        exit(); 
-    }
-
-   
-    if (isset($_GET['mensaje'])) {
-        echo "<h2>" . urldecode($_GET['mensaje']) . "</h2>";
-    }
-    ?>
-
-        </p>
-        <input type="number" class="login-username" autofocus="true" required="true" placeholder="VALOR_PENSIÓN" name="valor" />
-        <input type="submit" name="Login" value="Registrar Valor " class="login-submit" />
-    </form>
+                                if ($conexion->query($sql)) {
+                                    echo '<script>alert("El valor de pension  ha sido insertado correctamente."); window.location.href = "../index.php";</script>';
+                                } else {
+                                    echo '<script>alert("Error al insertar el valor: ' . $conexion->errorInfo()[2] . '"); window.location.href = "../index.php";</script>';
+                                }
+                            } else {
+                                echo '<script>alert("Error al establecer la conexión a la base de datos."); window.location.href = "pension.php";</script>';
+                            }
+                        }
+                        ?>
+                        <form action="pension.php" method="post">
+                            <div class="form-group">
+                                <label for="valor">Valor de pension</label>
+                                <input type="number" class="form-control" id="pension" name="pension" placeholder="Ingrese el valor de pension" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registrar Valor</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
