@@ -1,31 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 :root {
 	--primary-color: #c7a17a;
 	--background-color: #f9f5f0;
 	--dark-color: #151515;
 	--hover-button-color: #9b7752;
+    --button-login-color: #b7cd6d;
+    --button-login-hover: #8e976f;
+    --button-decline-term: #e88162;
+
 }
 
-html {
-	font-size: 62.5%;
-	font-family: 'Poppins', sans-serif;
-}
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-body{
-	background-color: var(--background-color);
-
-}
-
-.container {
-	max-width: 120rem;
-	margin: 0 auto;
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--background-color);
+    flex-direction: column;
+    align-items: center;
 }
 
 /* ********************************** */
@@ -34,7 +32,7 @@ body{
 .banner {
 	background-image: linear-gradient(100deg, #000000, #00000020),
 		url('../img/contador.jpg');
-	height: 20rem;
+	height: 10rem;
 	background-size: cover;
 	background-position: center;
 }
@@ -42,7 +40,7 @@ body{
 .content-banner {
     max-width: 90rem;
     margin: 0 auto;
-    padding: 5rem 0;
+    padding: 3rem 0;
 }
 
 .content-banner p {
@@ -54,7 +52,7 @@ body{
 
 .content-banner h2 {
 	color: #fff;
-	font-size: 3.5rem;
+	font-size: 3rem;
 	font-weight: 500;
 	line-height: 1.2;
 	text-align: center;
@@ -70,66 +68,56 @@ body{
 	text-transform: uppercase;
 	border-radius: 3rem;
 }
-/* ********************************** */
-/*            MAIN CONTENT            */
-/* ********************************** */
-.main-content {
-	background-color: var(--background-color);
+
+form {
+    margin: 5% 30%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 40%;
 }
 
-/* ********************************** */
-/*              FEATURES              */
-/* ********************************** */
-.container-features {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 3rem;
-	padding: 15rem 0;
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-.card-feature {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1.5rem;
-	background-color: #fff;
-	border-radius: 1rem;
-	padding: 1.5rem 0;
-}
-
-.card-feature i {
-	font-size: 2.7rem;
-	color: var(--primary-color);
-}
-
-.feature-content {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-}
-
-.feature-content span {
-	font-weight: 700;
-	font-size: 1.2rem;
-	color: var(--dark-color);
-}
-
-.feature-content a {
-	color: #777;
-	font-weight: 500;
-	text-decoration: none;
-}
-
-.boton_volver {
-	margin: 45%;
-	padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
     border-radius: 4px;
-	text-decoration: none;
-	font-size: medium;
 }
+
+input[type="submit"],
+.btn-success,
+.btn-danger {
+    background-color: var(--button-login-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 100%;
+}
+
+input[type="submit"]:hover,
+.btn-success:hover,
+.btn-danger:hover {
+    background-color: var(--button-login-hover);
+}
+
+.btn-danger {
+    background-color: var(--button-decline-term);
+}
+
 @media (max-width: 768px) {
 	html {
 		font-size: 55%;

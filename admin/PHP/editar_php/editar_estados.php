@@ -5,73 +5,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Estados</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="underlay-photo"></div>
-    <div class="underlay-black"></div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>Editar Estados</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        require '../../../conexion/db.php';
 
-    <?php
-    include '../../conexion/db.php';
+                        if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
+                            $id = $_GET['id'];
 
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
-        $id = $_GET['id'];
+                            $sql = "SELECT * FROM estado WHERE ID_Es = :id";
+                            $stmt = $conexion->prepare($sql);
+                            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                            $stmt->execute();
+                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $sql = "SELECT * FROM estado WHERE ID_Es = $id";
-        $result = $conn->query($sql);
+                            if ($result) {
+                                $valor = $result['Estado'];
+                        ?>
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $valor = $row['Estado'];
-    ?>
+                        <form action="editar_estados.php" method="post">
+                            <div class="form-group">
+                                <label for="Estado">Nuevo Estado</label>
+                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+                                <input type="text" class="form-control" id="Estado" name="Estado" placeholder="Nuevo Estado" value="<?php echo htmlspecialchars($valor); ?>" required>
+                            </div>
+                            <button type="submit" name="update" class="btn btn-primary">Actualizar Estado</button>
+                        </form>
 
-    <form class="login-form" action="editar_estados.php" method="post">
-        <h1>Editar Estados</h1>
-        <p class="login-text">
-            <span class="fa-stack">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-traffic-light fa-stack-1x"></i>
-            </span>
-            <h2>Editar Valor De Estados</h2>
-            <?php
-            // Mostrar mensaje si existe
-            if (isset($_GET['mensaje'])) {
-                echo "<h2>" . urldecode($_GET['mensaje']) . "</h2>";
-            }
-            ?>
-        </p>
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
-        <input type="text" class="login-username" autofocus="true" required="true" placeholder="Nuevo Estado" name="Estado" value="<?php echo $valor; ?>" />
-        <input type="submit" name="update" value="Actualizar Estado" class="login-submit" />
-    </form>
+                        <?php
+                            } else {
+                                echo '<div class="alert alert-danger" role="alert">No se encontró el estado con el ID proporcionado.</div>';
+                            }
+                        }
 
-    <?php
-        } else {
-            echo "No se encontró el estado con el ID proporcionado.";
-        }
-    }
+                        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
+                            $id = $_POST['id'];
+                            $valor = $_POST['Estado'];
 
-    // Verificar si se envió un formulario POST para actualizar el valor
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-        $id = $_POST['id'];
-        $valors = $_POST['Estado'];
+                            $sql = "UPDATE estado SET Estado = :estado WHERE ID_Es = :id";
+                            $stmt = $conexion->prepare($sql);
+                            $stmt->bindParam(':estado', $valor, PDO::PARAM_STR);
+                            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-        $sql = "UPDATE estado SET Estado='$valors' WHERE ID_Es =$id";
+                            if ($stmt->execute()) {
+                                $mensaje = "El Estado ha sido actualizado correctamente.";
+                                echo '<script>alert("' . $mensaje . '"); window.location.href = "../index.php";</script>';
+                                exit();
+                            } else {
+                                $mensaje = "Error al actualizar el Estado: " . $stmt->errorInfo()[2];
+                                echo '<div class="alert alert-danger" role="alert">' . $mensaje . '</div>';
+                            }
+                        }
 
-        if ($conn->query($sql) === TRUE) {
-            $mensaje = "El Estado ha sido actualizado correctamente.";
-        } else {
-            $mensaje = "Error al actualizar el Estado: " . $conn->error;
-        }
-
-        // Redirigir a esta página con un mensaje codificado en la URL
-        header("Location: editar_estados.php?id=$id&mensaje=" . urlencode($mensaje));
-        exit(); // Salir del script después de la redirección
-    }
-    ?>
-
+                        if (isset($_GET['mensaje'])) {
+                            echo '<div class="alert alert-info" role="alert">' . urldecode($_GET['mensaje']) . '</div>';
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

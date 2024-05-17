@@ -68,6 +68,7 @@
             <p>ALGJ S.A.S. puede rescindir su licencia para utilizar el software si viola estos términos de uso. En caso de rescisión, usted deberá dejar de utilizar el software y destruir todas las copias que haya realizado.</p>
             <h3>Ley Aplicable</h3>
             <p>Estos términos de uso se regirán e interpretarán de acuerdo con las leyes de Colombia sin tener en cuenta sus conflictos de principios legales.</p>
+            <br>
             <p>Al utilizar este software, usted reconoce haber leído, comprendido y aceptado estos términos de uso. Si tiene alguna pregunta o inquietud, por favor contáctenos a SyscPay@gmail.com.</p>
             <div class="modal-footer">
                 <button id="acceptBtn">Aceptar</button>

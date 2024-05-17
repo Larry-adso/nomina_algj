@@ -22,7 +22,7 @@
             <i class="fa-solid fa-star-of-life"></i>
     				<div class="feature-content">
 					<span>Recuperar con contraseña anterior</span>
-                    <a href="trigger.php" class="btn btn-primary btn-lg">Recuperar</a>
+                    <a href="trigger.php" >Recuperar</a>
 				</div>
 			</div>
 			<div class="card-feature">
