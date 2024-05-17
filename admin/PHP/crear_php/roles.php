@@ -4,54 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar Tipos De Usuarios </title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
+    <title>Cargar Salud</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="underlay-photo"></div>
-    <div class="underlay-black"></div>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Cargar Rol</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        include '../../../conexion/db.php';
 
-    
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $valor = $_POST['tp_user'];
 
-    <form class="login-form" action="roles.php" method="post">
-        <h1>Cargar Tipos De Usuarios</h1>
-        <p class="login-text">
-            <span class="fa-stack">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-user-tie fa-stack-1x"></i>
-                </span>
-                <h2>Inserta Un Nuevo Tipo De Usuario</h2>
-                <?php
-    include '../../../conexion/db.php';
+                            if ($conexion) {
+                                $sql = "INSERT INTO roles (TP_user) VALUES ('$valor')";
 
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $TP_user = $_POST['TP_user'];
-        $sql = "INSERT INTO roles (TP_user) VALUES ('$TP_user')";
-
-        if ($conn->query($sql) === TRUE) {
-            $mensaje = "El tipo de usuario"." "."'".$TP_user."'"." "."ha sido insertado correctamente.";
-        } else {
-            $mensaje = "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-        
-        header("Location: roles.php?mensaje=" . urlencode($mensaje));
-        exit(); 
-    }
-
-   
-    if (isset($_GET['mensaje'])) {
-        echo "<h2>" . urldecode($_GET['mensaje']) . "</h2>";
-    }
-    ?>
-
-        </p>
-        <input type="text" class="login-username" autofocus="true" required="true" placeholder="TIPO_DE_USUARIO" name="TP_user" />
-        <input type="submit" name="Login" value="Registrar Valor " class="login-submit" />
-    </form>
+                                if ($conexion->query($sql)) {
+                                    echo '<script>alert("el Rol \'' . $valor . '\' ha sido insertado correctamente."); window.location.href = "../index.php";</script>';
+                                } else {
+                                    echo '<script>alert("Error al insertar el rol: ' . $conexion->errorInfo()[2] . '"); window.location.href = "../index.php";</script>';
+                                }
+                            } else {
+                                echo '<script>alert("Error al establecer la conexión a la base de datos."); window.location.href = "../index.php";</script>';
+                            }
+                        }
+                        ?>
+                        <form action="roles.php" method="post">
+                            <div class="form-group">
+                                <label for="valor">ROL</label>
+                                <input type="text" class="form-control" id="tp_user" name="tp_user" placeholder="Ingrese el Rol" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registrar Rol</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -4,55 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar Estado2</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
+    <title>Cargar Salud</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="underlay-photo"></div>
-    <div class="underlay-black"></div>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Cargar Estados</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        include '../../../conexion/db.php';
 
-    
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $valor = $_POST['estado'];
 
-    <form class="login-form" action="estados.php" method="post">
-        <h1>Cargar Estados</h1>
-        <h2>estados 2</h2>
-        <p class="login-text">
-            <span class="fa-stack">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-traffic-light fa-stack-1x"></i>
-                </span>
-                <h2>Inserta Un Nuevo Estado2</h2>
-                <?php
-    include '../../../conexion/conexio.php';
+                            if ($conexion) {
+                                $sql = "INSERT INTO estado (Estado) VALUES ('$valor')";
 
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $tp_estado = $_POST['tp_estado'];
-        $sql = "INSERT INTO estado (Estado) VALUES ('$tp_estado')";
-
-        if ($conn->query($sql) === TRUE) {
-            $mensaje = "el estado"." "."'".$tp_estado."'"." "."ha sido insertado correctamente.";
-        } else {
-            $mensaje = "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-        
-        header("Location: estados.php?mensaje=" . urlencode($mensaje));
-        exit(); 
-    }
-
-   
-    if (isset($_GET['mensaje'])) {
-        echo "<h2>" . urldecode($_GET['mensaje']) . "</h2>";
-    }
-    ?>
-
-        </p>
-        <input type="text" class="login-username" autofocus="true" required="true" placeholder="ESTADO" name="tp_estado" />
-        <input type="submit" name="Login" value="Registrar Estado" class="login-submit" />
-    </form>
+                                if ($conexion->query($sql)) {
+                                    echo '<script>alert("el estado \'' . $valor . '\' ha sido insertado correctamente."); window.location.href = "../index.php";</script>';
+                                } else {
+                                    echo '<script>alert("Error al insertar el estado: ' . $conexion->errorInfo()[2] . '"); window.location.href = "../index.php";</script>';
+                                }
+                            } else {
+                                echo '<script>alert("Error al establecer la conexión a la base de datos."); window.location.href = "../index.php";</script>';
+                            }
+                        }
+                        ?>
+                        <form action="estados.php" method="post">
+                            <div class="form-group">
+                                <label for="valor">Estado</label>
+                                <input type="text" class="form-control" id="estado" name="estado" placeholder="Ingrese el Estado" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Estado</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
