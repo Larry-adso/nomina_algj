@@ -124,11 +124,11 @@ if ($id_rol == '4') {
                         <?php } ?>
                     </select>
                     <br>
-                    <button type="submit" name="guardar" value="<?php echo $claveGenerada; ?>" class="btn btn-success d-block mx-auto">Guardar Clave</button>
+                    <button type="submit" name="guardar"  value="<?php echo $claveGenerada; ?>" class="btn btn-success d-block mx-auto">Guardar Clave</button>
 
                 <?php endif; ?>
                 <br>
-                <a onclick="cerrarVentana()" class="btn btn-danger d-block mx-auto"" href="#" role="button">Cerrar</a>
+                <a onclick="cerrarVentana()" class="btn btn-danger d-block mx-auto" href="#" role="button">Cerrar</a>
 
             </form>
 

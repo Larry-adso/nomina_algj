@@ -26,7 +26,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios con id_rol >= 6</title>
+    <title>Administrador</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -123,15 +123,31 @@ try {
 
         <h3>Tablas Admin</h3>
         <ul class="nav flex-column">
-
-            <li class="nav-item"><a href="tablas/roles.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Roles</a></li>
-            <li class="nav-item"><a href="tablas/salud.php" class="nav-link"><i class="fas fa-heartbeat"></i> Tabla Salud</a></li>
-            <li class="nav-item"><a href="tablas/pension.php" class="nav-link"><i class="fas fa-money-check-alt"></i> Tabla Pension</a></li>
-            <li class="nav-item"><a href="../../RH/form_puestos.php" class="nav-link"><i class="fas fa-briefcase"></i> Tabla Puestos</a></li>
-            <li class="nav-item"><a href="../../RH/form_prestamos.php" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Tabla Prestamos</a></li>
-            <li class="nav-item"><a href="../../RH/form_permisos.php" class="nav-link"><i class="fas fa-calendar-check"></i> Tabla Permisos</a></li>
-            <li class="nav-item"><a href="../../RH/form_empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
-        </ul>
+        <li class="nav-item"><a href="tablas/vhe.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Horas Extra</a></li>
+        <li class="nav-item"><a href="tablas/roles.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Roles</a></li>
+        <li class="nav-item"><a href="tablas/salud.php" class="nav-link"><i class="fas fa-heartbeat"></i> Tabla Salud</a></li>
+        <li class="nav-item"><a href="tablas/pension.php" class="nav-link"><i class="fas fa-money-check-alt"></i> Tabla Pension</a></li>
+        <li class="nav-item"><a href="../../RH/form_puestos.php" class="nav-link"><i class="fas fa-briefcase"></i> Tabla Puestos</a></li>
+        <li class="nav-item"><a href="../../RH/form_prestamos.php" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Tabla Prestamos</a></li>
+        <li class="nav-item"><a href="../../RH/form_permisos.php" class="nav-link"><i class="fas fa-calendar-check"></i> Tabla Permisos</a></li>
+        <li class="nav-item"><a href="../../RH/form_empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
+        <li class="nav-item">
+            <form method="post" style="margin: 0;">
+                <button type="submit" name="logout" class="nav-link" style="background: none; border: none; padding: 0; cursor: pointer; color:#fff;">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </form>
+        </li>
+    </ul>
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location:../../index.php"); // Redirigir a la página de inicio de sesión después de cerrar sesión
+        exit();
+    }
+    ?>
     </div>
 
     <div class="container">
