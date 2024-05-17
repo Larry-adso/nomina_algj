@@ -37,7 +37,10 @@ if ($id_rol == '4') {
     $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
     $con->execute();
     $cons = $con->fetchAll(PDO::FETCH_ASSOC);
-
+    
+    $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
+    $con->execute();
+    $cons = $con->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -87,8 +90,14 @@ if ($id_rol == '4') {
                             </div>
                             <div class="col-md-4">
                                 <label for="id_empresa" class="form-label">NIT_empresa</label>
-                                <input type="number" class="form-control" title="Debe ser numerica de al menos 10 caracteres" name="id_empresa" id="id_empresa">
-                            </div>
+                                <select class="form-select form-select-sm input" name="id_empresa" id="id_empresa" required>
+                                    <option value="" selected disabled>Seleccione una EMpresa</option>
+                                    <?php foreach ($Tp_licencia as $licencia_) { ?>
+                                        <option value="<?php echo $licencia_['ID']; ?>">
+                                            <?php echo  "  Serial: " . $licencia_['Serial'] . " - Tiempo: " . $licencia_['Tipo']; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>                            </div>  
                             <div class="col-md-4">
                                 <label for="tel_us" class="form-label">Telefono</label>
                                 <input type="tel" class="form-control" pattern="[0-9]{10}" title="Debe ser un número de 10 dígitos" name="tel_us" id="tel_us" placeholder="" required>
