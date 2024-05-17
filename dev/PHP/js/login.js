@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (btn) {
         btn.onclick = function() {
             modal.style.display = "block";
+            modal.style.color = "white";
+            modal.style.textDecoration = "none";
+
         }
     }
 

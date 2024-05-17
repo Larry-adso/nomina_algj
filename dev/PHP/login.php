@@ -28,8 +28,8 @@
                     </button>
                 </div>
                 <div class="ver-term">
-                <input type="checkbox" id="acceptTerms" class="check-b" disabled>
-            <label for="acceptTerms"><a href="#" id="viewTerms">He leído y acepto los términos de uso</a></label></div>
+                <input type="checkbox" id="acceptTerms" class="check-b">
+            <label for="acceptTerms" class="ver_terminos"><a href="#" id="viewTerms" >He leído y acepto los términos de uso</a></label></div>
             </div>
             <button class="b_estilo">Iniciar sesión</button>
             <a class="b_estilo" href="metodos.php">Olvidé mi contraseña</a>

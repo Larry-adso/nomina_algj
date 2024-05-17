@@ -1,3 +1,15 @@
+
+:root {
+	--primary-color: #c7a17a;
+	--background-color: #f9f5f0;
+	--dark-color: #151515;
+	--hover-button-color: #9b7752;
+    --button-login-color: #B5C18E;
+    --button-login-hover: #8e976f;
+
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -39,7 +51,6 @@ input#password {
  margin-left: 15%;
 }
 
-
 .check-icon {
     background: none;
     border: none;
@@ -57,6 +68,10 @@ input#password {
     color: #b4b2b2; /* Icon color when "unchecked" */
 }
 
+a#viewTerms {
+    text-decoration: none;
+    color: white;
+}
 
 .welcome-back {
     display: flex;
@@ -76,7 +91,7 @@ input#password {
 .message button, .b_estilo {
     padding: 1rem;
     font-weight: 400;
-    background-color: #4a4aee;
+    background-color: var(--button-login-color);
     border-radius: 2rem;
     border: none;
     outline: none;
@@ -84,12 +99,13 @@ input#password {
     font-size: .9rem;
     transition: all .3s ease-in;
     color: #fff;
+    text-decoration: none;
 }
 
 .btn{
     padding: 1rem;
     font-weight: 400;
-    background-color: #4a4aee;
+    background-color: var(--hover-button-color);
     border-radius: 2rem;
     border: none;
     outline: none;
@@ -116,7 +132,7 @@ input#password {
 }
 
 .message button, .b_estilo:hover {
-    background-color: #6464f8;
+    background-color: var(--button-login-hover);
 }
 
 .formulario {
@@ -201,6 +217,7 @@ input#password {
 /*terminos*/
 .ver-term {
     display: flex;
+    padding: inherit;
 }
 input#acceptTerms {
     width: auto;

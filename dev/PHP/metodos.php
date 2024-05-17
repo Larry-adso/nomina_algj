@@ -10,35 +10,43 @@
 </head>
 
 <body>
-    <main>
-        <h1 class="mb-4">Hola, bienvenido al sistema de recuperación de contraseña</h1>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Recuperar con contraseña anterior</h5>
-                <a href="trigger.php" class="btn btn-primary btn-lg">Recuperar</a>
-            </div>
-        </div>
+<section class="banner">
+		<div class="content-banner">
+			<h2> Hola, bienvenido al sistema de recuperación de contraseña </h2>
+		</div>
+	</section>
+    <main class="main-content">
+		<section class="container container-features">
+			<div class="card-feature">
+            <i class="fa-solid fa-star-of-life"></i>
+    				<div class="feature-content">
+					<span>Recuperar con contraseña anterior</span>
+                    <a href="trigger.php" class="btn btn-primary btn-lg">Recuperar</a>
+				</div>
+			</div>
+			<div class="card-feature">
+            <i class="fa-solid fa-shield-halved"></i>
+    				<div class="feature-content">
+					<span>Recuperación con validación de datos <br> y código de seguridad </span>
+                    <a href="recuperar.php" class="btn btn-primary btn-lg">Recuperar</a>
+				</div>
+			</div>
+			<div class="card-feature">
+				<i class="fa-solid fa-envelope"></i>
+				<div class="feature-content">
+					<span>Recuperación por correo electrónico</span>
+                    <a href="correo.php" class="btn btn-primary btn-lg">Recuperar</a>
+				</div>
+			</div>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Recuperación con validación de datos y código de seguridad</h5>
-                <a href="recuperar.php" class="btn btn-primary btn-lg">Recuperar</a>
-            </div>
-        </div>
+		</section>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Recuperación por correo electrónico</h5>
-                <a href="correo.php" class="btn btn-primary btn-lg">Recuperar</a>
-            </div>
-        </div>
-        <a name="" id="" class="btn btn-primary btn-lg mb-3" href="login.php" role="button">Volver</a>
+        <a name="" id="" class="boton_volver" href="login.php" role="button">Volver</a>
 
     </main>
+	<script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
 
-    <!-- Bootstrap JS (opcional, solo si necesitas funcionalidades JS de Bootstrap) -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
