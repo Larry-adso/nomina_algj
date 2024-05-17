@@ -1,46 +1,46 @@
-function togglePasswordVisibility() {
-    var passwordInput = document.getElementById("password");
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-    } else {
-        passwordInput.type = "password";
+document.addEventListener("DOMContentLoaded", function() {
+    var modal = document.getElementById("termsModal");
+    var btn = document.getElementById("viewTerms");
+    var span = document.getElementsByClassName("close")[0];
+    var acceptBtn = document.getElementById("acceptBtn");
+    var declineBtn = document.getElementById("declineBtn");
+    var checkbox = document.getElementById("acceptTerms");
+
+    // Cuando el usuario hace clic en "ver términos", abre el modal
+    if (btn) {
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
     }
-}
-function showTerms() {
-var session1 = document.getElementById("session1");
-session1.style.display = "flex";
 
-}
+    // Cuando el usuario hace clic en "x", cierra el modal
+    if (span) {
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
 
-const $btnSignIn = document.querySelector('.sign-in-btn'),
-$btnSignUp = document.querySelector('.sign-up-btn'),
-$signUp = document.querySelector('.sign-up'),
-$signIn = document.querySelector('.sign-in');
+    // Cuando el usuario hace clic en "Aceptar", cierra el modal y marca el checkbox
+    if (acceptBtn) {
+        acceptBtn.onclick = function() {
+            modal.style.display = "none";
+            checkbox.checked = true;
+            checkbox.disabled = false;
+        }
+    }
 
-document.addEventListener('click', e => {
-if (e.target === $btnSignIn || e.target === $btnSignUp) {
-$signIn.classList.toggle('active');
-$signUp.classList.toggle('active')
-}
+    // Cuando el usuario hace clic en "Declinar", cierra el modal
+    if (declineBtn) {
+        declineBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    // Cuando el usuario hace clic fuera del modal, cierra el modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 });
 
-// Función para almacenar en el almacenamiento local que el usuario ha aceptado los términos
-function acceptTerms() {
-localStorage.setItem('termsAccepted', 'true');
-var session1 = document.getElementById("session1");
-session1.style.display = "none";
-var signInForm = document.querySelector('.container-form.sign-in');
-signInForm.style.display = "flex";
-}
-
-
-window.onload = function() {
-var termsAccepted = localStorage.getItem('termsAccepted');
-if (termsAccepted === 'true') {
-var session1 = document.getElementById("session1");
-session1.style.display = "none";
-var signInForm = document.querySelector('.container-form.sign-in');
-signInForm.style.display = "flex";
-
-}
-}
