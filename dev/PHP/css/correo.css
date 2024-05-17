@@ -69,65 +69,52 @@ body {
 	border-radius: 3rem;
 }
 
-form {
-    margin: 5% 30%;
-    background-color: #fff;
+/*FORMULARIO*/
+
+#central-card {
+    max-width: 500px;
+    margin: 5% 35%;
     padding: 20px;
-    border-radius: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 40%;
+    background-color: #f9f9f9;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
+#central-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+#central-card label {
+    font-weight: bold;
     color: #555;
 }
 
-input {
+#central-card input[type="text"],
+#central-card input[type="email"] {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-input[type="submit"],
-.btn-success,
-.btn-danger {
-    background-color: var(--button-login-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 100%;
-	width: 100%;
+    box-sizing: border-box;
 }
 
-input[type="submit"]:hover,
-.btn-success:hover,
-.btn-danger:hover {
-    background-color: #0056b3;
-}
-
-.btn-danger {
-    background-color: var(--button-decline-term);
-}
-
-.boton_volver {
-	margin: 47%;
-	padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: #fff;
+#central-card button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
     border: none;
-    border-radius: 4px;
-	text-decoration: none;
-	font-size: medium;
+    border-radius: 5px;
+    background-color: var(--button-login-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+#central-card button[type="submit"]:hover {
+    background-color: #0056b3;
 }
 @media (max-width: 768px) {
 	html {
@@ -234,17 +221,6 @@ input[type="submit"]:hover,
 		align-items: center;
 		gap: 1.5rem;
 	}
-
-	.boton_volver {
-		margin: 40%;
-		padding: 10px 20px;
-		background-color: var(--primary-color);
-		color: #fff;
-		border: none;
-		border-radius: 4px;
-		text-decoration: none;
-		font-size: medium;
-	}
 }
 
 /* ********************************** */
@@ -349,15 +325,7 @@ input[type="submit"]:hover,
 		font-size: 1.6rem;
 	}
 
-	.boton_volver {
-		margin: 30%;
-		padding: 10px 20px;
-		background-color: var(--primary-color);
-		color: #fff;
-		border: none;
-		border-radius: 4px;
-		text-decoration: none;
-		font-size: medium;
-	}
+	/*CAJAS DE COMENTARIOS**/
+
 	
 }

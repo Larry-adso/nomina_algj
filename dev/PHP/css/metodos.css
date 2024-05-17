@@ -121,7 +121,7 @@ body{
 }
 
 .boton_volver {
-	margin: 45%;
+	margin: 47%;
 	padding: 10px 20px;
     background-color: var(--primary-color);
     color: #fff;
@@ -235,6 +235,17 @@ body{
 		align-items: center;
 		gap: 1.5rem;
 	}
+
+	.boton_volver {
+		margin: 40%;
+		padding: 10px 20px;
+		background-color: var(--primary-color);
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		text-decoration: none;
+		font-size: medium;
+	}
 }
 
 /* ********************************** */
@@ -247,7 +258,7 @@ body{
 
 	.content-banner {
 		max-width: 50rem;
-		padding: 22rem 0;
+		padding: 2rem 0;
 	}
 
 	.heading-1 {
@@ -339,7 +350,15 @@ body{
 		font-size: 1.6rem;
 	}
 
-	/*CAJAS DE COMENTARIOS**/
-
+	.boton_volver {
+		margin: 30%;
+		padding: 10px 20px;
+		background-color: var(--primary-color);
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		text-decoration: none;
+		font-size: medium;
+	}
 	
 }

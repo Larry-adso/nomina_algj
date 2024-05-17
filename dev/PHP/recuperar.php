@@ -65,6 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			<h2> Recuperar con contraseña anterior</h2>
 		</div>
 </section>
+<main class="main-content">
+
     <form action="" method="post">
         <h2>Recuperar Contraseña</h2>
         <label for="ID">Documento:</label>
@@ -80,12 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="number" pattern="[0-9]{10}" maxlength="4" name="Codigo" required>
 
         <button type="submit" class="btn-success">Enviar</button>
-        <a href="metodos.php" class="btn-danger">Volver Atrás</a>
-
-
 
     </form>
-
+    <a name="" id="" class="boton_volver" href="login.php" role="button">Volver</a>
+</main>
 </body>
 
 </html>

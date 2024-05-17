@@ -50,63 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-
-    <style>
-        /* Estilos personalizados para la tarjeta central */
-        #central-card {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
-        }
-
-        #central-card h2 {
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-        }
-
-        #central-card label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        #central-card input[type="text"],
-        #central-card input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        #central-card button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        #central-card button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link href="https://cdnjsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/correo.css">
 </head>
 
 <body>
-    <header>
-        <!-- place navbar here -->
-    </header>
-    <main>
+<section class="banner">
+		<div class="content-banner">
+			<h2> Recuperación por correo electrónico</h2>
+		</div>
+</section>
+
         <div id="central-card">
             <h2>Recuperar Contraseña</h2>
             <form action="" method="post">
@@ -115,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" class="btn-success">Enviar</button>
             </form>
         </div>
-    </main>
+    
     <footer>
         <!-- place footer here -->
     </footer>

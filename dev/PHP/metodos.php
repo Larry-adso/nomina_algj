@@ -41,8 +41,9 @@
 			</div>
 
 		</section>
+		<a name="" id="" class="boton_volver" href="login.php" role="button">Volver</a>
 
-        <a name="" id="" class="boton_volver" href="login.php" role="button">Volver</a>
+
 
     </main>
 	<script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>

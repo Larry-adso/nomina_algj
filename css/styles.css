@@ -36,6 +36,10 @@ body{
 	font-size: 3rem;
 }
 
+.main-content {
+    background-color: var(--background-color);
+}
+
 /* ********************************** */
 /*               HEADER               */
 /* ********************************** */
