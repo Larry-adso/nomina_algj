@@ -1,7 +1,5 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '

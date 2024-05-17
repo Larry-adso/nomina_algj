@@ -1,8 +1,6 @@
 <?php
 //conectar bd
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -26,7 +24,7 @@ if((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="regm")){
     $id_us = $_POST['id_us'];
 
 
-    $sql=$con -> prepare ("SELECT*FROM permisos where id_us = '$id_us'");
+    $sql=$conexion -> prepare ("SELECT*FROM permisos where id_us = '$id_us'");
     $sql -> execute();
     $fila = $sql -> fetchALL(PDO::FETCH_ASSOC);
 
@@ -40,7 +38,7 @@ if((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="regm")){
    
     }
     else {
-    $insertSQL = $con->prepare ("INSERT INTO permisos (fecha,fecha_reingreso,id_us) VALUES ('$fecha','$fecha_reingreso', '$id_us')");
+    $insertSQL = $conexion->prepare ("INSERT INTO permisos (fecha,fecha_reingreso,id_us) VALUES ('$fecha','$fecha_reingreso', '$id_us')");
     $insertSQL->execute();
     echo '<script>alert("Registro exitoso"); </script>';
   
@@ -109,7 +107,7 @@ if((isset($_POST["MM_insert"]))&&($_POST["MM_insert"]=="regm")){
             </thead>
 
           <?php
-          $sql1 = $con->prepare("SELECT * FROM permisos, usuarios where permisos.id_us = usuarios.id_us ORDER BY id_permiso ASC ");
+          $sql1 = $conexion->prepare("SELECT * FROM permisos, usuarios where permisos.id_us = usuarios.id_us ORDER BY id_permiso ASC ");
           $sql1->execute();
           $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
           foreach ($resultado1 as $resul) {
