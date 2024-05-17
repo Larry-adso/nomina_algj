@@ -27,12 +27,11 @@ if ($id_rol == '4') {
         $id_rol = $_POST['id_rol'];
         $id_empresa = $_POST['id_empresa'];
         $pass = hash('sha512', $pass);
-     
-            $insertSQL = $conexion->prepare("INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, id_rol, Codigo,id_empresa) 
+
+        $insertSQL = $conexion->prepare("INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, id_rol, Codigo,id_empresa) 
                                                 VALUES ('$id_us','$nombre_us', '$apellido_us','$correo_us','$tel_us','$pass', $id_rol , '$Codigo','$id_empresa')");
-            $insertSQL->execute();
-            echo '<script>alert("Registro exitoso"); </script>';
-        
+        $insertSQL->execute();
+        echo '<script>alert("Registro exitoso"); </script>';
     }
 
     $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
@@ -60,66 +59,67 @@ if ($id_rol == '4') {
     </head>
 
     <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <h1 class="mb-4 pb-3 text-center">REGISTRO DE DESARROLLADOR</h1>
-                <form action="#" name="form" method="post">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label for="id_us" class="form-label">* Cedula</label>
-                            <input type="number" class="form-control" title="Solo se permiten números con un máximo de 10 dígitos" name="id_us" id="id_us" placeholder="Cedula del usuario" required>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="mb-4 pb-3 text-center">REGISTRO DE DESARROLLADOR</h1>
+                    <form action="#" name="form" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="id_us" class="form-label">* Cedula</label>
+                                <input type="number" class="form-control" title="Solo se permiten números con un máximo de 10 dígitos" name="id_us" id="id_us" placeholder="Cedula del usuario" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="nombre_us" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" name="nombre_us" id="nombre_us" placeholder="Nombre Completo">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="apellido_us" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" name="apellido_us" id="apellido_us" placeholder="Apellido completo">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="correo_us" class="form-label">Correo</label>
+                                <input type="email" class="form-control" name="correo_us" id="correo_us" placeholder="Correo electronico" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="pass" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" title="Debe ser alfanumérico de al menos 10 caracteres" name="pass" id="pass" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_empresa" class="form-label">NIT_empresa</label>
+                                <input type="number" class="form-control" title="Debe ser numerica de al menos 10 caracteres" name="id_empresa" id="id_empresa">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tel_us" class="form-label">Telefono</label>
+                                <input type="tel" class="form-control" pattern="[0-9]{10}" title="Debe ser un número de 10 dígitos" name="tel_us" id="tel_us" placeholder="" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="Codigo" class="form-label">Codigo de seguridad</label>
+                                <input type="number" class="form-control" title="Debe ser un número de 10 dígitos" name="Codigo" id="Codigo" placeholder="" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_rol" class="form-label">Usuarios</label>
+                                <select class="form-select" name="id_rol" id="id_rol" required>
+                                    <option value="" selected disabled>Seleccione un tipo de usuario</option>
+                                    <?php foreach ($cons as $pregunta) { ?>
+                                        <option value="<?php echo $pregunta['ID']; ?>">
+                                            <?php echo $pregunta['TP_user']; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label for="nombre_us" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" name="nombre_us" id="nombre_us" placeholder="Nombre Completo">
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary me-2" type="submit" name="validar">Registrar</button>
+                            <a class="btn btn-danger" href="../../index.php">Inicio</a>
                         </div>
-                        <div class="col-md-4">
-                            <label for="apellido_us" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" name="apellido_us" id="apellido_us" placeholder="Apellido completo">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="correo_us" class="form-label">Correo</label>
-                            <input type="email" class="form-control" name="correo_us" id="correo_us" placeholder="Correo electronico" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="pass" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" title="Debe ser alfanumérico de al menos 10 caracteres" name="pass" id="pass" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="id_empresa" class="form-label">NIT_empresa</label>
-                            <input type="number" class="form-control" title="Debe ser numerica de al menos 10 caracteres" name="id_empresa" id="id_empresa" >
-                        </div>
-                        <div class="col-md-4">
-                            <label for="tel_us" class="form-label">Telefono</label>
-                            <input type="tel" class="form-control" pattern="[0-9]{10}" title="Debe ser un número de 10 dígitos" name="tel_us" id="tel_us" placeholder="" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="Codigo" class="form-label">Codigo de seguridad</label>
-                            <input type="number" class="form-control" title="Debe ser un número de 10 dígitos" name="Codigo" id="Codigo" placeholder="" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="id_rol" class="form-label">Usuarios</label>
-                            <select class="form-select" name="id_rol" id="id_rol" required>
-                                <option value="" selected disabled>Seleccione un tipo de usuario</option>
-                                <?php foreach ($cons as $pregunta) { ?>
-                                    <option value="<?php echo $pregunta['ID']; ?>">
-                                        <?php echo $pregunta['TP_user']; ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="text-center mt-4">
-                        <button class="btn btn-primary me-2" type="submit" name="validar">Registrar</button>
-                        <a class="btn btn-danger" href="../../index.php">Inicio</a>
-                    </div>
-                    <input type="hidden" name="MM_insert" value="regm">
-                </form>
+                        <input type="hidden" name="MM_insert" value="regm">
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </body>
+
     </html>
 
 <?php
