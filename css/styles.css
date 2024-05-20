@@ -30,6 +30,10 @@ body{
 	margin: 0 auto;
 }
 
+img {
+    width: 5vh;
+}
+
 .heading-1 {
 	text-align: center;
 	font-weight: 500;
@@ -778,6 +782,7 @@ p.text-center {
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
+	width: min-content;
 }
 
 .contact-info ul,
