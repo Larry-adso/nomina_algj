@@ -32,7 +32,7 @@
             <label for="acceptTerms" class="ver_terminos"><a href="#" id="viewTerms" >He leído y acepto los términos de uso</a></label></div>
             </div>
             <button class="b_estilo">Iniciar sesión</button>
-            <a class="b_estilo" href="metodos.php">Olvidé mi contraseña</a>
+            <a class="b_estilo" href="metodos.php"> Olvidé mi contraseña  </a>
         </form>
         <div class="welcome-back">
             <div class="message">

@@ -4,8 +4,8 @@
 	--background-color: #f9f5f0;
 	--dark-color: #151515;
 	--hover-button-color: #9b7752;
-    --button-login-color: #B5C18E;
-    --button-login-hover: #8e976f;
+    --button-login-color: #6DC5D1;
+    --button-login-hover: #59a2ac;
 
 }
 
@@ -18,7 +18,7 @@
 }
 
 body {
-    height: 100%;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,7 +89,7 @@ a#viewTerms {
 }
 
 .message button, .b_estilo {
-    padding: 1rem;
+    padding: 3%;
     font-weight: 400;
     background-color: var(--button-login-color);
     border-radius: 2rem;
@@ -273,13 +273,61 @@ input#acceptTerms {
     margin-left: 10px;
 }
 
-/* Estilos adicionales para hacer el modal responsive */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
+
+    html {
+        height: 100%;
+    }
+
+
+    .welcome-back{
+        display: none;
+    }
     .modal-content {
         width: 90%;
         margin-top: 5%;
         margin-left: 5%;
-        max-height:80%; /* Ajusta la altura máxima según lo que necesites */
+        max-height:80%; 
+    }
+}
+
+@media (max-width: 468px) {
+    .create-account {
+        padding: 5% 0;
+        font-size: 1.7rem;
+    }
+
+    .formulario {
+        display: grid;
+        width: 100%;
+        padding-top: 1rem;
+        margin: 2rem;
+        background-color: rgba(51, 51, 51, 0.89);
+        text-align: center;
+        border-radius: 3%;
+    }
+    
+    .message button, .b_estilo {
+        padding: 3%;
+        width: 80%;
+        margin: 3px 10%;
+        margin-bottom: 5%;
+        font-weight: 400;
+        background-color: var(--button-login-color);
+        border-radius: 2rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: .9rem;
+        transition: all .3s ease-in;
+        color: #fff;
+        text-decoration: none;
+    }
+    a.b_estilo {
+        align-content: center;
+    }
+    .cont-session {
+        padding: 15% 10% 0px 10%;
     }
 }
 

@@ -4,7 +4,7 @@
 	--dark-color: #151515;
 	--hover-button-color: #9b7752;
     --button-login-color: #6DC5D1;
-    --button-login-hover: #8e976f;
+    --button-login-hover: #59a2ac;
     --button-decline-term: #e88162;
 
 }
@@ -114,7 +114,7 @@ body {
 }
 
 #central-card button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: var(--button-login-hover);
 }
 @media (max-width: 768px) {
 	html {

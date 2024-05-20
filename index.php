@@ -22,7 +22,7 @@
 				</div>
 
 				<div class="container-logo">
-					<h1 class="logo"><a href="img/logo_algj.png">NOMINAS SYNCPAY</a></h1>
+				<img src="img/logo_algj.png" alt="">	<h1 class="logo"><a href="">NOMINAS SYNCPAY</a></h1>
 				</div>
 
 				<div class="container-user">
@@ -37,7 +37,7 @@
 
 		<div class="container-navbar">
 			<nav class="navbar container">
-				<i class="fa-solid fa-bars"></i>
+				<i class="fa-solid fa-bars" id="burger"></i>
 				<ul class="menu">
 					<li><a href="">Inicio</a></li>
 					<li><a href="views/sobre_n.php">Sobre nosotros</a></li>
@@ -52,7 +52,6 @@
 			</nav>
 		</div>
 	</header>
-
 	<section class="banner">
 		<div class="content-banner">
 			<p>Simplifica el cálculo, optimiza la administración y libera tiempo para lo que realmente importa:</p>
