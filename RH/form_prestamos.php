@@ -42,7 +42,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
   } elseif (!$usuario_existente) {
     echo '<script>alert("El ID_Empleado no existe en la tabla de usuarios");</script>';
   } else {
-    $insertSQL = $conexion->prepare("INSERT INTO prestamo (ID_Empleado, Fecha, Cantidad_cuotas, Valor_Cuotas, VALOR, ESTADO_SOLICITUD)
+    $insertSQL = $conexion->prepare("INSERT INTO prestamo (ID_Empleado, Fecha, Cantidad_cuotas, Valor_Cuotas, VALOR, estado)
          VALUES (?, ?, ?, ?, ?, ?)");
     $insertSQL->execute([$ID_Empleado, $Fecha, $Cantidad_cuotas, $Valor_Cuotas, $VALOR, $ESTADO_SOLICITUD]);
     echo '<script>alert("Registro exitoso");</script>';
@@ -144,7 +144,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
             </thead>
 
             <?php
-            $sql1 = $conexion->prepare("SELECT * FROM prestamo, estado WHERE prestamo.ESTADO_SOLICITUD = estado.ID_Es ");
+            $sql1 = $conexion->prepare("SELECT * FROM prestamo, estado WHERE prestamo.Estado = estado.ID_Es ");
             $sql1->execute();
             $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
             foreach ($resultado1 as $resul) {

@@ -4,22 +4,40 @@ $username = "root";
 $password = "";
 $dbname = "nomina_algj";
 
+// Inicializar las variables de búsqueda
+$search_term = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Asignar valor de búsqueda si está disponible
+    $search_term = isset($_POST["search_term"]) ? $_POST["search_term"] : "";
+}
+
 try {
     $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Establecer el modo de error PDO en excepción
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Establecer el conjunto de caracteres a UTF-8
     $conexion->exec("SET CHARACTER SET utf8");
 
-    // Consulta SQL para seleccionar usuarios con id_rol mayores o iguales a 6
-    $sql = "SELECT * FROM usuarios WHERE id_rol >= 6";
+    // Consulta SQL con filtro de búsqueda
+    $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.foto, roles.tp_user, puestos.cargo, puestos.salario 
+            FROM usuarios 
+            LEFT JOIN roles ON usuarios.id_rol = roles.id 
+            LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
+            WHERE usuarios.id_rol >= 6";
+
+    // Aplicar filtro si se proporciona un término de búsqueda
+    if (!empty($search_term)) {
+        $sql .= " AND (usuarios.nombre_us LIKE '%$search_term%' OR usuarios.apellido_us LIKE '%$search_term%' OR usuarios.tel_us LIKE '%$search_term%' OR usuarios.id_us LIKE '%$search_term%' OR roles.tp_user LIKE '%$search_term%' OR puestos.cargo LIKE '%$search_term%')";
+    }
+
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error de conexión a la base de datos: " . $e->getMessage();
+    exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -27,179 +45,63 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        img {
-            max-width: 100px;
-            max-height: 100px;
-        }
-
-        .container {
-            position: relative;
-            margin-left: 9%;
-        }
-
-        .btn-toggle {
-            background-color: black;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 999;
-        }
-
-        .sidebar {
-            width: 0;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            z-index: 1;
-            color: #fff;
-        }
-
-        .sidebar.active {
-            width: 250px;
-        }
-
-        .sidebar h3 {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .sidebar ul li {
-            padding: 10px 20px;
-        }
-
-        .sidebar a {
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .sidebar a:hover {
-            color: #ccc;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        table {
-            width: 70%;
-        }
-
-        .btn-sm {
-            background-color: #111;
+        .card {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
+<?php include 'nav.php'; ?>
 
-    <button class="btn btn-toggle" id="toggleNav">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div class="sidebar" id="sidebar">
-
-        <h3>Tablas Admin</h3>
-        <ul class="nav flex-column">
-        <li class="nav-item"><a href="tablas/vhe.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Horas Extra</a></li>
-        <li class="nav-item"><a href="tablas/roles.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Roles</a></li>
-        <li class="nav-item"><a href="tablas/salud.php" class="nav-link"><i class="fas fa-heartbeat"></i> Tabla Salud</a></li>
-        <li class="nav-item"><a href="tablas/pension.php" class="nav-link"><i class="fas fa-money-check-alt"></i> Tabla Pension</a></li>
-        <li class="nav-item"><a href="../../RH/form_puestos.php" class="nav-link"><i class="fas fa-briefcase"></i> Tabla Puestos</a></li>
-        <li class="nav-item"><a href="../../RH/form_prestamos.php" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Tabla Prestamos</a></li>
-        <li class="nav-item"><a href="../../RH/form_permisos.php" class="nav-link"><i class="fas fa-calendar-check"></i> Tabla Permisos</a></li>
-        <li class="nav-item"><a href="../../RH/form_empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
-        <li class="nav-item">
-            <form method="post" style="margin: 0;">
-                <button type="submit" name="logout" class="nav-link" style="background: none; border: none; padding: 0; cursor: pointer; color:#fff;">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                </button>
-            </form>
-        </li>
-    </ul>
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-        session_start();
-        session_unset();
-        session_destroy();
-        header("Location:../../index.php"); // Redirigir a la página de inicio de sesión después de cerrar sesión
-        exit();
-    }
-    ?>
-    </div>
-
-    <div class="container">
-        <div class="container mt-5">
-            <h2 class="mb-4">Trabajadores</h2>
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Foto</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- PHP loop to populate table -->
-                    <?php foreach ($usuarios as $usuario) : ?>
-                        <tr>
-                            <td><?php echo $usuario['id_us']; ?></td>
-                            <td><?php echo $usuario['nombre_us']; ?></td>
-                            <td><?php echo $usuario['apellido_us']; ?></td>
-                            <td><?php echo $usuario['correo_us']; ?></td>
-                            <td><?php echo $usuario['tel_us']; ?></td>
-                            <td><?php if (!empty($usuario['foto'])) : ?><img src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto"><?php endif; ?></td>
-                            <td>
+<div class="container">
+    <div class="container mt-5">
+        <h2 class="mb-4">Trabajadores</h2>
+        <div class="row mb-4">
+            <div class="col">
+                <form method="post" class="form-inline">
+                    <div class="form-group mr-2">
+                        <input type="text" class="form-control" name="search_term" placeholder="Buscar...">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search"></i> Buscar</button>
+                    <?php if (!empty($search_term)) : ?>
+                        <a href="." class="btn btn-secondary"><i class="fas fa-times"></i> Limpiar</a>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <?php if(isset($usuarios) && !empty($usuarios)): ?>
+                <?php foreach ($usuarios as $usuario) : ?>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <?php if (!empty($usuario['foto'])) : ?>
+                                <img class="card-img-top" src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
+                                <p class="card-text"><strong>Cedula:</strong> <?php echo $usuario['id_us']; ?></p>
+                                <p class="card-text"><strong>Rol:</strong> <?php echo $usuario['tp_user']; ?></p>
+                                <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
+                                <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
                                 <a href="editar.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-primary btn-sm">Editar</a>
-                      
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col">
+                    <div class="alert alert-warning" role="alert">
+                        No se encontraron trabajadores.
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#toggleNav").click(function() {
-                $("#sidebar").toggleClass('active');
-                $(".container").toggleClass('active');
-            });
-            $("#closeNav").click(function() {
-                $("#sidebar").removeClass('active');
-                $(".container").removeClass('active');
-            });
-        });
-    </script>
+</div>
 
 </body>
 

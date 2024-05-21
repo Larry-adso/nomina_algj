@@ -11,6 +11,7 @@
     <title>TABLA VALOR HORAS EXTRA</title>
 </head>
 <body>
+<?php include '../nav.php'; ?>
 <div class="content">
     <div class="container">
         <h2 class="mb-5">TABLA VALOR HORAS EXTRA</h2>

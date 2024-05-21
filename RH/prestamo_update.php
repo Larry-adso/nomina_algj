@@ -1,7 +1,5 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -17,7 +15,7 @@ if (!isset($_SESSION['id_us'])) {
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
 
-$sql = $con -> prepare ("SELECT * FROM prestamo, estado WHERE prestamo.ID_prest = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM prestamo, estado WHERE prestamo.ID_prest = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 
@@ -36,7 +34,7 @@ if(isset($_POST["update"]))
     $ESTADO_SOLICITUD = $_POST['ESTADO_SOLICITUD'];
 
 
-    $insertSQL = $con->prepare ("UPDATE prestamo SET ID_Empleado = '$ID_Empleado', Fecha = '$Fecha', Cantidad_cuotas = '$Cantidad_cuotas', Valor_Cuotas = '$Valor_Cuotas' , cuotas_en_deuda = '$cuotas_en_deuda' , cuotas_pagas = '$cuotas_pagas' , ESTADO_SOLICITUD = '$ESTADO_SOLICITUD' WHERE ID_prest = '".$_GET['id']."'");
+    $insertSQL = $conexion->prepare ("UPDATE prestamo SET ID_Empleado = '$ID_Empleado', Fecha = '$Fecha', Cantidad_cuotas = '$Cantidad_cuotas', Valor_Cuotas = '$Valor_Cuotas' , cuotas_en_deuda = '$cuotas_en_deuda' , cuotas_pagas = '$cuotas_pagas' , ESTADO_SOLICITUD = '$ESTADO_SOLICITUD' WHERE ID_prest = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Actualización Exitosa");
     window.close("prestamos_update.php");
@@ -113,7 +111,7 @@ if(isset($_POST["update"]))
                 <select name="ESTADO_SOLICITUD">
                 <option value="<?php echo($usua['ESTADO_SOLICITUD'])?>"><?php echo($usua['Estado'])?></option>
                 <?php
-                    $control = $con -> prepare ("SELECT * from estado WHERE ID_Es > 3");
+                    $control = $conexion -> prepare ("SELECT * from estado WHERE ID_Es > 3");
                     $control -> execute();
                 while ($fila = $control->fetch(PDO::FETCH_ASSOC)) 
                 {

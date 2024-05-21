@@ -14,7 +14,7 @@ if (!isset($_SESSION['id_us'])) {
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-$sql = $con -> prepare ("SELECT * FROM usuarios, puestos, roles WHERE usuarios.id_puesto = puestos.ID and usuarios.id_rol AND usuarios.id_us = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM usuarios, puestos, roles WHERE usuarios.id_puesto = puestos.ID and usuarios.id_rol AND usuarios.id_us = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 ?>
@@ -32,7 +32,7 @@ if(isset($_POST["update"]))
     $id_rol = $_POST['id_rol'];
     $Codigo = $_POST['Codigo'];
 
-    $insertSQL = $con->prepare ("UPDATE usuarios SET id_us ='$id_us', nombre_us = '$nombre_us', apellido_us = '$apellido_us', correo_us = '$correo_us', pass = '$pass', tel_us = '$tel_us', id_puesto = '$id_puesto',
+    $insertSQL = $conexion->prepare ("UPDATE usuarios SET id_us ='$id_us', nombre_us = '$nombre_us', apellido_us = '$apellido_us', correo_us = '$correo_us', pass = '$pass', tel_us = '$tel_us', id_puesto = '$id_puesto',
     id_rol = '$id_rol', Codigo = '$Codigo' WHERE id_us = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Actualización Exitosa");
@@ -102,8 +102,8 @@ if(isset($_POST["update"]))
                 <select name="id_puesto">
                     <option value="<?php echo($usua['id_puesto'])?>"><?php echo($usua['cargo'])?></option>
                 <?php
-                    $control = $con->prepare("SELECT * from estado where ID_Es > 3");
-                    $control->execute();
+                    $control = $conexion->prepare("SELECT * from estado where ID_Es > 3");
+                    $cotrol->execute();
                     while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
                      echo "<option value=" . $fila['id_puesto'] . ">" . $fila['id_puesto'] . "</option>";
                     }
@@ -119,7 +119,7 @@ if(isset($_POST["update"]))
                 <select name="id_rol">
                     <option value="<?php echo($usua['id_rol'])?>"><?php echo($usua['TP_user'])?></option>
                 <?php
-                    $control = $con->prepare("SELECT * from roles where ID > 0");
+                    $control = $conexion->prepare("SELECT * from roles where ID > 0");
                     $control->execute();
                     while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
                      echo "<option value=" . $fila['ID'] . ">" . $fila['TP_user'] . "</option>";
