@@ -52,9 +52,9 @@ if ($id_rol == '4' || $id_rol == '5') {
         echo '<script>alert("Registro exitoso"); </script>';
     }
 
-    $con = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
-    $con->execute();
-    $cons = $con->fetchAll(PDO::FETCH_ASSOC);
+    $conexion = $conexion->prepare("SELECT * FROM roles WHERE ID IN (4, 5)");
+    $conexion->execute();
+    $cons = $conexion->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>

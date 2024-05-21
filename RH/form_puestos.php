@@ -1,8 +1,7 @@
 <?php
 //conectar bd
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
+
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -25,7 +24,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
   $salario = $_POST['salario'];
 
 
-  $sql = $con->prepare("SELECT*FROM puestos where cargo = '$cargo'");
+  $sql = $conexion->prepare("SELECT*FROM puestos where cargo = '$cargo'");
   $sql->execute();
   $fila = $sql->fetchALL(PDO::FETCH_ASSOC);
 
@@ -34,7 +33,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
   } else if ($fila) {
     echo '<script>alert("Usuario o telefono ya registrado");</script>';
   } else {
-    $insertSQL = $con->prepare("INSERT INTO puestos (cargo,salario) VALUES ('$cargo','$salario')");
+    $insertSQL = $conexion->prepare("INSERT INTO puestos (cargo,salario) VALUES ('$cargo','$salario')");
     $insertSQL->execute();
     echo '<script>alert("Registro exitoso"); </script>';
   }
@@ -100,7 +99,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
             </thead>
 
             <?php
-            $sql1 = $con->prepare("SELECT * FROM puestos");
+            $sql1 = $conexion->prepare("SELECT * FROM puestos");
             $sql1->execute();
             $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
             foreach ($resultado1 as $resul) {

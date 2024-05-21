@@ -177,7 +177,7 @@ try {
                             <td><?php if (!empty($usuario['foto'])) : ?><img src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto"><?php endif; ?></td>
                             <td>
                                 <a href="editar.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-primary btn-sm">Editar</a>
-                                <a href="eliminar.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                      
                             </td>
                         </tr>
                     <?php endforeach; ?>

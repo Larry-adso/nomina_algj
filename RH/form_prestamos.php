@@ -26,12 +26,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
   $ESTADO_SOLICITUD = $_POST['ESTADO_SOLICITUD'];
 
   // Verificar si el ID_Empleado existe en la tabla usuarios
-  $sql_usuario = $con->prepare("SELECT * FROM usuarios WHERE id_us = ?");
+  $sql_usuario = $conexion->prepare("SELECT * FROM usuarios WHERE id_us = ?");
   $sql_usuario->execute([$ID_Empleado]);
   $usuario_existente = $sql_usuario->fetch();
 
   // Verificar si el ID_Empleado existe en la tabla prestamo
-  $sql_prestamo = $con->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ?");
+  $sql_prestamo = $conexion->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ?");
   $sql_prestamo->execute([$ID_Empleado]);
   $prestamo_existente = $sql_prestamo->fetch();
 
@@ -42,7 +42,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
   } elseif (!$usuario_existente) {
     echo '<script>alert("El ID_Empleado no existe en la tabla de usuarios");</script>';
   } else {
-    $insertSQL = $con->prepare("INSERT INTO prestamo (ID_Empleado, Fecha, Cantidad_cuotas, Valor_Cuotas, VALOR, ESTADO_SOLICITUD)
+    $insertSQL = $conexion->prepare("INSERT INTO prestamo (ID_Empleado, Fecha, Cantidad_cuotas, Valor_Cuotas, VALOR, ESTADO_SOLICITUD)
          VALUES (?, ?, ?, ?, ?, ?)");
     $insertSQL->execute([$ID_Empleado, $Fecha, $Cantidad_cuotas, $Valor_Cuotas, $VALOR, $ESTADO_SOLICITUD]);
     echo '<script>alert("Registro exitoso");</script>';
@@ -101,7 +101,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
                   <option value=""></option>
 
                   <?php
-                  $control = $con->prepare("SELECT * from estado where ID_Es >3");
+                  $control = $conexion->prepare("SELECT * from estado where ID_Es >3");
                   $control->execute();
                   while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
                     echo "<option value=" . $fila['ID_Es'] . ">" . $fila['Estado'] . "</option>";
@@ -144,7 +144,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
             </thead>
 
             <?php
-            $sql1 = $con->prepare("SELECT * FROM prestamo, estado WHERE prestamo.ESTADO_SOLICITUD = estado.ID_Es ");
+            $sql1 = $conexion->prepare("SELECT * FROM prestamo, estado WHERE prestamo.ESTADO_SOLICITUD = estado.ID_Es ");
             $sql1->execute();
             $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
             foreach ($resultado1 as $resul) {
