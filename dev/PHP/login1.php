@@ -41,6 +41,9 @@ include("../../conexion/db.php");
                         case 4:
                             header("Location:../index.php");
                             exit();
+                        case 6:
+                            header("Location:../../usuarios/prestamo.php");
+                            exit();
                         default:
                             // Manejar el caso en que el tipo de usuario no está definido
                             echo '<script>alert("ID o contraseña incorrectos.");
