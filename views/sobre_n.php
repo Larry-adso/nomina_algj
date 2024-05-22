@@ -11,47 +11,46 @@
 		<link rel="stylesheet" href="../css/styles.css" />
 	</head>
 	<body>
-		<header>
-			<div class="container-hero">
-				<div class="container hero">
-					<div class="customer-support">
-						<i class="fa-solid fa-headset"></i>
-						<div class="content-customer-support">
-							<span class="text">Soporte al cliente</span>
-							<span class="number">+57 318 773 86 47</span>
-						</div>
-					</div>
-
-					<div class="container-logo">
-						<h1 class="logo"><a href="/">NOMINAS SYNCPAY</a></h1>
-					</div>
-
-					<div class="container-user">
-						<a href="../dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>
-							
-						</div>
+	<header>
+		<div class="container-hero">
+			<div class="container hero">
+				<div class="customer-support">
+					<i class="fa-solid fa-headset"></i>
+					<div class="content-customer-support">
+						<span class="text">Soporte al cliente</span>
+						<span class="number">+58 318 773 86 47</span>
 					</div>
 				</div>
-			</div>
 
-			<div class="container-navbar">
-				<nav class="navbar container">
-					<i class="fa-solid fa-bars"></i>
-					<ul class="menu">
-						<li><a href="../index.php">Inicio</a></li>
-						<li><a href="sobre_n.php">Sobre nosotros</a></li>
-						<li><a href="contactenos.php">Contactenos</a></li>
-					</ul>
+				<div class="container-logo">
+					<h1 class="logo"><a href="/">NOMINAS SYNCPAY</a></h1>
+				</div>
 
-					<form class="search-form">
-						<input type="search" placeholder="Buscar..." />
-						<button class="btn-search">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</form>
-				</nav>
+				<div class="container-user">
+				<a href="../dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>
+
+				</div>
 			</div>
-		</header>
+		</div>
+		</div>
+
+		<div class="container-navbar">
+			<nav class="navbar container">
+				<i class="fa-solid fa-bars"></i>
+				<ul class="menu">
+					<li><a href="../index.php">Inicio</a></li>
+					<li><a href="sobre_n.php">Sobre nosotros</a></li>
+					<li><a href="contactenos.php">Contactenos</a></li>
+				</ul>
+
+				<ul class="menu">
+					<li>
+						<a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
 
 		
 

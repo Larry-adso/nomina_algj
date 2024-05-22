@@ -112,7 +112,7 @@ if ($id_rol == '4' || $id_rol == '5') {
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <h1 class="mb-4 pb-3 text-center">REGISTRO DE DESARROLLADOR</h1>
+                <h1 class="mb-4 pb-3 text-center">REGISTRO DE ADMINISTRADOR</h1>
                 <form action="#" name="form" method="post" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-4">
