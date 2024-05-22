@@ -1,7 +1,5 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
 
 session_start();
 if (!isset($_SESSION['id_us'])) {
@@ -17,7 +15,7 @@ if (!isset($_SESSION['id_us'])) {
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-$sql = $con -> prepare ("SELECT * FROM permisos WHERE permisos.id_permiso = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM permisos WHERE permisos.id_permiso = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 ?>
@@ -25,7 +23,7 @@ $usua = $sql -> fetch();
 <?php
 if(isset($_POST["delete"]))
 {
-    $insertSQL = $con->prepare("DELETE FROM permisos WHERE id_permiso = '".$_GET['id']."'");
+    $insertSQL = $conexion->prepare("DELETE FROM permisos WHERE id_permiso = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Registro Eliminado Exitosamente");
     window.close("empleados_del.php");

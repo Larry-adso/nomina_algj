@@ -1,7 +1,5 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -16,7 +14,7 @@ if (!isset($_SESSION['id_us'])) {
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-$sql = $con -> prepare ("SELECT * FROM permisos WHERE permisos.id_permiso = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM permisos WHERE permisos.id_permiso = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 ?>
@@ -27,7 +25,7 @@ if(isset($_POST["update"]))
     $fecha = $_POST['fecha'];
     $fecha_reingreso = $_POST['fecha_reingreso'];
 
-    $insertSQL = $con->prepare ("UPDATE permisos SET fecha ='$fecha', fecha_reingreso = '$fecha_reingreso' WHERE id_permiso = '".$_GET['id']."'");
+    $insertSQL = $conexion->prepare ("UPDATE permisos SET fecha ='$fecha', fecha_reingreso = '$fecha_reingreso' WHERE id_permiso = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Actualización Exitosa");
     window.close("permisos_up.php");

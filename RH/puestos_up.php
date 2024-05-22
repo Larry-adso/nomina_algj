@@ -1,7 +1,5 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -16,7 +14,7 @@ if (!isset($_SESSION['id_us'])) {
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-$sql = $con -> prepare ("SELECT * FROM puestos WHERE puestos.ID = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM puestos WHERE puestos.ID = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 ?>
@@ -27,7 +25,7 @@ if(isset($_POST["update"]))
     $cargo = $_POST['cargo'];
     $salario = $_POST['salario'];
 
-    $insertSQL = $con->prepare ("UPDATE puestos SET cargo ='$cargo', salario = '$salario' WHERE ID = '".$_GET['id']."'");
+    $insertSQL = $conexion->prepare ("UPDATE puestos SET cargo ='$cargo', salario = '$salario' WHERE ID = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Actualización Exitosa");
     window.close("permisos_up.php");

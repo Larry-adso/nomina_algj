@@ -1,7 +1,6 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
+require_once("../conexion/db.php");
+
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -16,7 +15,7 @@ if (!isset($_SESSION['id_us'])) {
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-$sql = $con -> prepare ("SELECT * FROM usuarios, puestos, roles WHERE usuarios.id_us = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM usuarios, puestos, roles WHERE usuarios.id_us = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 ?>
@@ -24,7 +23,7 @@ $usua = $sql -> fetch();
 <?php
 if(isset($_POST["delete"]))
 {
-    $insertSQL = $con->prepare("DELETE FROM usuarios WHERE id_us = '".$_GET['id']."'");
+    $insertSQL = $conexion->prepare("DELETE FROM usuarios WHERE id_us = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Registro Eliminado Exitosamente");
     window.close("empleados_del.php");
@@ -92,7 +91,7 @@ if(isset($_POST["delete"]))
                 <select name="id_puesto">
                     <option value="<?php echo($usua['id_puesto'])?>"><?php echo($usua['cargo'])?></option>
                 <?php
-                    $control = $con->prepare("SELECT * from estado where ID_Es > 3");
+                    $control = $conexion->prepare("SELECT * from estado where ID_Es > 3");
                     $control->execute();
                     while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
                      echo "<option value=" . $fila['id_puesto'] . ">" . $fila['id_puesto'] . "</option>";
@@ -109,7 +108,7 @@ if(isset($_POST["delete"]))
                 <select name="id_rol">
                     <option value="<?php echo($usua['id_rol'])?>"><?php echo($usua['TP_user'])?></option>
                 <?php
-                    $control = $con->prepare("SELECT * from roles where ID > 0");
+                    $control = $conexion->prepare("SELECT * from roles where ID > 0");
                     $control->execute();
                     while ($fila = $control->fetch(PDO::FETCH_ASSOC)) {
                      echo "<option value=" . $fila['ID'] . ">" . $fila['TP_user'] . "</option>";

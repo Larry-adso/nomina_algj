@@ -1,8 +1,5 @@
 <?php
-require_once("../db/conection.php");
-$db = new Database();
-$con = $db->conectar();
-
+require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -17,7 +14,7 @@ if (!isset($_SESSION['id_us'])) {
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-$sql = $con -> prepare ("SELECT * FROM prestamo, estado WHERE prestamo.id_prest = '".$_GET['id']."'");
+$sql = $conexion -> prepare ("SELECT * FROM prestamo, estado WHERE prestamo.id_prest = '".$_GET['id']."'");
 $sql -> execute();
 $usua = $sql -> fetch();
 ?>
@@ -25,7 +22,7 @@ $usua = $sql -> fetch();
 <?php
 if(isset($_POST["delete"]))
 {
-    $insertSQL = $con->prepare("DELETE FROM prestamo WHERE id_prest = '".$_GET['id']."'");
+    $insertSQL = $conexion->prepare("DELETE FROM prestamo WHERE id_prest = '".$_GET['id']."'");
     $insertSQL->execute();
     echo '<script>alert ("Registro Eliminado Exitosamente");
     window.close("empleados_del.php");
@@ -102,7 +99,7 @@ if(isset($_POST["delete"]))
                 <select name="ESTADO_SOLICITUD">
                     <option value="<?php echo($usua['ESTADO_SOLICITUD'])?>"><?php echo($usua['Estado'])?></option>
                 <?php
-                    $control = $con -> prepare ("SELECT * from estado WHERE ID_Es > 3 ");
+                    $control = $conexion -> prepare ("SELECT * from estado WHERE ID_Es > 3 ");
                     $control -> execute();
                 while ($fila = $control->fetch(PDO::FETCH_ASSOC)) 
                 {

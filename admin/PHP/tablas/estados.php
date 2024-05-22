@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<?php include '../nav.php'; ?>
     <div class="content">
         <div class="container">
             <h2 class="mb-5">TABLA ESTADOS</h2>
