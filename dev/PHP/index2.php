@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['id_us'])) {
+    echo '
+            <script>
+                alert("Por favor inicie sesión e intente nuevamente");
+                window.location = "../../login.php";
+            </script>
+            ';
+    die();
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -20,11 +33,10 @@
         <div class="">
             <h2>welcome</h2>
             <p> usuario : <?php
-                            session_start();
 
-                            echo $_SESSION["ID"]; ?></p>
+                            echo $_SESSION["id_us"]; ?></p>
         </div>
-        <h1>hola mundao 2 </h1>
+        <h1>hola RH</h1>
     </main>
     <footer>
         <!-- place footer here -->

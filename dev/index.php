@@ -56,7 +56,8 @@ if ($id_rol == '4') {
     $nombreUsuario = $usuario['nombre_us'];
 
 
-    $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
+    $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia 
+    INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
     $consultaLicencia->execute();
     $Tp_licencia = $consultaLicencia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -177,7 +178,6 @@ if ($id_rol == '4') {
                             <th scope="col">NIT</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Correo</th>
-                            <th scope="col">ID licencia </th>
                             <th scope="col">Seriales</th>
                             <th scope="col">Estado Licencia</th>
                             <th scope="col">fecha inicio </th>
@@ -192,7 +192,6 @@ if ($id_rol == '4') {
                                 <td scope="row"><?php echo $info['NIT']; ?></td>
                                 <td><?php echo $info['Nombre']; ?></td>
                                 <td><?php echo $info['Correo']; ?></td>
-                                <td><?php echo $info['ID_Licencia']; ?></td>
                                 <td><?php echo $info['Serial']; ?></td>
                                 <td><?php echo $info['Estado']; ?></td>
                                 <td><?php echo $info['F_inicio']; ?></td>

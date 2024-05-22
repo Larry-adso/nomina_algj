@@ -30,10 +30,10 @@ include("../../conexion/db.php");
                     // Redireccionar según el tipo de usuario
                     switch ($id_rol) {
                         case 5:
-                            header("Location:../../admin/PHP/index.php");
+                            header("Location: developer/filtro.php");
                             exit();
-                        case 2:
-                            header("Location: index2.php");
+                        case 7:
+                            header("Location: developer/filtro.php");
                             exit();
                         case 3:
                             header("Location: index3.php");

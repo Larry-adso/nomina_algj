@@ -12,28 +12,34 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="js/login.js"></script>
+    <style>
+    .hidden {
+        display: none;
+    }
+</style>
 </head>
 
 <body>
 
     <div class="container-form sign-in">
-        <form class="formulario" action="login1.php" method="POST">
-            <h2 class="create-account">Iniciar Sesión</h2>
-            <div class="cont-session">
-                <input class="form_doc" type="text" name="id_us" placeholder="Documento" pattern="[0-9]{10}" maxlength="10" required>
-                <div class="cont-box">
-                    <input type="password" class="pass" placeholder="Contraseña" id="password" name="pass" require>
-                    <button type="button" class="check-icon" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
-                        <i id="icon" class="fa fa-eye"></i>
-                    </button>
-                </div>
-                <div class="ver-term">
-                <input type="checkbox" id="acceptTerms" class="check-b">
-            <label for="acceptTerms" class="ver_terminos"><a href="#" id="viewTerms" >He leído y acepto los términos de uso</a></label></div>
+    <form class="formulario" action="login1.php" method="POST">
+        <h2 class="create-account">Iniciar Sesión</h2>
+        <div class="cont-session">
+            <input class="form_doc" type="text" name="id_us" placeholder="Documento" pattern="[0-9]{10}" maxlength="10" required>
+            <div class="cont-box">
+                <input type="password" class="pass" placeholder="Contraseña" id="password" name="pass" required>
+                <button type="button" class="check-icon" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+                    <i id="icon" class="fa fa-eye"></i>
+                </button>
             </div>
-            <button class="b_estilo">Iniciar sesión</button>
-            <a class="b_estilo" href="metodos.php"> Olvidé mi contraseña  </a>
-        </form>
+            <div class="ver-term">
+                <input type="checkbox" id="acceptTerms" class="check-b">
+                <label for="acceptTerms" class="ver_terminos"><a href="#" id="viewTerms">He leído y acepto los términos de uso</a></label>
+            </div>
+        </div>
+        <button class="b_estilo" id="loginBtn" disabled>Iniciar sesión</button>
+        <a class="b_estilo" href="metodos.php"> Olvidé mi contraseña </a>
+    </form>
         <div class="welcome-back">
             <div class="message">
                 <h2>Bienvenido de nuevo</h2>
@@ -77,20 +83,34 @@
         </div>
     </div>
     <script>
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var icon = document.getElementById("icon");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = "password";
-                icon.classList.remove('fa-eye-slash');
-               
-                icon.classList.add('fa-eye');
-            }
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var icon = document.getElementById("icon");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
+    }
+
+    document.getElementById("acceptTerms").addEventListener("change", function() {
+        var loginBtn = document.getElementById("loginBtn");
+        loginBtn.disabled = !this.checked;
+    });
+
+    document.getElementById("loginBtn").addEventListener("click", function() {
+        var acceptTerms = document.getElementById("acceptTerms");
+        if (!acceptTerms.checked) {
+            alert("Por favor, acepta los términos de uso para iniciar sesión.");
+            return;
+        }
+        // Si se aceptan los términos, enviar el formulario
+        document.querySelector("form").submit();
+    });
     </script>
 </body>
 
