@@ -167,7 +167,7 @@ if ($id_rol == '6') {
 
                     <td>
                       <?php if ($resul['estado'] == 4) { ?>
-                        <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['ID_prest']; ?>')">Cancelar préstamo</a>
+                        <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['ID_prest']; ?>')">Desistir préstamo</a>
                       <?php } elseif ($resul['estado'] == 8) { ?>
                         <a class="btn btn-success" href="pagar_prestamo.php?id=<?php echo $resul['ID_prest']; ?>">Pagar préstamo</a>
                       <?php } ?>
