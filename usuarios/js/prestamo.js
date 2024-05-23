@@ -21,16 +21,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
     setInterval(actualizarFechaHora, 1000);
   });
 
+  function toggleButtons() {
+    var estado = "<?php echo $resul['estado']; ?>";
+    var button4 = document.getElementById('button4');
+    var button8 = document.getElementById('button8');
 
-  function calcular() {
-    const valorInput = document.getElementById('valor1');
-    const valor = parseFloat(valorInput.value);
-    const alerta = document.getElementById('alerta');
-
-    if (valor > salario) {
-      alerta.textContent = `El valor no puede ser mayor que el salario (${salario}).`;
-      valorInput.value = salario;
+    if (estado === '4') {
+        button4.style.display = 'inline-block';
+        button8.style.display = 'none';
+    } else if (estado === '8') {
+        button4.style.display = 'none';
+        button8.style.display = 'inline-block';
     } else {
-      alerta.textContent = '';
+        button4.style.display = 'none';
+        button8.style.display = 'none';
     }
-  }
+}
+
+// Llama a la función cuando el documento esté completamente cargado
+document.addEventListener("DOMContentLoaded", function(event) {
+    toggleButtons();
+}); 
+
+  function eliminarRegistro(id) {
+    // Puedes agregar confirmaciones adicionales aquí si lo deseas
+    if (confirm("¿Estás seguro de que quieres eliminar este registro?")) {
+        // Redireccionar a la página de eliminación con el ID del registro
+        window.location.href = "eliminar_registro.php?id=" + id;
+    }
+}
+
