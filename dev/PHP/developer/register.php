@@ -113,7 +113,7 @@ if ($id_rol == '4') {
                                     <option value="" selected disabled>Seleccione un tipo de usuario</option>
                                     <?php foreach ($conz as $pregunta) { ?>
                                         <option value="<?php echo $pregunta['ID']; ?>">
-                                            <?php echo $pregunta['TP_user']; ?>
+                                            <?php echo $pregunta['Tp_user']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>

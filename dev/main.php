@@ -20,8 +20,7 @@
 
     <body>
         <header>
-            <!-- place navbar here -->
-        </header>
+<h1></h1>        </header>
         <main></main>
         <footer>
             <!-- place footer here -->

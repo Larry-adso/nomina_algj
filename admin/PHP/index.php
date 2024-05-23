@@ -51,57 +51,76 @@ try {
         .card {
             margin-bottom: 20px;
         }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            /* Define una altura fija */
+            object-fit: cover;
+            /* Ajusta la imagen para cubrir el área definida */
+        }
     </style>
 </head>
 
 <body>
-<?php include 'nav.php'; ?>
+    <?php include 'nav.php'; ?>
 
-<div class="container">
-    <div class="container mt-5">
-        <h2 class="mb-4">Trabajadores</h2>
-        <div class="row mb-4">
-            <div class="col">
-                <form method="post" class="form-inline">
-                    <div class="form-group mr-2">
-                        <input type="text" class="form-control" name="search_term" placeholder="Buscar...">
-                    </div>
-                    <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search"></i> Buscar</button>
-                    <?php if (!empty($search_term)) : ?>
-                        <a href="." class="btn btn-secondary"><i class="fas fa-times"></i> Limpiar</a>
-                    <?php endif; ?>
-                </form>
+    <div class="container">
+        <div class="container mt-5">
+            <h2 class="mb-4">Trabajadores</h2>
+            <div class="row mb-4">
+                <div class="col">
+                    <form method="post" class="form-inline">
+                        <div class="form-group mr-2">
+                            <input type="text" class="form-control" name="search_term" placeholder="Buscar...">
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search"></i> Buscar</button>
+                        <?php if (!empty($search_term)) : ?>
+                            <a href="." class="btn btn-secondary"><i class="fas fa-times"></i> Limpiar</a>
+                        <?php endif; ?>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <?php if(isset($usuarios) && !empty($usuarios)): ?>
-                <?php foreach ($usuarios as $usuario) : ?>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <?php if (!empty($usuario['foto'])) : ?>
-                                <img class="card-img-top" src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto">
-                            <?php endif; ?>
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
-                                <p class="card-text"><strong>Cedula:</strong> <?php echo $usuario['id_us']; ?></p>
-                                <p class="card-text"><strong>Rol:</strong> <?php echo $usuario['tp_user']; ?></p>
-                                <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
-                                <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
-                                <a href="editar.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-primary btn-sm">Editar</a>
+            <div class="row">
+                <?php if (isset($usuarios) && !empty($usuarios)) : ?>
+                    <?php foreach ($usuarios as $usuario) : ?>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <?php if (!empty($usuario['foto'])) : ?>
+                                    <img class="card-img-top" src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto">
+                                <?php endif; ?>
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
+                                    <p class="card-text"><strong>Cédula:</strong> <?php echo $usuario['id_us']; ?></p>
+                                    <p class="card-text"><strong>Rol:</strong> <?php echo $usuario['tp_user']; ?></p>
+                                    <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
+                                    <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
+                                    <!-- Formulario oculto para enviar el id_us -->
+                                    <form action="../../RH/liquidacion/liquidar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
+                                        <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
+                                    </form>
+                                    <!-- Botón para liquidar -->
+                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">Liquidar</button>
+                                </div>
                             </div>
                         </div>
+
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="col">
+                        <div class="alert alert-warning" role="alert">
+                            No se encontraron trabajadores.
+                        </div>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="col">
-                    <div class="alert alert-warning" role="alert">
-                        No se encontraron trabajadores.
-                    </div>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-</div>
+    <script>
+    function liquidar(id) {
+        document.getElementById('liquidar_form_' + id).submit();
+    }
+</script>
 
 </body>
 

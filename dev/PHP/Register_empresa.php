@@ -37,7 +37,8 @@ if ($id_rol == '4') {
     </script>';
         } else {
             // Insertar el nuevo registro en la tabla empresas
-            $sentencia = $conexion->prepare("INSERT INTO empresas(NIT, Nombre, Correo, Telefono, ID_Licencia) VALUES (:NIT, :Nombre, :Correo, :Telefono, :ID_Licencia)");
+            $sentencia = $conexion->prepare("INSERT INTO empresas(NIT, Nombre, Correo, Telefono, ID_Licencia) 
+                VALUES (:NIT, :Nombre, :Correo, :Telefono, :ID_Licencia)");
             $sentencia->bindParam(":NIT", $NIT);
             $sentencia->bindParam(":Nombre", $Nombre);
             $sentencia->bindParam(":Correo", $Correo);
@@ -51,7 +52,7 @@ if ($id_rol == '4') {
     </script>';
 
                 // Actualizar el estado de la licencia a 2
-                $actualizarEstado = $conexion->prepare("UPDATE licencia SET ID_Estado = 2 WHERE ID = :ID_Licencia");
+                $actualizarEstado = $conexion->prepare("UPDATE licencia SET ID_Estado = 5 WHERE ID = :ID_Licencia");
                 $actualizarEstado->bindParam(":ID_Licencia", $Id_licencia);
                 $actualizarEstado->execute();
             } else {
@@ -63,7 +64,8 @@ if ($id_rol == '4') {
         }
     }
 
-    $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
+    $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia 
+    INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
     $consultaLicencia->execute();
     $Tp_licencia = $consultaLicencia->fetchAll(PDO::FETCH_ASSOC);
 
