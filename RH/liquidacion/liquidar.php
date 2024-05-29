@@ -59,6 +59,27 @@ try {
     $salario_dias_trabajados = $salario_base_por_dia * $dias_trabajados;
     $salario_total_horas_extras = $horas_trabajadas * $valor_hora_extra['V_H_extra'];
     $salario_total_a_pagar = $salario_dias_trabajados + $salario_total_horas_extras;
+
+    // Consultas para obtener los valores de las deducciones de salud y pensión
+    $sql_salud = "SELECT * FROM salud WHERE id = 1"; // Ajusta el ID según corresponda
+    $stmt_salud = $conexion->prepare($sql_salud);
+    $stmt_salud->execute();
+    $salud = $stmt_salud->fetch(PDO::FETCH_ASSOC);
+
+    $sql_pension = "SELECT * FROM pension WHERE id = 1"; // Ajusta el ID según corresponda
+    $stmt_pension = $conexion->prepare($sql_pension);
+    $stmt_pension->execute();
+    $pension = $stmt_pension->fetch(PDO::FETCH_ASSOC);
+
+    if (!$salud || !$pension) {
+        echo "Error: No se pudo obtener el valor de salud o pensión.";
+        exit();
+    }
+
+    // Calcular las deducciones
+    $deduccion_salud = $salario_total_a_pagar * ($salud['Valor'] / 100);
+    $deduccion_pension = $salario_total_a_pagar * ($pension['Valor'] / 100);
+    $salario_total_deducciones = $salario_total_a_pagar - ($deduccion_salud + $deduccion_pension);
 } catch (PDOException $e) {
     echo "Error de conexión a la base de datos: " . $e->getMessage();
     exit();
@@ -109,88 +130,124 @@ try {
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <form id="liquidarForm" method="post" action="pagar.php">
+                            <form id="liquidarForm" method="post" action="">
                                 <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                 <div class="form-group">
                                     <label for="dias_trabajados">Días Trabajados:</label>
-                                    <input type="number" class="form-control" name="dias_trabajados" id="dias_trabajados" value="0" min="0" max="31" required>
+                                    <input type="number" class="form-control" name="dias_trabajados" id="dias_trabajados" value="0" min="0" max="31" required step="1">
                                 </div>
                                 <div class="form-group">
                                     <label for="horas_trabajadas">Horas Extras Trabajadas:</label>
-                                    <input type="number" class="form-control" name="horas_trabajadas" id="horas_trabajadas" value="0" required>
+                                    <input type="number" class="form-control" name="horas_trabajadas" id="horas_trabajadas" value="0" required step="1">
                                 </div>
                                 <div class="form-group">
                                     <label for="salario_base">Salario Base:</label>
                                     <input type="text" class="form-control" name="salario_base" id="salario_base" value="<?php echo 'COP $' . number_format($usuario['salario'], 0, ',', '.'); ?>" readonly>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="valor_hora_extra">Valor Hora Extra:</label>
                                     <input type="text" class="form-control" name="valor_hora_extra" id="valor_hora_extra" value="<?php echo '$ COP ' . number_format($valor_hora_extra['V_H_extra'], 0, ',', '.'); ?>" readonly>
                                 </div>
-                             
                                 <div class="form-group">
                                     <label for="salario_base_por_dia">Salario Base por Día:</label>
-                                    <input type="text" class="form-control" name="salario_base_por_dia" id="salario_base_por_dia" value="<?php echo '$ COP ' . number_format($salario_base_por_dia, 0, ',', '.'); ?>" readonly>
+                                    <input type="text" class="form-control" name="salario_base_por_dia" id="salario_base_por_dia" value="<?php echo '$ COP ' . number_format($salario_base_por_dia, 0, ','); ?>" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="salario_dias_trabajados">Valor Total por Días Trabajados:</label>
-                                    <input type="text" class="form-control" name="salario_dias_trabajados" id="salario_dias_trabajados" value="<?php echo '$ COP ' . number_format($salario_dias_trabajados, 0, ',', '.'); ?>" readonly>
+                                    <input type="text" class="form-control" name="salario_dias_trabajados" id="salario_dias_trabajados" value="<?php echo '$ COP ' . number_format($salario_dias_trabajados,0, '.'); ?>" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="salario_total_horas_extras">Valor Total Por Horas Extras:</label>
+                                    <label for="salario_total_horas_extras">Valor Total Horas Extras Trabajadas:</label>
                                     <input type="text" class="form-control" name="salario_total_horas_extras" id="salario_total_horas_extras" value="<?php echo '$ COP ' . number_format($salario_total_horas_extras, 0, ',', '.'); ?>" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="salario_total_a_pagar">Salario Total a Pagar:</label>
                                     <input type="text" class="form-control" name="salario_total_a_pagar" id="salario_total_a_pagar" value="<?php echo '$ COP ' . number_format($salario_total_a_pagar, 0, ',', '.'); ?>" readonly>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Pagar</button>
+                                <button type="button" id="calcularDeducciones" class="btn btn-primary">Pagar</button>
+                            </form>
+
+                            <form id="deduccionesForm" style="display:none;" method="post" action="guardar_deducciones.php">
+                                <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
+                                <input type="hidden" name="dias_trabajados" id="dias_trabajados_deduccion">
+                                <input type="hidden" name="horas_trabajadas" id="horas_trabajadas_deduccion">
+                                <div class="form-group">
+                                    <label for="deduccion_salud">Deducción Salud:</label>
+                                    <input type="text" class="form-control" name="deduccion_salud" id="deduccion_salud" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deduccion_pension">Deducción Pensión:</label>
+                                    <input type="text" class="form-control" name="deduccion_pension" id="deduccion_pension" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="salario_total_deducciones">Total con Deducciones:</label>
+                                    <input type="text" class="form-control" name="salario_total_deducciones" id="salario_total_deducciones" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Confirmar Pago</button>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
+                <a href="javascript:history.back()" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Volver</a>
+
             </div>
         </div>
-    </div>
+        <script>
+            // Obtener valores iniciales desde PHP
+            const salarioBase = <?php echo json_encode($usuario['salario']); ?>;
+            const porcentajeSalud = <?php echo json_encode($salud['Valor']); ?>;
+            const porcentajePension = <?php echo json_encode($pension['Valor']); ?>;
 
-    <script>
-        // Función para calcular el salario total y actualizar los campos correspondientes
-        function calcularSalarioTotal() {
-            const salarioBasePorDia = <?php echo $salario_base_por_dia; ?>;
-            const valorHoraExtra = <?php echo $valor_hora_extra['V_H_extra']; ?>;
-            const diasTrabajados = parseInt(document.getElementById('dias_trabajados').value) || 0;
-            const horasTrabajadas = parseInt(document.getElementById('horas_trabajadas').value) || 0;
+            // Calcular el valor de la hora extra
+            const valorHoraExtra = <?php echo json_encode($valor_hora_extra['V_H_extra']); ?>;
 
-            // Calcula el salario por días trabajados
-            const salarioDiasTrabajados = salarioBasePorDia * diasTrabajados;
+            // Función para formatear los valores como moneda
+            function formatearMoneda(valor) {
+                return '$ COP ' + valor.toLocaleString('es-CO', {
+                    minimumFractionDigits: 0
+                });
+            }
 
-            // Calcula el salario por horas extras
-            const salarioTotalHorasExtras = horasTrabajadas * valorHoraExtra;
+            // Función para calcular y actualizar los valores del formulario
+            function actualizarValores() {
+                const diasTrabajados = parseInt(document.getElementById('dias_trabajados').value);
+                const horasTrabajadas = parseInt(document.getElementById('horas_trabajadas').value);
 
-            // Calcula el salario total a pagar
-            const salarioTotalAPagar = salarioDiasTrabajados + salarioTotalHorasExtras;
+                const salarioBasePorDia = salarioBase / 31;
+                const salarioDiasTrabajados = salarioBasePorDia * diasTrabajados;
+                const salarioTotalHorasExtras = horasTrabajadas * valorHoraExtra;
+                const salarioTotalAPagar = salarioDiasTrabajados + salarioTotalHorasExtras;
 
-            // Actualiza los valores en los campos correspondientes
-            document.getElementById('salario_base_por_dia').value = '$ COP ' + salarioBasePorDia.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            document.getElementById('salario_dias_trabajados').value = '$ COP ' + salarioDiasTrabajados.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            document.getElementById('salario_total_horas_extras').value = '$ COP ' + salarioTotalHorasExtras.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            document.getElementById('salario_total_a_pagar').value = '$ COP ' + salarioTotalAPagar.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+                const deduccionSalud = salarioTotalAPagar * (porcentajeSalud / 100);
+                const deduccionPension = salarioTotalAPagar * (porcentajePension / 100);
+                const salarioTotalDeducciones = salarioTotalAPagar - (deduccionSalud + deduccionPension);
 
-        // Listeners para calcular automáticamente cuando se cambian los días trabajados o las horas trabajadas
-        document.getElementById('dias_trabajados').addEventListener('input', function() {
-            calcularSalarioTotal();
-        });
+                // Actualizar los valores en los campos del formulario de liquidación
+                document.getElementById('salario_base_por_dia').value = formatearMoneda(salarioBasePorDia);
+                document.getElementById('salario_dias_trabajados').value = formatearMoneda(salarioDiasTrabajados);
+                document.getElementById('salario_total_horas_extras').value = formatearMoneda(salarioTotalHorasExtras);
+                document.getElementById('salario_total_a_pagar').value = formatearMoneda(salarioTotalAPagar);
 
-        document.getElementById('horas_trabajadas').addEventListener('input', function() {
-            calcularSalarioTotal();
-        });
+                // Actualizar los valores en los campos del formulario de deducciones
+                document.getElementById('deduccion_salud').value = formatearMoneda(deduccionSalud);
+                document.getElementById('deduccion_pension').value = formatearMoneda(deduccionPension);
+                document.getElementById('salario_total_deducciones').value = formatearMoneda(salarioTotalDeducciones);
+            }
 
-        // Calcular salario total al cargar la página
-        calcularSalarioTotal();
-    </script>
+            // Listener para calcular y actualizar valores cuando se cambian los días trabajados o las horas trabajadas
+            document.getElementById('dias_trabajados').addEventListener('input', actualizarValores);
+            document.getElementById('horas_trabajadas').addEventListener('input', actualizarValores);
 
+            // Listener para calcular deducciones cuando se hace clic en "Pagar"
+            document.getElementById('calcularDeducciones').addEventListener('click', function(event) {
+                event.preventDefault();
+                actualizarValores();
+                document.getElementById('liquidarForm').style.display = 'none';
+                document.getElementById('deduccionesForm').style.display = 'block';
+            });
+        </script>
 </body>
 
 </html>
