@@ -154,11 +154,17 @@ if ($id_rol == '6') {
                                         <td><input class="form-control" name="id_us" type="text" value="<?php echo $resul['id_us'] ?>" readonly="readonly" /></td>
                                         <td><input class="form-control" name="nombre_us" type="text" value="<?php echo $resul['nombre_us'] ?>" readonly="readonly" /></td>
                                         <td><input class="form-control" name="apellido_us" type="text" value="<?php echo $resul['apellido_us'] ?>" readonly="readonly" /></td>
-                                        <td><input class="form-control" name="estado" type="text" value="<?php echo $resul['Estado'] ?>" readonly="readonly" /></td>
+                                        <td>
+                      <?php if ($resul['estado'] == 4) { ?>
+                        <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['id_permiso']; ?>')">Desistir permiso</a>
+                      <?php } elseif ($resul['estado'] == 10) { ?>
+                        <span>Aprobado</span>
+                      <?php } elseif ($resul['estado'] == 11) { ?>
+                        <span>Rechazado</span>
+                      <?php } ?>
+                    </td>
 
-
-                                        <td><a href="?id=<?php echo $resul['id_permiso'] ?>" class="btn" onclick="window.open('permisos_up.php?id=<?php echo $resul['id_permiso'] ?>','','width= 500,height=500, toolbar=NO');void(null);"><i class="uil uil-edit"></i></a></td>
-                                        <td><a href="?id=<?php echo $resul['id_permiso'] ?>" class="btn" onclick="window.open('permisos_del.php?id=<?php echo $resul['id_permiso'] ?>','','width= 500,height=500, toolbar=NO');void(null);"><i class="uil uil-trash-alt"></i></a></td>
+                                  
 
                                     </tr>
                                 </tbody>
