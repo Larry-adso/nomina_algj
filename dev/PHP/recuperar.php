@@ -86,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
     <a name="" id="" class="boton_volver" href="login.php" role="button">Volver</a>
 </main>
+<script></script>
 </body>
 
 </html>

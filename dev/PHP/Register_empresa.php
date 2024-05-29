@@ -201,6 +201,8 @@ if ($id_rol == '4') {
                 return true; // Devuelve true para permitir el envío del formulario
             }
         </script>
+        <script></script>
+
     </body>
 
     </html>
