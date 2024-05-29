@@ -41,7 +41,7 @@ if ($id_rol == '6') {
     $usuario_existente = $sql_usuario->fetch();
 
     // Verificar si el ID_Empleado existe en la tabla prestamo
-    $sql_prestamo = $conexion->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ?");
+    $sql_prestamo = $conexion->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ? AND estado != 12");
     $sql_prestamo->execute([$ID_Empleado]);
     $prestamo_existente = $sql_prestamo->fetch();
 
@@ -88,7 +88,7 @@ if ($id_rol == '6') {
       if (!isNaN(valor) && cantidadCuotas > 0) {
         // Verificar si el valor es mayor que cero
         if (valor > 0) {
-          const resultado = valor / cantidadCuotas * 1000; // Dividir valor por cantidadCuotas
+          const resultado = valor / cantidadCuotas; // Dividir valor por cantidadCuotas
           document.getElementById('total').value = formatCurrency(resultado);
 
           if (valor > salario) {
@@ -121,7 +121,7 @@ if ($id_rol == '6') {
 
   // Función para desformatear de pesos colombianos a número
   function unformatCurrency(value) {
-    return parseFloat(value.replace(/[^0-9.-]+/g, ""));
+    return parseFloat(value.replace(/[^\d]/g, ""));
   }
 
   document.addEventListener('DOMContentLoaded', (event) => {
