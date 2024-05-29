@@ -161,6 +161,8 @@ if ($id_rol == '6') {
                         <span>Aprobado</span>
                       <?php } elseif ($resul['estado'] == 11) { ?>
                         <span>Rechazado</span>
+                      <?php } elseif ($resul['estado'] == 11) { ?>
+                        <span>Cancelado</span>
                       <?php } ?>
                     </td>
 
@@ -176,7 +178,13 @@ if ($id_rol == '6') {
 
             </div>
         </body>
-
+        <script type="text/javascript">
+  function confirmarCancelacion(id) {
+    if (confirm("¿Seguro desea cancelar su préstamo?")) {
+      window.location.href = "permiso_cancelar.php?id=" + id;
+    }
+  }
+</script>
     </html>
 <?php
 } else {

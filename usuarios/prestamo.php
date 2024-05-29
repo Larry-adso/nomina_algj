@@ -237,12 +237,16 @@ if ($id_rol == '6') {
                     <td><input class="form-control" name="estado_nombre" type="text" value="<?php echo $resul['estado_nombre'] ?>" readonly="readonly" /></td>
                     <td>
                       <?php if ($resul['estado'] == 4) { ?>
-                        <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['ID_prest']; ?>')">Desistir préstamo</a>
+                        <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['ID_prest']; ?>')">Cancelar préstamo</a>
                       <?php } elseif ($resul['estado'] == 10) { ?>
                         <span>Aprobado</span>
                       <?php } elseif ($resul['estado'] == 11) { ?>
                         <span>Rechazado</span>
+                      <?php } elseif ($resul['estado'] == 12) { ?>
+                        <span>Cancelado</span>
                       <?php } ?>
+
+
                     </td>
                   </tr>
                 </tbody>
