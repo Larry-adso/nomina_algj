@@ -1,35 +1,37 @@
 <?php
-// Verificar si se proporcionó un ID válido
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    // Conexión a la base de datos (debes reemplazar estos valores con los tuyos)
-    $servername = "localhost";
-    $username = "usuario";
-    $password = "contraseña";
-    $dbname = "nombre_base_de_datos";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "nomina_algj";
 
-    // Crear conexión
-    $conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Conexión a la base de datos
+    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // Establecer el modo de error PDO en excepción
+    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Establecer el conjunto de caracteres a UTF-8
+    $conexion->exec("SET CHARACTER SET utf8");
 
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
-    }
+    // Verificar si se proporcionó un ID válido
+    if (isset($_GET['id']) && !empty($_GET['id'])) {
+        // Preparar la consulta para eliminar el registro con el ID proporcionado
+        $sql = "DELETE FROM prestamo WHERE ID_prest = :id";
+        $stmt = $conexion->prepare($sql);
 
-    // Escapar el ID para evitar inyección de SQL
-    $id = $conn->real_escape_string($_GET['id']);
+        // Ejecutar la consulta
+        $stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+        $stmt->execute();
 
-    // Consulta para eliminar el registro con el ID proporcionado
-    $sql = "DELETE FROM nombre_tabla WHERE ID_Empleado = '$id'";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Registro eliminado exitosamente.";
+        if ($stmt->rowCount() > 0) {
+            echo "<script>alert('Registro eliminado exitosamente.'); window.location.href = 'prestamo.php';</script>";
+        } else {
+            echo "<script>alert('No se encontró ningún registro con el ID proporcionado.'); window.location.href = 'prestamo.php';</script>";
+        }
     } else {
-        echo "Error al eliminar el registro: " . $conn->error;
+        echo "<script>alert('ID no válido proporcionado para eliminar el registro.'); window.location.href = 'prestamo.php';</script>";
     }
 
-    // Cerrar conexión
-    $conn->close();
-} else {
-    echo "ID no válido proporcionado para eliminar el registro.";
+} catch (PDOException $e) {
+    echo "<script>alert('Error al eliminar el registro: " . $e->getMessage() . "'); window.location.href = 'prestamo.php';</script>";
 }
 ?>

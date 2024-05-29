@@ -77,8 +77,8 @@
             <br>
             <p>Al utilizar este software, usted reconoce haber leído, comprendido y aceptado estos términos de uso. Si tiene alguna pregunta o inquietud, por favor contáctenos a SyscPay@gmail.com.</p>
             <div class="modal-footer">
-                <button id="acceptBtn">Aceptar</button>
-                <button id="declineBtn">Declinar</button>
+                <button id="acceptBtn" class="b_estilo">Aceptar</button>
+                <button id="declineBtn" class="b_estilo">Declinar</button>
             </div>
         </div>
     </div>
