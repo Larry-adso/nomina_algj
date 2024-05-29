@@ -13,3 +13,4 @@ function abrirVentanaSerial() {
     xhttp.open("GET", "serial_modal.php", true);
     xhttp.send();
 }
+

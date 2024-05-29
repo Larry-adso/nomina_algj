@@ -48,8 +48,9 @@ if ($id_rol == '4') {
             if ($sentencia->execute()) {
                 $mensaje = "Registro creado correctamente";
                 echo '<script>
-        alert("Registro creado correctamente");
-    </script>';
+                alert("Registro creado correctamente");
+                window.location = "../index.php";
+            </script>';
 
                 // Actualizar el estado de la licencia a 2
                 $actualizarEstado = $conexion->prepare("UPDATE licencia SET ID_Estado = 5 WHERE ID = :ID_Licencia");
@@ -95,7 +96,7 @@ if ($id_rol == '4') {
                     <div class="card-body">
                         <h1 class="title text-center mb-4">Registro De Empresa</h1>
 
-                        <form action="" class="form" method="POST">
+                        <form action="" class="form" method="POST" onsubmit="return validarFormulario()">
                             <div class="inputContainer mb-3">
                                 <label class="label">Licencia <a style="text-decoration: none;" href="#" onclick="abrirVentanaSerial()">Crear</a></label>
                                 <select class="form-select form-select-sm input" name="ID_Licencia" id="id_licencia" required>
@@ -109,25 +110,27 @@ if ($id_rol == '4') {
                             </div>
                             <div class="inputContainer mb-3">
                                 <label class="label">NIT</label>
-                                <input type="text" name="NIT" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el NIT de la empresa">
+                                <input type="text" name="NIT" id="nit" class="form-control" required placeholder="Ingrese el NIT de la empresa" oninput="validarNIT(this)">
+                                <small id="nitHelpBlock" class="form-text text-muted"></small>
                             </div>
 
                             <div class="inputContainer mb-3">
-                                <label class="label">Nombre</label>
-                                <input type="text" name="Nombre" class="form-control" required placeholder="Ingrese el nombre de la empresa">
+                                <label class="label">Nombre de la empresa</label>
+                                <input type="text" name="Nombre" id="nombre" class="form-control" required placeholder="Ingrese el nombre de la empresa" oninput="validarNombre(this)">
+                                <small id="nombreHelpBlock" class="form-text text-muted"></small>
                             </div>
 
 
                             <div class="inputContainer mb-3">
                                 <label class="label">Correo</label>
-
-                                <input type="email" name="Correo" class="form-control" required placeholder="Ingrese el correo de la empresa">
+                                <input type="email" name="Correo" id="correo" class="form-control" required placeholder="Ingrese el correo de la empresa" oninput="validarCorreo(this)">
+                                <small id="correoHelpBlock" class="form-text text-muted"></small>
                             </div>
 
                             <div class="inputContainer mb-3">
                                 <label class="label">Telefono</label>
-
-                                <input type="tel" name="Telefono" pattern="[0-9]{10}" maxlength="10" class="form-control" required placeholder="Ingrese el teléfono de la empresa">
+                                <input type="tel" name="Telefono" id="telefono" class="form-control" required placeholder="Ingrese el teléfono de la empresa" oninput="validarTelefono(this)">
+                                <small id="telefonoHelpBlock" class="form-text text-muted"></small>
                             </div>
 
 
@@ -145,13 +148,65 @@ if ($id_rol == '4') {
             </div>
         </main>
         <script src="js/empresa.js"></script>
+
         <!-- Bootstrap JavaScript Libraries -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+        <script>
+            function validarNIT(input) {
+                var nit = input.value.replace(/\D/g, '');
+                if (nit.length > 10) {
+                    nit = nit.slice(0, 10);
+                }
+                input.value = nit;
+                var charsRemaining = 10 - nit.length;
+                document.getElementById('nitHelpBlock').textContent = " Deben ser 10 números. Faltan " + charsRemaining;
+            }
+
+            function validarNombre(input) {
+                var nombre = input.value.replace(/[^a-zA-Z\s]/g, '');
+                if (nombre.length > 20) {
+                    nombre = nombre.slice(0, 20);
+                }
+                input.value = nombre;
+                var charsRemaining = 20 - nombre.length;
+                document.getElementById('nombreHelpBlock').textContent = " Solo letras. Máximo 20 caracteres. Quedan " + charsRemaining;
+            }
+
+            function validarCorreo(input) {
+                // Verificar si el correo tiene un formato válido
+                var correo = input.value;
+                var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!regex.test(correo)) {
+                    document.getElementById('correoHelpBlock').textContent = "Formato de correo inválido.";
+                } else {
+                    document.getElementById('correoHelpBlock').textContent = "Correo valido";
+                }
+            }
+
+            function validarTelefono(input) {
+                var telefono = input.value.replace(/\D/g, '');
+                if (telefono.length > 10) {
+                    telefono = telefono.slice(0, 10);
+                }
+                input.value = telefono;
+                var charsRemaining = 10 - telefono.length;
+                document.getElementById('telefonoHelpBlock').textContent = "Teléfono: Deben ser 10 números. Faltan " + charsRemaining;
+            }
+
+            function validarFormulario() {
+                // Aquí puedes agregar validaciones adicionales si es necesario
+                return true; // Devuelve true para permitir el envío del formulario
+            }
+        </script>
     </body>
 
     </html>
+
+
+
 <?php
 } else {
     echo '

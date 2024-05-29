@@ -39,6 +39,7 @@ if ($consultaUsuarios->rowCount() > 0) {
            ';
         session_destroy();
         die();
+        
     } elseif ($id_rol == 6 && $id_estado != 1) {
         echo '
         <script>
@@ -48,6 +49,8 @@ if ($consultaUsuarios->rowCount() > 0) {
            ';
         session_destroy();
         die();
+    } elseif ($id_rol == 6 && $id_estado == 1) {
+        header("Location: ../../../usuarios/prestamo.php");
     } elseif ($id_rol == 7 && $id_estado != 1) {
         echo '
         <script>

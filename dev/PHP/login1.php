@@ -42,7 +42,7 @@ include("../../conexion/db.php");
                             header("Location:../index.php");
                             exit();
                         case 6:
-                            header("Location:../../usuarios/prestamo.php");
+                            header("Location: developer/filtro.php");
                             exit();
                         default:
                             // Manejar el caso en que el tipo de usuario no está definido
