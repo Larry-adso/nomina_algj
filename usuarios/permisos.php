@@ -35,16 +35,22 @@ if ($id_rol == '6') {
         $comentario = $_POST['comentario'];
         $estado = 4;
 
+        $sql_usuario = $conexion->prepare("SELECT * FROM usuarios WHERE id_us = ?");
+        $sql_usuario->execute([$id_us]);
+        $usuario_existente = $sql_usuario->fetch();
+    
+        // Verificar si el ID_Empleado existe en la tabla prestamo
+        $sql_prestamo = $conexion->prepare("SELECT * FROM permisos WHERE id_us = ? AND estado != 12");
+        $sql_prestamo->execute([$id_us]);
+        $prestamo_existente = $sql_prestamo->fetch();
+
         if ($fecha == "" || $fecha_reingreso == "" || $id_us == "" || $comentario == "") {
             echo '<script>alert("EXISTEN DATOS VACIOS"); </script>';
-        } else {
-            $sql = $conexion->prepare("SELECT * FROM permisos WHERE id_us = :id_us");
-            $sql->bindParam(':id_us', $id_us);
-            $sql->execute();
-            $fila = $sql->fetchAll(PDO::FETCH_ASSOC);
+        } elseif ($prestamo_existente) {
+            echo '<script>alert("El usuario ya tiene un préstamo registrado");</script>';
+          } elseif (!$usuario_existente) {
+            echo '<script>alert("El ID_Empleado no existe en la tabla de usuarios");</script>';
 
-            if ($fila) {
-                echo '<script>alert("Usuario o telefono ya registrado");</script>';
             } else {
                 // Insertar el nuevo registro
                 $insertSQL = $conexion->prepare("INSERT INTO permisos (fecha, fecha_reingreso, id_us, observacion, estado) VALUES (:fecha, :fecha_reingreso, :id_us, :comentario, :estado)");
@@ -59,7 +65,7 @@ if ($id_rol == '6') {
                 echo '<script>alert("Registro exitoso"); </script>';
             }
         }
-    }
+    
     ?>
 
 
@@ -161,7 +167,7 @@ if ($id_rol == '6') {
                         <span>Aprobado</span>
                       <?php } elseif ($resul['estado'] == 11) { ?>
                         <span>Rechazado</span>
-                      <?php } elseif ($resul['estado'] == 11) { ?>
+                      <?php } elseif ($resul['estado'] == 12) { ?>
                         <span>Cancelado</span>
                       <?php } ?>
                     </td>
