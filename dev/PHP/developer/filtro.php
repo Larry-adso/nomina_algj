@@ -61,7 +61,7 @@ if ($consultaUsuarios->rowCount() > 0) {
         session_destroy();
         die();
     } elseif ($id_rol == 7 && $id_estado == 1) {
-        header("Location: ../../../RH/index.php");
+        header("Location: ../../../recursos_humanos/RH/index.php");
     } else {
         header("Location: ../../../admin/PHP/index.php");
     }

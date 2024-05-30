@@ -18,11 +18,12 @@ try {
     $conexion->exec("SET CHARACTER SET utf8");
 
     // Consulta SQL con filtro de búsqueda
-    $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.foto, roles.tp_user, puestos.cargo, puestos.salario 
-            FROM usuarios 
-            LEFT JOIN roles ON usuarios.id_rol = roles.id 
-            LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
-            WHERE usuarios.id_rol >= 6";
+    $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, roles.tp_user, puestos.cargo, puestos.salario, usuarios.ruta_foto
+        FROM usuarios 
+        LEFT JOIN roles ON usuarios.id_rol = roles.id 
+        LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
+        WHERE usuarios.id_rol >= 6";
+
 
     // Aplicar filtro si se proporciona un término de búsqueda
     if (!empty($search_term)) {
@@ -55,9 +56,7 @@ try {
         .card-img-top {
             width: 100%;
             height: 200px;
-            /* Define una altura fija */
             object-fit: cover;
-            /* Ajusta la imagen para cubrir el área definida */
         }
     </style>
 </head>
@@ -86,9 +85,17 @@ try {
                     <?php foreach ($usuarios as $usuario) : ?>
                         <div class="col-md-4">
                             <div class="card">
-                                <?php if (!empty($usuario['foto'])) : ?>
-                                    <img class="card-img-top" src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto">
+                                <?php if (!empty($usuario['ruta_foto'])) : ?>
+                                    <?php
+                                    // Obteniendo la ruta de la foto
+                                    $ruta_foto = $usuario['ruta_foto'];
+
+                                    // Eliminando dos niveles del directorio de la ruta actual
+                                    $ruta_foto_ajustada = implode("/", array_slice(explode("/", $ruta_foto), 2));
+                                    ?>
+                                    <img class="card-img-top" src="../<?php echo $ruta_foto_ajustada; ?>" alt="Foto">
                                 <?php endif; ?>
+
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
                                     <p class="card-text"><strong>Cédula:</strong> <?php echo $usuario['id_us']; ?></p>
@@ -96,11 +103,11 @@ try {
                                     <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
                                     <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
                                     <!-- Formulario oculto para enviar el id_us -->
-                                    <form action="../../RH/liquidacion/editar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
+                                    <form action="liquidacion/editar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
                                         <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
-                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">editar</button>
+                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">liquidar</button>
                                 </div>
                             </div>
                         </div>
@@ -117,10 +124,10 @@ try {
         </div>
     </div>
     <script>
-    function liquidar(id) {
-        document.getElementById('liquidar_form_' + id).submit();
-    }
-</script>
+        function liquidar(id) {
+            document.getElementById('liquidar_form_' + id).submit();
+        }
+    </script>
 
 </body>
 
