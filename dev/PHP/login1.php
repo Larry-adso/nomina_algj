@@ -30,10 +30,10 @@ include("../../conexion/db.php");
                     // Redireccionar según el tipo de usuario
                     switch ($id_rol) {
                         case 5:
-                            header("Location: developer/filtro.php");
+                            header("Location: developer/desactive.php");
                             exit();
                         case 7:
-                            header("Location: developer/filtro.php");
+                            header("Location: developer/desactive.php");
                             exit();
                         case 3:
                             header("Location: index3.php");
@@ -42,7 +42,7 @@ include("../../conexion/db.php");
                             header("Location:../index.php");
                             exit();
                         case 6:
-                            header("Location: developer/filtro.php");
+                            header("Location: developer/desactive.php");
                             exit();
                         default:
                             // Manejar el caso en que el tipo de usuario no está definido
