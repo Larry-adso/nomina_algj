@@ -93,7 +93,7 @@
             <li class="nav-item"><a href="../../RH/form_puestos.php" class="nav-link"><i class="fas fa-briefcase"></i> Tabla Puestos</a></li>
             <li class="nav-item"><a href="../../RH/form_prestamos2.php" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Tabla Prestamos</a></li>
             <li class="nav-item"><a href="../../RH/form_permisos.php" class="nav-link"><i class="fas fa-calendar-check"></i> Tabla Permisos</a></li>
-            <li class="nav-item"><a href="../../RH/form_empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
+            <li class="nav-item"><a href="../../RH/empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
             <li class="nav-item">
 
                 <a type="submit" name="logout" class="nav-link fas fa-sign-out-alt" style="background: none; border: none; padding: 0; cursor: pointer; color:#fff;" href="../../dev/PHP/cerrar.php" role="button">Cerrar sesion</a>

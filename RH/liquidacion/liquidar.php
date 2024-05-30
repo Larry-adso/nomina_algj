@@ -154,7 +154,7 @@ try {
                                 </div>
                                 <div class="form-group">
                                     <label for="salario_dias_trabajados">Valor Total por Días Trabajados:</label>
-                                    <input type="text" class="form-control" name="salario_dias_trabajados" id="salario_dias_trabajados" value="<?php echo '$ COP ' . number_format($salario_dias_trabajados,0, '.'); ?>" readonly>
+                                    <input type="text" class="form-control" name="salario_dias_trabajados" id="salario_dias_trabajados" value="<?php echo '$ COP ' . number_format($salario_dias_trabajados, 0, '.'); ?>" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="salario_total_horas_extras">Valor Total Horas Extras Trabajadas:</label>
@@ -206,7 +206,8 @@ try {
             // Función para formatear los valores como moneda
             function formatearMoneda(valor) {
                 return '$ COP ' + valor.toLocaleString('es-CO', {
-                    minimumFractionDigits: 0
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
                 });
             }
 
@@ -215,14 +216,14 @@ try {
                 const diasTrabajados = parseInt(document.getElementById('dias_trabajados').value);
                 const horasTrabajadas = parseInt(document.getElementById('horas_trabajadas').value);
 
-                const salarioBasePorDia = salarioBase / 31;
-                const salarioDiasTrabajados = salarioBasePorDia * diasTrabajados;
-                const salarioTotalHorasExtras = horasTrabajadas * valorHoraExtra;
-                const salarioTotalAPagar = salarioDiasTrabajados + salarioTotalHorasExtras;
+                const salarioBasePorDia = Math.floor(salarioBase / 31);
+                const salarioDiasTrabajados = Math.floor(salarioBasePorDia * diasTrabajados);
+                const salarioTotalHorasExtras = Math.floor(horasTrabajadas * valorHoraExtra);
+                const salarioTotalAPagar = Math.floor(salarioDiasTrabajados + salarioTotalHorasExtras);
 
-                const deduccionSalud = salarioTotalAPagar * (porcentajeSalud / 100);
-                const deduccionPension = salarioTotalAPagar * (porcentajePension / 100);
-                const salarioTotalDeducciones = salarioTotalAPagar - (deduccionSalud + deduccionPension);
+                const deduccionSalud = Math.floor(salarioTotalAPagar * (porcentajeSalud / 100));
+                const deduccionPension = Math.floor(salarioTotalAPagar * (porcentajePension / 100));
+                const salarioTotalDeducciones = Math.floor(salarioTotalAPagar - (deduccionSalud + deduccionPension));
 
                 // Actualizar los valores en los campos del formulario de liquidación
                 document.getElementById('salario_base_por_dia').value = formatearMoneda(salarioBasePorDia);

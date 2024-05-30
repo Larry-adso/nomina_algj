@@ -63,7 +63,7 @@ try {
 </head>
 
 <body>
-    <?php include 'nav.php'; ?>
+    <?php include '../admin/PHP/nav.php'; ?>
 
     <div class="container">
         <div class="container mt-5">
@@ -96,11 +96,11 @@ try {
                                     <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
                                     <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
                                     <!-- Formulario oculto para enviar el id_us -->
-                                    <form action="../../RH/liquidacion/editar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
+                                    <form action="/liquidacion/liquidar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
                                         <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
-                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">editar</button>
+                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">liquidar</button>
                                 </div>
                             </div>
                         </div>
