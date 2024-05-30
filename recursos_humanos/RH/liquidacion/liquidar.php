@@ -34,7 +34,7 @@ if (!$id_us) {
 
 try {
     // Consulta SQL para obtener la información del usuario y el salario base
-    $sql_usuario = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.foto, roles.tp_user, puestos.cargo, puestos.salario
+    $sql_usuario = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.ruta_foto, roles.tp_user, puestos.cargo, puestos.salario
             FROM usuarios
             LEFT JOIN roles ON usuarios.id_rol = roles.id
             LEFT JOIN puestos ON usuarios.id_puesto = puestos.id
@@ -115,9 +115,16 @@ try {
             <div class="row">
                 <div class="col-md-4">
                     <div class="card">
-                        <?php if (!empty($usuario['foto'])) : ?>
-                            <img class="card-img-top" src="data:image/jpeg;base64,<?php echo base64_encode($usuario['foto']); ?>" alt="Foto">
-                        <?php endif; ?>
+                    <?php if (!empty($usuario['ruta_foto'])) : ?>
+                                    <?php
+                                    // Obteniendo la ruta de la foto
+                                    $ruta_foto = $usuario['ruta_foto'];
+
+                                    // Eliminando dos niveles del directorio de la ruta actual
+                                    $ruta_foto_ajustada = implode("/", array_slice(explode("/", $ruta_foto), 2));
+                                    ?>
+                                    <img class="card-img-top" src="../../<?php echo $ruta_foto_ajustada; ?>" alt="Foto">
+                                <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
                             <p class="card-text"><strong>Cédula:</strong> <?php echo $usuario['id_us']; ?></p>
@@ -164,7 +171,7 @@ try {
                                     <label for="salario_total_a_pagar">Salario Total a Pagar:</label>
                                     <input type="text" class="form-control" name="salario_total_a_pagar" id="salario_total_a_pagar" value="<?php echo '$ COP ' . number_format($salario_total_a_pagar, 0, ',', '.'); ?>" readonly>
                                 </div>
-                                <button type="button" id="calcularDeducciones" class="btn btn-primary">Pagar</button>
+                                <button type="button" id="calcularDeducciones" class="btn btn-primary">Liquidar</button>
                             </form>
 
                             <form id="deduccionesForm" style="display:none;" method="post" action="guardar_deducciones.php">
@@ -184,7 +191,7 @@ try {
                                     <input type="text" class="form-control" name="salario_total_deducciones" id="salario_total_deducciones" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success">Confirmar Pago</button>
+                                    <button type="submit" class="btn btn-success">Confirmar Liquiedación</button>
                                 </div>
                             </form>
                         </div>
