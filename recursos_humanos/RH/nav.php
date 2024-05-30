@@ -91,7 +91,7 @@
             <li class="nav-item"><a href="empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
             <li class="nav-item">
 
-                <a type="submit" name="logout" class="nav-link fas fa-sign-out-alt" style="background: none; border: none; padding: 0; cursor: pointer; color:#fff;" href="../dev/PHP/cerrar.php" role="button">Cerrar sesion</a>
+                <a type="submit" name="logout" class="nav-link fas fa-sign-out-alt" style="background: none; border: none; padding: 0; cursor: pointer; color:#fff;" href="../../dev/PHP/cerrar.php" role="button">Cerrar sesion</a>
             </li>
         </ul>
 
