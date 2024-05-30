@@ -21,22 +21,28 @@
 			<div class="card-feature">
             <i class="fa-solid fa-star-of-life"></i>
     				<div class="feature-content">
+					<a href="trigger.php" > 
 					<span>Recuperar con contraseña anterior</span>
-                    <a href="trigger.php" >Recuperar</a>
+					<br>
+                    Recuperar</a>
 				</div>
 			</div>
 			<div class="card-feature">
             <i class="fa-solid fa-shield-halved"></i>
     				<div class="feature-content">
+					<a href="recuperar.php" class="btn btn-primary btn-lg">
 					<span>Recuperación con validación de datos <br> y código de seguridad </span>
-                    <a href="recuperar.php" class="btn btn-primary btn-lg">Recuperar</a>
+					<br>
+                    Recuperar</a>
 				</div>
 			</div>
 			<div class="card-feature">
 				<i class="fa-solid fa-envelope"></i>
 				<div class="feature-content">
+				<a href="correo.php" class="btn btn-primary btn-lg">
 					<span>Recuperación por correo electrónico</span>
-                    <a href="correo.php" class="btn btn-primary btn-lg">Recuperar</a>
+					<br>
+                    Recuperar</a>
 				</div>
 			</div>
 

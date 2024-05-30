@@ -116,6 +116,18 @@ body {
 #central-card button[type="submit"]:hover {
     background-color: var(--button-login-hover);
 }
+
+.boton_volver {
+	margin: 47%;
+	padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+	text-decoration: none;
+	font-size: medium;
+}
+
 @media (max-width: 768px) {
 	html {
 		font-size: 55%;
@@ -221,6 +233,16 @@ body {
 		align-items: center;
 		gap: 1.5rem;
 	}
+	.boton_volver {
+		margin: 40%;
+		padding: 10px 20px;
+		background-color: var(--primary-color);
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		text-decoration: none;
+		font-size: medium;
+	}
 }
 
 /* ********************************** */
@@ -325,7 +347,16 @@ body {
 		font-size: 1.6rem;
 	}
 
-	/*CAJAS DE COMENTARIOS**/
-
+	.boton_volver {
+		margin: 30%;
+		padding: 10px 20px;
+		background-color: var(--primary-color);
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		text-decoration: none;
+		font-size: medium;
+	}
+	
 	
 }

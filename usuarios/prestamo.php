@@ -171,7 +171,7 @@ if ($id_rol == '6') {
 
             <div class="form-group col-md-4">
               <label>Valor</label>
-              <input type="number" id="valor1" class="form-control border border-dark mb-3" name="VALOR" placeholder="" oninput="calcular()" required>
+              <input type="text" id="valor1" class="form-control border border-dark mb-3" name="VALOR" placeholder="" oninput="calcular()" required>
               <div id="alerta" class="alerta"></div>
             </div>
 
