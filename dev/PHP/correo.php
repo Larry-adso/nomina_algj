@@ -60,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			<h2> Recuperación por correo electrónico</h2>
 		</div>
 </section>
+<main class="main-content">
 
         <div id="central-card">
             <h2>Recuperar Contraseña</h2>
@@ -69,7 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" class="btn-success">Enviar</button>
             </form>
         </div>
-    
+        <a name="" id="" class="boton_volver" href="login.php" role="button">Volver</a>
+
+        </main>
+
     <footer>
         <!-- place footer here -->
     </footer>
