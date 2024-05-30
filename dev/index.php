@@ -55,36 +55,25 @@ if ($id_rol == '4') {
     $usuario = $consultaUsuario->fetch(PDO::FETCH_ASSOC);
     $nombreUsuario = $usuario['nombre_us'];
 
-
     $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia 
     INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
     $consultaLicencia->execute();
     $Tp_licencia = $consultaLicencia->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
-
     <!DOCTYPE html>
     <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Menu desarrollador</title>
-
         <link rel="stylesheet" href="PHP/css/dev.css">
-
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
-
         </style>
     </head>
-
     <body id="body">
-
         <header>
             <div class="icon__menu">
-               
             </div>
         </header>
         <div class="menu__side" id="menu_side">
@@ -92,32 +81,26 @@ if ($id_rol == '4') {
                 <i class="far fa-solid fa-user"></i>
                 <h4>DEV </h4>
                 <p>: <?php echo $nombreUsuario; ?></p>
-
-
             </div>
             <div class="options__menu">
-
                 <a href="../index.php" class="selected">
                     <div class="option">
                         <i class="fas fa-home" title="Inicio"></i>
                         <h4>Inicio</h4>
                     </div>
                 </a>
-
                 <a href="PHP/Register_empresa.php">
                     <div class="option">
                         <i class="far fa-file" title="Crear empresa"></i>
                         <h4>Crear Empresa</h4>
                     </div>
                 </a>
-
                 <a href="PHP/serial.php">
                     <div class="option">
                         <i class="fas fa-solid fa-key" title="seriales "></i>
                         <h4> Seriales</h4>
                     </div>
                 </a>
-
                 <a href="PHP/developer/register.php">
                     <div class="option">
                         <i class="far fa-regular fa-user" title="Login"></i>
@@ -131,14 +114,6 @@ if ($id_rol == '4') {
                         <h4>Ver Personas</h4>
                     </div>
                 </a>
-
-                <a href="PHP/developer/activacion.php">
-                    <div class="option">
-                        <i class="far fa-id-badge" title="activar licencia "></i>
-                        <h4>Activar Licencias</h4>
-                    </div>
-                </a>
-
                 <a href="PHP/developer/estados.php">
                     <div class="option">
                         <i class="far fa-address-card" title="Nosotros"></i>
