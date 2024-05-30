@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 18:34:41
+-- Tiempo de generación: 30-05-2024 a las 15:05:40
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -40,7 +40,7 @@ CREATE TABLE `arl` (
 
 CREATE TABLE `aux_trasporte` (
   `ID` int(11) NOT NULL,
-  `Valor` decimal(10,2) DEFAULT NULL
+  `Valor` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -56,8 +56,8 @@ CREATE TABLE `deducciones` (
   `ID_PRESTAMO` int(11) DEFAULT NULL,
   `ID_SALUD` int(11) DEFAULT NULL,
   `ID_PENSION` int(11) DEFAULT NULL,
-  `TOTAL_PARAFISCALES` decimal(11,2) DEFAULT NULL,
-  `TOTAL_DEDUCCION` decimal(10,2) DEFAULT NULL
+  `TOTAL_PARAFISCALES` int(12) DEFAULT NULL,
+  `TOTAL_DEDUCCION` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -95,7 +95,10 @@ INSERT INTO `estado` (`ID_Es`, `Estado`) VALUES
 (2, 'Inactiva'),
 (3, 'Disponible'),
 (4, 'En proceso'),
-(5, 'primera vez');
+(5, 'primera vez'),
+(10, 'Aprobado'),
+(11, 'Rechazado'),
+(12, 'Cancelado');
 
 -- --------------------------------------------------------
 
@@ -109,7 +112,7 @@ CREATE TABLE `inducciones` (
   `ID_USUARIO` int(11) DEFAULT NULL,
   `ID_VALOR_HORA_EXTRA` int(11) DEFAULT NULL,
   `HORAS_EXTRAS` int(11) DEFAULT NULL,
-  `TOTAL_INDUCCION` decimal(10,2) DEFAULT NULL
+  `TOTAL_INDUCCION` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -171,6 +174,7 @@ CREATE TABLE `permisos` (
   `id_permiso` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
   `fecha_reingreso` datetime NOT NULL,
+  `observacion` varchar(255) NOT NULL,
   `id_us` int(11) NOT NULL,
   `estado` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -186,19 +190,12 @@ CREATE TABLE `prestamo` (
   `ID_Empleado` int(11) NOT NULL,
   `Fecha` datetime NOT NULL,
   `Cantidad_cuotas` int(11) NOT NULL,
-  `Valor_Cuotas` decimal(10,2) NOT NULL,
+  `Valor_Cuotas` int(10) NOT NULL,
   `cuotas_en_deuda` int(11) DEFAULT NULL,
   `cuotas_pagas` int(11) DEFAULT NULL,
-  `VALOR` decimal(10,2) NOT NULL,
+  `VALOR` int(10) NOT NULL,
   `estado` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `prestamo`
---
-
-INSERT INTO `prestamo` (`ID_prest`, `ID_Empleado`, `Fecha`, `Cantidad_cuotas`, `Valor_Cuotas`, `cuotas_en_deuda`, `cuotas_pagas`, `VALOR`, `estado`) VALUES
-(2, 1105462834, '2024-05-15 16:44:00', 10, 500000.00, NULL, NULL, 5000000.00, 8);
 
 -- --------------------------------------------------------
 
@@ -209,7 +206,7 @@ INSERT INTO `prestamo` (`ID_prest`, `ID_Empleado`, `Fecha`, `Cantidad_cuotas`, `
 CREATE TABLE `puestos` (
   `ID` int(11) NOT NULL,
   `cargo` varchar(20) DEFAULT NULL,
-  `salario` decimal(10,2) DEFAULT NULL,
+  `salario` int(12) DEFAULT NULL,
   `id_empresa` int(11) NOT NULL,
   `id_arl` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -219,7 +216,7 @@ CREATE TABLE `puestos` (
 --
 
 INSERT INTO `puestos` (`ID`, `cargo`, `salario`, `id_empresa`, `id_arl`) VALUES
-(1, 'desarrollador web', 2000000.00, 0, NULL);
+(1, 'desarrollador web', 2000000, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -492,13 +489,13 @@ ALTER TABLE `v_h_extra`
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `ID_Es` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID_Es` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `licencia`
 --
 ALTER TABLE `licencia`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `pension`
@@ -510,13 +507,13 @@ ALTER TABLE `pension`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `puestos`
