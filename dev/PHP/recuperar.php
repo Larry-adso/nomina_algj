@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <section class="banner">
 		<div class="content-banner">
-			<h2> Recuperar con contraseña anterior</h2>
+			<h2> Recuperación con validación de datos <br> y código de seguridad</h2>
 		</div>
 </section>
 <main class="main-content">
