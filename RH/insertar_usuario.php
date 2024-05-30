@@ -8,7 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $apellido_us = $_POST['apellido_us'];
     $correo_us = $_POST['correo_us'];
     $tel_us = $_POST['tel_us'];
-    $pass = password_hash($_POST['pass'], PASSWORD_BCRYPT);
+    $pass = $_POST['pass']; // Obtener la contraseña sin cifrar
+    $pass = hash('sha512', $pass); // Calcular el hash de la contraseña
     $id_puesto = $_POST['id_puesto'];
     $id_rol = $_POST['id_rol'];
     $Codigo = $_POST['Codigo'];
