@@ -34,7 +34,7 @@ if (!$id_us) {
 
 try {
     // Consulta SQL para obtener la información del usuario y el salario base
-    $sql_usuario = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.ruta_foto, roles.tp_user, puestos.cargo, puestos.salario
+    $sql_usuario = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.ruta_foto, roles.tp_user, puestos.cargo, puestos.salario, puestos.id_arl
             FROM usuarios
             LEFT JOIN roles ON usuarios.id_rol = roles.id
             LEFT JOIN puestos ON usuarios.id_puesto = puestos.id
@@ -76,15 +76,44 @@ try {
         exit();
     }
 
+    // Consultar el valor de la ARL
+    $sql_arl = "SELECT * FROM arl WHERE id_arl = :id_arl";
+    $stmt_arl = $conexion->prepare($sql_arl);
+    $stmt_arl->bindParam(':id_arl', $usuario['id_arl'], PDO::PARAM_INT);
+    $stmt_arl->execute();
+    $arl = $stmt_arl->fetch(PDO::FETCH_ASSOC);
+
+    if (!$arl) {
+        echo "Error: No se pudo obtener el valor de la ARL.";
+        exit();
+    }
+
+    // Consultar el valor de la cuota del préstamo
+    $sql_prestamo = "SELECT * FROM prestamo WHERE ID_Empleado = :id_us";
+    $stmt_prestamo = $conexion->prepare($sql_prestamo);
+    $stmt_prestamo->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+    $stmt_prestamo->execute();
+    $prestamo = $stmt_prestamo->fetch(PDO::FETCH_ASSOC);
+
+    if (!$prestamo) {
+        $cuota_prestamo = 0; // Si no hay préstamo, la cuota es 0
+    } else {
+        $id_prestamo = $prestamo['ID_prest'];
+        $cuota_prestamo = $prestamo['Valor_Cuotas'];
+    }
+
     // Calcular las deducciones
     $deduccion_salud = $salario_total_a_pagar * ($salud['Valor'] / 100);
     $deduccion_pension = $salario_total_a_pagar * ($pension['Valor'] / 100);
-    $salario_total_deducciones = $salario_total_a_pagar - ($deduccion_salud + $deduccion_pension);
+    $deduccion_arl = $salario_total_a_pagar * ($arl['valor'] / 100);
+    $salario_total_deducciones = $salario_total_a_pagar - ($deduccion_salud + $deduccion_pension + $deduccion_arl + $cuota_prestamo);
 } catch (PDOException $e) {
     echo "Error de conexión a la base de datos: " . $e->getMessage();
     exit();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -95,36 +124,23 @@ try {
     <title>Liquidar Salario</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .card {
-            margin-bottom: 20px;
-        }
 
-        .card-img-top {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
         <div class="container mt-5">
             <h2 class="mb-4">Liquidar Salario</h2>
-            <div class="row">
-                <div class="col-md-4">
+            <div class="flex-container">
+                <div class="flex-item">
                     <div class="card">
-                    <?php if (!empty($usuario['ruta_foto'])) : ?>
-                                    <?php
-                                    // Obteniendo la ruta de la foto
-                                    $ruta_foto = $usuario['ruta_foto'];
-
-                                    // Eliminando dos niveles del directorio de la ruta actual
-                                    $ruta_foto_ajustada = implode("/", array_slice(explode("/", $ruta_foto), 2));
-                                    ?>
-                                    <img class="card-img-top" src="../../<?php echo $ruta_foto_ajustada; ?>" alt="Foto">
-                                <?php endif; ?>
+                        <?php if (!empty($usuario['ruta_foto'])) : ?>
+                            <?php
+                            $ruta_foto = $usuario['ruta_foto'];
+                            $ruta_foto_ajustada = implode("/", array_slice(explode("/", $ruta_foto), 2));
+                            ?>
+                            <img class="card-img-top" src="../../<?php echo $ruta_foto_ajustada; ?>" alt="Foto">
+                        <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
                             <p class="card-text"><strong>Cédula:</strong> <?php echo $usuario['id_us']; ?></p>
@@ -134,128 +150,187 @@ try {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="flex-item">
                     <div class="card">
                         <div class="card-body">
-                            <form id="liquidarForm" method="post" action="">
+                            <h5 class="card-title">Formulario de Liquidación</h5>
+                            <form id="liquidacionForm" method="POST" action="procesar_liquidar.php" onsubmit="return validateForm()">
                                 <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                 <div class="form-group">
-                                    <label for="dias_trabajados">Días Trabajados:</label>
-                                    <input type="number" class="form-control" name="dias_trabajados" id="dias_trabajados" value="0" min="0" max="31" required step="1">
+                                    <label for="dias_trabajados">Días trabajados:</label>
+                                    <input type="number" class="form-control" id="dias_trabajados" name="dias_trabajados" min="1" max="31" value="0" required oninput="calcularLiquidacion()" required oninput="noNegativeInput()">
                                 </div>
                                 <div class="form-group">
-                                    <label for="horas_trabajadas">Horas Extras Trabajadas:</label>
-                                    <input type="number" class="form-control" name="horas_trabajadas" id="horas_trabajadas" value="0" required step="1">
+                                    <label for="horas_trabajadas">Horas extras trabajadas:</label>
+                                    <input type="number" class="form-control" id="horas_trabajadas" name="horas_trabajadas" min="0" max="30" value="0" required oninput="calcularLiquidacion()" required oninput="noNegativeInput()">
                                 </div>
-                                <div class="form-group">
-                                    <label for="salario_base">Salario Base:</label>
-                                    <input type="text" class="form-control" name="salario_base" id="salario_base" value="<?php echo 'COP $' . number_format($usuario['salario'], 0, ',', '.'); ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="valor_hora_extra">Valor Hora Extra:</label>
-                                    <input type="text" class="form-control" name="valor_hora_extra" id="valor_hora_extra" value="<?php echo '$ COP ' . number_format($valor_hora_extra['V_H_extra'], 0, ',', '.'); ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="salario_base_por_dia">Salario Base por Día:</label>
-                                    <input type="text" class="form-control" name="salario_base_por_dia" id="salario_base_por_dia" value="<?php echo '$ COP ' . number_format($salario_base_por_dia, 0, ','); ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="salario_dias_trabajados">Valor Total por Días Trabajados:</label>
-                                    <input type="text" class="form-control" name="salario_dias_trabajados" id="salario_dias_trabajados" value="<?php echo '$ COP ' . number_format($salario_dias_trabajados, 0, '.'); ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="salario_total_horas_extras">Valor Total Horas Extras Trabajadas:</label>
-                                    <input type="text" class="form-control" name="salario_total_horas_extras" id="salario_total_horas_extras" value="<?php echo '$ COP ' . number_format($salario_total_horas_extras, 0, ',', '.'); ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="salario_total_a_pagar">Salario Total a Pagar:</label>
-                                    <input type="text" class="form-control" name="salario_total_a_pagar" id="salario_total_a_pagar" value="<?php echo '$ COP ' . number_format($salario_total_a_pagar, 0, ',', '.'); ?>" readonly>
-                                </div>
-                                <button type="button" id="calcularDeducciones" class="btn btn-primary">Liquidar</button>
-                            </form>
+                                <button type="submit" class="btn btn-primary">Liquidar</button>
 
-                            <form id="deduccionesForm" style="display:none;" method="post" action="guardar_deducciones.php">
-                                <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
-                                <input type="hidden" name="dias_trabajados" id="dias_trabajados_deduccion">
-                                <input type="hidden" name="horas_trabajadas" id="horas_trabajadas_deduccion">
-                                <div class="form-group">
-                                    <label for="deduccion_salud">Deducción Salud:</label>
-                                    <input type="text" class="form-control" name="deduccion_salud" id="deduccion_salud" readonly>
+                                <div id="resultado">
+                                    <h5>Resultado de la Liquidación:</h5>
+                                    <div class="form-group">
+                                        <label for="dias_trabajados_resultado">Días trabajados:</label>
+                                        <input type="text" class="form-control" id="dias_trabajados_resultado" name="dias_trabajados_resultado" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salario_dias_trabajados">Salario base por días trabajados:</label>
+                                        <input type="text" class="form-control" id="salario_dias_trabajados" name="salario_dias_trabajados" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="horas_extras_trabajadas_resultado">Horas extras trabajadas:</label>
+                                        <input type="text" class="form-control" id="horas_extras_trabajadas_resultado" name="horas_extras_trabajadas_resultado" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salario_horas_extras">Salario total por horas extras:</label>
+                                        <input type="text" class="form-control" id="salario_horas_extras" name="salario_horas_extras" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="auxilio_transporte_aplica">¿Aplica para Auxilio de Transporte?</label>
+                                        <input type="text" class="form-control" id="auxilio_transporte_aplica" name="auxilio_transporte_aplica" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="valor_auxilio_transporte">Valor Auxilio de Transporte:</label>
+                                        <input type="text" class="form-control" id="valor_auxilio_transporte" name="valor_auxilio_transporte" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salario_total_a_pagar">Salario total a pagar:</label>
+                                        <input type="text" class="form-control" id="salario_total_a_pagar" name="salario_total_a_pagar" readonly>
+                                    </div>
+                                    <h5>Deducciones:</h5>
+                                    <div class="form-group">
+                                        <label for="deduccion_salud">Salud (<?php echo $salud['Valor']; ?>%):</label>
+                                        <input type="text" class="form-control" id="deduccion_salud" name="deduccion_salud" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deduccion_pension">Pensión (<?php echo $pension['Valor']; ?>%):</label>
+                                        <input type="text" class="form-control" id="deduccion_pension" name="deduccion_pension" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deduccion_arl">ARL (<?php echo $arl['valor']; ?>%):</label>
+                                        <input type="text" class="form-control" id="deduccion_arl" name="deduccion_arl" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cuota_prestamo">Cuota de préstamo:</label>
+                                        <input type="text" class="form-control" id="cuota_prestamo" name="cuota_prestamo" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="total_deducciones">Total deducciones:</label>
+                                        <input type="text" class="form-control" id="total_deducciones" name="total_deducciones" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salario_total_deducciones">Salario total después de deducciones:</label>
+                                        <input type="text" class="form-control" id="salario_total_deducciones" name="salario_total_deducciones" readonly>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="deduccion_pension">Deducción Pensión:</label>
-                                    <input type="text" class="form-control" name="deduccion_pension" id="deduccion_pension" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="salario_total_deducciones">Total con Deducciones:</label>
-                                    <input type="text" class="form-control" name="salario_total_deducciones" id="salario_total_deducciones" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success">Confirmar Liquiedación</button>
-                                </div>
+                                <input type="hidden" name="id_prestamo" value="<?php echo $id_prestamo; ?>">
                             </form>
                         </div>
+
                     </div>
                 </div>
-                <a href="javascript:history.back()" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Volver</a>
-
             </div>
         </div>
+
         <script>
-            // Obtener valores iniciales desde PHP
-            const salarioBase = <?php echo json_encode($usuario['salario']); ?>;
-            const porcentajeSalud = <?php echo json_encode($salud['Valor']); ?>;
-            const porcentajePension = <?php echo json_encode($pension['Valor']); ?>;
-
-            // Calcular el valor de la hora extra
-            const valorHoraExtra = <?php echo json_encode($valor_hora_extra['V_H_extra']); ?>;
-
-            // Función para formatear los valores como moneda
-            function formatearMoneda(valor) {
-                return '$ COP ' + valor.toLocaleString('es-CO', {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                });
+            function noNegativeInput(event) {
+                const key = event.key;
+                if (key === '-' || key === '+' || key.toLowerCase() === 'e') {
+                    event.preventDefault();
+                    return false;
+                }
+                return true;
             }
 
-            // Función para calcular y actualizar los valores del formulario
-            function actualizarValores() {
-                const diasTrabajados = parseInt(document.getElementById('dias_trabajados').value);
-                const horasTrabajadas = parseInt(document.getElementById('horas_trabajadas').value);
+            const salarioBaseInicial = <?php echo $usuario['salario']; ?>;
+            const valorHoraExtra = '<?php echo number_format($valor_hora_extra['V_H_extra'], 0, ',', '.'); ?>';
+            const saludValor = 'COP <?php echo number_format($salud['Valor'], 0, ',', '.'); ?>';
+            const pensionValor = 'COP <?php echo number_format($pension['Valor'], 0, ',', '.'); ?>';
+            const arlValor = 'COP <?php echo number_format($arl['valor'], 0, ',', '.'); ?>';
+            const cuotaPrestamo = 'COP <?php echo number_format($cuota_prestamo, 0, ',', '.'); ?>';
 
-                const salarioBasePorDia = Math.floor(salarioBase / 31);
-                const salarioDiasTrabajados = Math.floor(salarioBasePorDia * diasTrabajados);
-                const salarioTotalHorasExtras = Math.floor(horasTrabajadas * valorHoraExtra);
-                const salarioTotalAPagar = Math.floor(salarioDiasTrabajados + salarioTotalHorasExtras);
-
-                const deduccionSalud = Math.floor(salarioTotalAPagar * (porcentajeSalud / 100));
-                const deduccionPension = Math.floor(salarioTotalAPagar * (porcentajePension / 100));
-                const salarioTotalDeducciones = Math.floor(salarioTotalAPagar - (deduccionSalud + deduccionPension));
-
-                // Actualizar los valores en los campos del formulario de liquidación
-                document.getElementById('salario_base_por_dia').value = formatearMoneda(salarioBasePorDia);
-                document.getElementById('salario_dias_trabajados').value = formatearMoneda(salarioDiasTrabajados);
-                document.getElementById('salario_total_horas_extras').value = formatearMoneda(salarioTotalHorasExtras);
-                document.getElementById('salario_total_a_pagar').value = formatearMoneda(salarioTotalAPagar);
-
-                // Actualizar los valores en los campos del formulario de deducciones
-                document.getElementById('deduccion_salud').value = formatearMoneda(deduccionSalud);
-                document.getElementById('deduccion_pension').value = formatearMoneda(deduccionPension);
-                document.getElementById('salario_total_deducciones').value = formatearMoneda(salarioTotalDeducciones);
+            function formatNumber(number) {
+                return new Intl.NumberFormat('es-CO').format(number);
             }
 
-            // Listener para calcular y actualizar valores cuando se cambian los días trabajados o las horas trabajadas
-            document.getElementById('dias_trabajados').addEventListener('input', actualizarValores);
-            document.getElementById('horas_trabajadas').addEventListener('input', actualizarValores);
+            function cleanNumberFormat(input) {
+                return input.replace(/COP|\./g, '').trim();
+            }
 
-            // Listener para calcular deducciones cuando se hace clic en "Pagar"
-            document.getElementById('calcularDeducciones').addEventListener('click', function(event) {
-                event.preventDefault();
-                actualizarValores();
-                document.getElementById('liquidarForm').style.display = 'none';
-                document.getElementById('deduccionesForm').style.display = 'block';
+            function calcularLiquidacion() {
+                const diasTrabajados = parseInt(cleanNumberFormat(document.getElementById('dias_trabajados').value)) || 0;
+                const horasTrabajadas = parseInt(cleanNumberFormat(document.getElementById('horas_trabajadas').value)) || 0;
+
+                const salarioBase = salarioBaseInicial / 31 * diasTrabajados;
+                const salarioDiasTrabajados = Math.floor(salarioBase);
+                const salarioTotalHorasExtras = Math.floor(horasTrabajadas * parseInt(valorHoraExtra.replace(/\D/g, '')));
+                let salarioTotalAPagar = salarioDiasTrabajados + salarioTotalHorasExtras;
+
+                // Auxilio de transporte
+                let auxilioTransporteAplica = 'No';
+                let valorAuxilioTransporte = 0;
+                if (salarioBaseInicial <= 2500000) {
+                    auxilioTransporteAplica = 'Sí';
+                    valorAuxilioTransporte = 170000;
+                    salarioTotalAPagar += valorAuxilioTransporte; // Agregar el auxilio al salario total a pagar
+                }
+
+                const deduccionSalud = Math.floor(salarioTotalAPagar * (parseInt(saludValor.replace(/\D/g, '')) / 100));
+                const deduccionPension = Math.floor(salarioTotalAPagar * (parseInt(pensionValor.replace(/\D/g, '')) / 100));
+                const deduccionArl = Math.floor(salarioTotalAPagar * (parseInt(arlValor.replace(/\D/g, '')) / 100));
+                const totalDeducciones = deduccionSalud + deduccionPension + deduccionArl + parseInt(cuotaPrestamo.replace(/\D/g, ''));
+                const salarioTotalDeducciones = salarioTotalAPagar - totalDeducciones;
+
+                document.getElementById('dias_trabajados_resultado').value = formatNumber(diasTrabajados);
+                document.getElementById('salario_dias_trabajados').value = 'COP ' + formatNumber(salarioDiasTrabajados);
+                document.getElementById('horas_extras_trabajadas_resultado').value = formatNumber(horasTrabajadas);
+                document.getElementById('salario_horas_extras').value = valorHoraExtra;
+                document.getElementById('salario_total_a_pagar').value = 'COP ' + formatNumber(salarioTotalAPagar);
+                document.getElementById('deduccion_salud').value = 'COP ' + formatNumber(deduccionSalud);
+                document.getElementById('deduccion_pension').value = 'COP ' + formatNumber(deduccionPension);
+                document.getElementById('deduccion_arl').value = 'COP ' + formatNumber(deduccionArl);
+                document.getElementById('cuota_prestamo').value = cuotaPrestamo;
+                document.getElementById('total_deducciones').value = 'COP ' + formatNumber(totalDeducciones);
+                document.getElementById('salario_total_deducciones').value = 'COP ' + formatNumber(salarioTotalDeducciones);
+                document.getElementById('auxilio_transporte_aplica').value = auxilioTransporteAplica;
+                document.getElementById('valor_auxilio_transporte').value = 'COP ' + formatNumber(valorAuxilioTransporte);
+            }
+
+            function validateForm() {
+                const diasTrabajados = document.getElementById('dias_trabajados').value;
+                const horasTrabajadas = document.getElementById('horas_trabajadas').value;
+
+                if (!diasTrabajados || diasTrabajados <= 0) {
+                    alert('Por favor, ingrese un número válido de días trabajados.');
+                    return false;
+                }
+
+                if (!horasTrabajadas || horasTrabajadas < 0) {
+                    alert('Por favor, ingrese un número válido de horas extras trabajadas.');
+                    return false;
+                }
+
+                return true;
+            }
+
+            document.getElementById('liquidacionForm').addEventListener('submit', function() {
+                const formElements = this.elements;
+
+                for (let i = 0; i < formElements.length; i++) {
+                    const element = formElements[i];
+                    if (element.tagName === 'INPUT' && element.type === 'text') {
+                        element.value = cleanNumberFormat(element.value);
+                    }
+                }
             });
+
+            window.onload = calcularLiquidacion;
         </script>
+
+
+
+
+
 </body>
+
 
 </html>
