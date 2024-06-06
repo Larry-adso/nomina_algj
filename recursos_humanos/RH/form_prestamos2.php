@@ -8,13 +8,13 @@ if (!isset($_SESSION['id_us'])) {
 }
 
 // Incluir el archivo de conexión a la base de datos
-require_once "../conexion/db.php"; // Reemplazar con el nombre correcto de tu archivo de conexión
+require_once "../../conexion/db.php"; // Reemplazar con el nombre correcto de tu archivo de conexión
 
 // Procesar la acción de aprobar o rechazar un préstamo
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
         $id_prestamo = $_POST['id_prestamo'];
-        $estado = isset($_POST['aprobar']) ? 8 : 9 ;
+        $estado = isset($_POST['aprobar']) ? 6 : 7 ;
 
         try {
             // Actualizar el estado del préstamo en la base de datos

@@ -91,7 +91,7 @@
             <li class="nav-item"><a href="tablas/salud.php" class="nav-link"><i class="fas fa-heartbeat"></i> Tabla Salud</a></li>
             <li class="nav-item"><a href="tablas/pension.php" class="nav-link"><i class="fas fa-money-check-alt"></i> Tabla Pension</a></li>
             <li class="nav-item"><a href="../../RH/form_puestos.php" class="nav-link"><i class="fas fa-briefcase"></i> Tabla Puestos</a></li>
-            <li class="nav-item"><a href="../../RH/form_prestamos2.php" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Tabla Prestamos</a></li>
+            <li class="nav-item"><a href="../../recursos_humanos/RH/form_prestamos2.php" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Tabla Prestamos</a></li>
             <li class="nav-item"><a href="../../RH/form_permisos.php" class="nav-link"><i class="fas fa-calendar-check"></i> Tabla Permisos</a></li>
             <li class="nav-item"><a href="crear_php/empleados.php" class="nav-link"><i class="fas fa-users"></i> Tabla Empleados</a></li>
             <li class="nav-item">
