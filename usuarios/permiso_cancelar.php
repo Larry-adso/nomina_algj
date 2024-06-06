@@ -5,20 +5,14 @@ $password = "";
 $dbname = "nomina_algj";
 
 try {
-    // Conexión a la base de datos
     $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Establecer el modo de error PDO en excepción
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Establecer el conjunto de caracteres a UTF-8
     $conexion->exec("SET CHARACTER SET utf8");
 
-    // Verificar si se proporcionó un ID válido
     if (isset($_GET['id']) && !empty($_GET['id'])) {
-        // Preparar la consulta para actualizar el estado del registro con el ID proporcionado
         $sql = "UPDATE permisos SET estado = 12 WHERE id_permiso = :id";
         $stmt = $conexion->prepare($sql);
 
-        // Ejecutar la consulta
         $stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
         $stmt->execute();
 
