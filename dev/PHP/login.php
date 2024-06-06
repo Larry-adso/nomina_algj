@@ -22,7 +22,7 @@
 <body>
 
     <div class="container-form sign-in">
-    <form class="formulario" action="login1.php" method="POST">
+    <form class="formulario" action="login1.php" method="POST" autocomplete="off"> 
         <h2 class="create-account">Iniciar Sesión</h2>
         <div class="cont-session">
             <input class="form_doc" type="text" name="id_us" placeholder="Documento" pattern="[0-9]{10}" maxlength="10" required>
