@@ -59,12 +59,13 @@
 				<div class="feature-content">
 					<span>+57 318 773 86 47</span>
 					<p>Llama cuando quieras</p>
+					<h1></h1>
 				</div>
 			</div>
 			<div class="card-feature">
 				<i class="fa-solid fa-map"></i>
 				<div class="feature-content">
-					<span>SENA </span>
+					<span> SENA </span>
 					<p>centro de industria y construcción</p>
 				</div>
 			</div>
