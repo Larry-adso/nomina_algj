@@ -27,7 +27,7 @@
 				</div>
 
 				<div class="container-user">
-				<a href="../dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>
+					<a href="../dev/PHP/login.php"><i class="fa-solid fa-user"></i></a>
 
 				</div>
 			</div>
@@ -59,12 +59,13 @@
 				<div class="feature-content">
 					<span>+57 318 773 86 47</span>
 					<p>Llama cuando quieras</p>
+					<h1></h1>
 				</div>
 			</div>
 			<div class="card-feature">
 				<i class="fa-solid fa-map"></i>
 				<div class="feature-content">
-					<span>SENA </span>
+					<span> SENA </span>
 					<p>centro de industria y construcción</p>
 				</div>
 			</div>
@@ -88,14 +89,27 @@
 		<section class="container top-categories">
 			<h1 class="heading-1">Consulta con nosotros!</h1>
 			<div class="container-com">
-    <form action="#" method="POST">
-      <label for="nombre"><h2>Correo:</h2></label>
-      <input type="text" id="correo" name="correo" required>
-      <label for="comentario"><h2>Comentario:</h2></label>
-      <textarea id="comentario" name="comentario" rows="4" required></textarea>
-      <button type="submit">Enviar</button>
-    </form>
-  </div>
+				<form action="contacto.php" method="POST">
+					<label for="nombres">
+						<h2>Nombres:</h2>
+					</label>
+					<input type="text" id="nombres" name="nombres" required>
+					<label for="correo">
+						<h2>Correo:</h2>
+					</label>
+					<input type="text" id="correo" name="correo" required>
+					<label for="telefono">
+						<h2>Telefono:</h2>
+					</label>
+					<input type="text" id="telefono" name="telefono" required>
+					<label for="comentario">
+						<h2>Comentario:</h2>
+					</label>
+					<textarea id="comentario" name="comentario" rows="4" required></textarea>
+					<button type="submit">Enviar</button>
+				</form>
+
+			</div>
 		</section>
 	</main>
 

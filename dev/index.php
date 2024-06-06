@@ -120,6 +120,12 @@ if ($id_rol == '4') {
                         <h4>Opciones de estados</h4>
                     </div>
                 </a>
+                <a href="PHP/developer/info.php">
+                    <div class="option">
+                        <i class="far fa-address-card" title="Nosotros"></i>
+                        <h4>Contactos</h4>
+                    </div>
+                </a>
                 <a href="PHP/cerrar.php">
                     <div class="option">
                         <i class="far fa-solid fa-share-from-square" title="Nosotros"></i>
