@@ -26,7 +26,6 @@ $salario_total_a_pagar = isset($_POST['salario_total_a_pagar']) ? (int)$_POST['s
 $id_prestamo = isset($_POST['id_prestamo']) ? $_POST['id_prestamo'] : null;
 
 // Actualizar el préstamo
-// Actualizar el préstamo
 try {
     if ($id_prestamo) {
         // Iniciar una transacción
@@ -62,8 +61,6 @@ try {
     exit();
 }
 
-
-
 // Insertar en la tabla sumas
 try {
     $fecha = date('Y-m-d');
@@ -71,10 +68,13 @@ try {
     $stmt_insert_sumas = $conexion->prepare($sql_insert_sumas);
     $stmt_insert_sumas->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt_insert_sumas->bindParam(':fecha', $fecha, PDO::PARAM_STR);
-    $stmt_insert_sumas->bindParam(':valor_hora_extra', $valor_hora_extra['V_H_extra'], PDO::PARAM_INT); // Aquí se asigna el valor de la hora extra
+    $stmt_insert_sumas->bindParam(':valor_hora_extra', $valor_hora_extra['V_H_extra'], PDO::PARAM_INT);
     $stmt_insert_sumas->bindParam(':horas_trabajadas', $horas_trabajadas, PDO::PARAM_INT);
     $stmt_insert_sumas->bindParam(':total', $salario_total_a_pagar, PDO::PARAM_INT);
     $stmt_insert_sumas->execute();
+
+    // Obtenemos el ID de la última inserción en la tabla sumas
+    $id_suma = $conexion->lastInsertId();
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla sumas: " . $e->getMessage();
     exit();
@@ -105,31 +105,31 @@ try {
     $stmt_insert_deducciones->bindParam(':id_salud', $id_salud, PDO::PARAM_INT);
     $stmt_insert_deducciones->bindParam(':id_pension', $id_pension, PDO::PARAM_INT);
     $stmt_insert_deducciones->bindParam(':fiscales', $total_deducciones, PDO::PARAM_INT);
-    $stmt_insert_deducciones->bindParam(':total', $_POST['salario_total_deducciones'], PDO::PARAM_INT); // Usamos el salario total con deducciones
+    $stmt_insert_deducciones->bindParam(':total', $_POST['salario_total_deducciones'], PDO::PARAM_INT);
     $stmt_insert_deducciones->execute();
+
+    // Obtenemos el ID de la última inserción en la tabla de deducción
+    $id_deduccion = $conexion->lastInsertId();
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla deducciones: " . $e->getMessage();
     exit();
 }
 
 // Insertar en la tabla de nómina
-// Insertar en la tabla de nómina
 try {
-    $id_deduccion = $conexion->lastInsertId(); // Obtenemos el ID de la última inserción en la tabla de deducciones
-
     $fecha = date('Y-m-d');
     $sql_insert_nomina = "INSERT INTO nomina (ID_user, fecha, id_deduccion, id_suma, Valor_Pagar) VALUES (:id_usuario, :fecha, :id_deduccion, :id_suma, :valor_pagar)";
     $stmt_insert_nomina = $conexion->prepare($sql_insert_nomina);
     $stmt_insert_nomina->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt_insert_nomina->bindParam(':fecha', $fecha, PDO::PARAM_STR);
     $stmt_insert_nomina->bindParam(':id_deduccion', $id_deduccion, PDO::PARAM_INT);
-    $stmt_insert_nomina->bindParam(':id_suma', $conexion->lastInsertId(), PDO::PARAM_INT); // Suponiendo que el ID de la tabla sumas es autoincremental
-    $stmt_insert_nomina->bindParam(':valor_pagar', $_POST['salario_total_deducciones'], PDO::PARAM_INT); // Usamos el salario total con deducciones
+    $stmt_insert_nomina->bindParam(':id_suma', $id_suma, PDO::PARAM_INT); // Usamos la variable $id_suma
+    $stmt_insert_nomina->bindParam(':valor_pagar', $_POST['salario_total_deducciones'], PDO::PARAM_INT);
     $stmt_insert_nomina->execute();
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla de nómina: " . $e->getMessage();
     exit();
 }
 
-echo "<script>alert('Proceso de liquidacion completado con éxito.'); window.location.href = '../index.php';</script>";
-
+echo "<script>alert('liquidacion realizada con exito'); window.location.href='../index.php';</script>";
+?>

@@ -1,6 +1,6 @@
 <?php
 //conectar bd
-require_once("../conexion/db.php");
+require_once("../../conexion/db.php");
 
 session_start();
 if (!isset($_SESSION['id_us'])) {

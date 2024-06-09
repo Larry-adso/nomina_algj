@@ -259,6 +259,25 @@ try {
             function calcularLiquidacion() {
                 const diasTrabajados = parseInt(cleanNumberFormat(document.getElementById('dias_trabajados').value)) || 0;
                 const horasTrabajadas = parseInt(cleanNumberFormat(document.getElementById('horas_trabajadas').value)) || 0;
+                const liquidarButton = document.querySelector('.btn.btn-primary');
+
+                if (diasTrabajados < 1 || diasTrabajados > 31) {
+                    document.getElementById('salario_dias_trabajados').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('salario_horas_extras').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('salario_total_a_pagar').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('deduccion_salud').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('deduccion_pension').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('deduccion_arl').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('cuota_prestamo').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('total_deducciones').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('salario_total_deducciones').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('auxilio_transporte_aplica').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('valor_auxilio_transporte').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    liquidarButton.disabled = true;
+                    return;
+                } else {
+                    liquidarButton.disabled = false;
+                }
 
                 const salarioBase = salarioBaseInicial / 31 * diasTrabajados;
                 const salarioDiasTrabajados = Math.floor(salarioBase);
@@ -325,6 +344,7 @@ try {
 
             window.onload = calcularLiquidacion;
         </script>
+
 
 
 
