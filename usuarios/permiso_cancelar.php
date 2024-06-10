@@ -1,14 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "nomina_algj";
-
-try {
-    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conexion->exec("SET CHARACTER SET utf8");
-
+include("../conexion/db.php");
+    
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         $sql = "UPDATE permisos SET estado = 12 WHERE id_permiso = :id";
         $stmt = $conexion->prepare($sql);
@@ -25,7 +17,5 @@ try {
         echo "<script>alert('ID no válido proporcionado para actualizar el registro.'); window.location.href = 'permisos.php';</script>";
     }
 
-} catch (PDOException $e) {
-    echo "<script>alert('Error al actualizar el registro: " . $e->getMessage() . "'); window.location.href = 'permisos.php';</script>";
-}
+
 ?>

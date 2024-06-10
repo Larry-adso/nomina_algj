@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-include("../conexion/db.php");
 
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -12,6 +11,7 @@ if (!isset($_SESSION['id_us'])) {
     ';
     die();
 }
+include("../conexion/db.php");
 
 // Obtener id_empresa del usuario con sesión activa
 $id_us_sesion = $_SESSION['id_us'];
