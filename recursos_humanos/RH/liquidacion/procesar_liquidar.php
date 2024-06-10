@@ -25,9 +25,9 @@ $horas_trabajadas = isset($_POST['horas_trabajadas']) ? (int)$_POST['horas_traba
 $salario_total_a_pagar = isset($_POST['salario_total_a_pagar']) ? (int)$_POST['salario_total_a_pagar'] : 0;
 $id_prestamo = isset($_POST['id_prestamo']) ? $_POST['id_prestamo'] : null;
 
-// Actualizar el préstamo
-try {
-    if ($id_prestamo) {
+if ($id_prestamo) {
+    // Actualizar el préstamo si se ha pasado un ID de préstamo
+    try {
         // Iniciar una transacción
         $conexion->beginTransaction();
 
@@ -45,6 +45,20 @@ try {
             $stmt_update_cuotas_pagas->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
             $stmt_update_cuotas_pagas->execute();
 
+            // Verificar si las cuotas en deuda son 0 y actualizar el estado del préstamo a 7
+            $sql_check_cuotas = "SELECT cuotas_en_deuda FROM prestamo WHERE ID_Prest = :id_prestamo";
+            $stmt_check_cuotas = $conexion->prepare($sql_check_cuotas);
+            $stmt_check_cuotas->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
+            $stmt_check_cuotas->execute();
+            $cuotas_en_deuda = $stmt_check_cuotas->fetchColumn();
+
+            if ($cuotas_en_deuda == 0) {
+                $sql_update_estado = "UPDATE prestamo SET estado = 7 WHERE ID_Prest = :id_prestamo";
+                $stmt_update_estado = $conexion->prepare($sql_update_estado);
+                $stmt_update_estado->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
+                $stmt_update_estado->execute();
+            }
+
             // Confirmar la transacción
             $conexion->commit();
         } else {
@@ -53,12 +67,12 @@ try {
             echo "No se pudo actualizar la cuota en deuda.";
             exit();
         }
+    } catch (PDOException $e) {
+        // Si ocurre algún error, hacer rollback y mostrar el mensaje de error
+        $conexion->rollback();
+        echo "Error al actualizar el préstamo: " . $e->getMessage();
+        exit();
     }
-} catch (PDOException $e) {
-    // Si ocurre algún error, hacer rollback y mostrar el mensaje de error
-    $conexion->rollback();
-    echo "Error al actualizar el préstamo: " . $e->getMessage();
-    exit();
 }
 
 // Insertar en la tabla sumas
@@ -97,7 +111,7 @@ try {
     // Calcular el total de deducciones
     $total_deducciones = $_POST['deduccion_salud'] + $_POST['deduccion_pension'];
 
-    $sql_insert_deducciones = "INSERT INTO deduccion (id_usuario, fecha, id_prestamo, id_salud, id_pension,  parafiscales, total) VALUES (:id_usuario, :fecha, :id_prestamo, :id_salud, :id_pension,  :fiscales, :total)";
+    $sql_insert_deducciones = "INSERT INTO deduccion (id_usuario, fecha, id_prestamo, id_salud, id_pension, parafiscales, total) VALUES (:id_usuario, :fecha, :id_prestamo, :id_salud, :id_pension, :fiscales, :total)";
     $stmt_insert_deducciones = $conexion->prepare($sql_insert_deducciones);
     $stmt_insert_deducciones->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt_insert_deducciones->bindParam(':fecha', $fecha, PDO::PARAM_STR);
@@ -131,5 +145,5 @@ try {
     exit();
 }
 
-echo "<script>alert('liquidacion realizada con exito'); window.location.href='../index.php';</script>";
+echo "<script>alert('Liquidación realizada con éxito'); window.location.href='../index.php';</script>";
 ?>

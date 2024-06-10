@@ -3,6 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "nomina_algj";
+include '../../../conexion/validar_sesion.php';
 
 try {
     $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -88,14 +89,15 @@ try {
         exit();
     }
 
-    // Consultar el valor de la cuota del préstamo
-    $sql_prestamo = "SELECT * FROM prestamo WHERE ID_Empleado = :id_us";
+    // Consultar el valor de la cuota del préstamo solo si el estado es 6
+    $sql_prestamo = "SELECT * FROM prestamo WHERE ID_Empleado = :id_us AND estado = 6";
     $stmt_prestamo = $conexion->prepare($sql_prestamo);
     $stmt_prestamo->bindParam(':id_us', $id_us, PDO::PARAM_INT);
     $stmt_prestamo->execute();
     $prestamo = $stmt_prestamo->fetch(PDO::FETCH_ASSOC);
 
     if (!$prestamo) {
+        $id_prestamo = 0; // Si no hay préstamo, el ID es 0
         $cuota_prestamo = 0; // Si no hay préstamo, la cuota es 0
     } else {
         $id_prestamo = $prestamo['ID_prest'];

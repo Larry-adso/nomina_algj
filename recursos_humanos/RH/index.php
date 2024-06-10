@@ -7,6 +7,10 @@ $dbname = "nomina_algj";
 // Inicializar las variables de búsqueda
 $search_term = "";
 
+// Obtener el mes actual
+$current_month = date('m');
+$current_month_name = date('F');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Asignar valor de búsqueda si está disponible
     $search_term = isset($_POST["search_term"]) ? $_POST["search_term"] : "";
@@ -24,7 +28,6 @@ try {
         LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
         WHERE usuarios.id_rol >= 6";
 
-
     // Aplicar filtro si se proporciona un término de búsqueda
     if (!empty($search_term)) {
         $sql .= " AND (usuarios.nombre_us LIKE '%$search_term%' OR usuarios.apellido_us LIKE '%$search_term%' OR usuarios.tel_us LIKE '%$search_term%' OR usuarios.id_us LIKE '%$search_term%' OR roles.tp_user LIKE '%$search_term%' OR puestos.cargo LIKE '%$search_term%')";
@@ -33,6 +36,21 @@ try {
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Verificar si los usuarios tienen una nómina liquidada para el mes actual
+    $liquidaciones = [];
+    foreach ($usuarios as $usuario) {
+        $id_us = $usuario['id_us'];
+        $sql_nomina = "SELECT COUNT(*) FROM nomina WHERE ID_User = :id_us AND MONTH(fecha) = :current_month";
+        $stmt_nomina = $conexion->prepare($sql_nomina);
+        $stmt_nomina->execute(['id_us' => $id_us, 'current_month' => $current_month]);
+        $count = $stmt_nomina->fetchColumn();
+        if ($count > 0) {
+            $liquidaciones[$id_us] = true;
+        } else {
+            $liquidaciones[$id_us] = false;
+        }
+    }
 } catch (PDOException $e) {
     echo "Error de conexión a la base de datos: " . $e->getMessage();
     exit();
@@ -85,7 +103,7 @@ try {
                     <?php foreach ($usuarios as $usuario) : ?>
                         <div class="col-md-4">
                             <div class="card">
-                            <?php if (!empty($usuario['ruta_foto'])) : ?>
+                                <?php if (!empty($usuario['ruta_foto'])) : ?>
                                     <?php
                                     // Obteniendo la ruta de la foto
                                     $ruta_foto = $usuario['ruta_foto'];
@@ -106,12 +124,15 @@ try {
                                         <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
-                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">liquidar</button>
+                                    <?php if ($liquidaciones[$usuario['id_us']]) : ?>
+                                        <button class="btn btn-secondary btn-sm" disabled>Este usuario ya tiene una nómina liquidada del mes de <?php echo $current_month_name; ?>. Puede liquidar nuevamente la nómina el próximo mes.</button>
+                                    <?php else : ?>
+                                        <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">Liquidar</button>
+                                    <?php endif; ?>
                                     <button class="btn btn-success btn-sm" onclick="window.location.href='php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'">Editar</button>
                                 </div>
                             </div>
                         </div>
-
                     <?php endforeach; ?>
                 <?php else : ?>
                     <div class="col">
