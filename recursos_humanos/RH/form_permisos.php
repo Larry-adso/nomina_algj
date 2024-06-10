@@ -11,7 +11,7 @@ if (!isset($_SESSION['id_us'])) {
     die();
 }
 
-require_once "../conexion/db.php"; // Reemplaza con el nombre correcto de tu archivo de conexión
+require_once "../../conexion/db.php"; // Reemplaza con el nombre correcto de tu archivo de conexión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {

@@ -34,14 +34,15 @@
                                 $valor = $result['V_H_extra'];
                         ?>
 
-                        <form action="editar_valor_extra.php" method="post">
-                            <div class="form-group">
-                                <label for="v_h_extra">Nuevo Valor de Hora Extra</label>
-                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-                                <input type="number" class="form-control" id="v_h_extra" name="v_h_extra" placeholder="Nuevo Valor de Hora Extra" value="<?php echo htmlspecialchars($valor); ?>" required>
-                            </div>
-                            <button type="submit" name="update" class="btn btn-primary">Actualizar Valor</button>
-                        </form>
+                                <form id="editarValorHoraExtraForm" action="editar_valor_extra.php" method="post">
+                                    <div class="form-group">
+                                        <label for="v_h_extra">Nuevo Valor de Hora Extra</label>
+                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+                                        <input type="number" class="form-control" id="v_h_extra" name="v_h_extra" placeholder="Nuevo Valor de Hora Extra" value="<?php echo htmlspecialchars($valor); ?>" required>
+                                        <small id="v_h_extra_error" class="text-danger"></small>
+                                    </div>
+                                    <button type="submit" name="update" class="btn btn-primary" id="actualizarValorBtn">Actualizar Valor</button>
+                                </form>
 
                         <?php
                             } else {
@@ -72,6 +73,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const editarValorHoraExtraForm = document.getElementById('editarValorHoraExtraForm');
+        const v_h_extraInput = document.getElementById('v_h_extra');
+        const actualizarValorBtn = document.getElementById('actualizarValorBtn');
+
+        v_h_extraInput.addEventListener('input', validarValorHoraExtra);
+
+        function validarValorHoraExtra() {
+            const valor = v_h_extraInput.value.trim();
+            if (!/^\d+(\.\d{1,2})?$/.test(valor)) {
+                v_h_extraInput.classList.add('is-invalid');
+                document.getElementById('v_h_extra_error').textContent = 'Ingrese un valor válido para la hora extra.';
+                actualizarValorBtn.disabled = true;
+            } else {
+                v_h_extraInput.classList.remove('is-invalid');
+                document.getElementById('v_h_extra_error').textContent = '';
+                actualizarValorBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
+
 
 </html>

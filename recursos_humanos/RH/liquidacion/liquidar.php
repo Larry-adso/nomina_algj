@@ -3,6 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "nomina_algj";
+include '../../../conexion/validar_sesion.php';
 
 try {
     $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -88,14 +89,15 @@ try {
         exit();
     }
 
-    // Consultar el valor de la cuota del préstamo
-    $sql_prestamo = "SELECT * FROM prestamo WHERE ID_Empleado = :id_us";
+    // Consultar el valor de la cuota del préstamo solo si el estado es 6
+    $sql_prestamo = "SELECT * FROM prestamo WHERE ID_Empleado = :id_us AND estado = 6";
     $stmt_prestamo = $conexion->prepare($sql_prestamo);
     $stmt_prestamo->bindParam(':id_us', $id_us, PDO::PARAM_INT);
     $stmt_prestamo->execute();
     $prestamo = $stmt_prestamo->fetch(PDO::FETCH_ASSOC);
 
     if (!$prestamo) {
+        $id_prestamo = 0; // Si no hay préstamo, el ID es 0
         $cuota_prestamo = 0; // Si no hay préstamo, la cuota es 0
     } else {
         $id_prestamo = $prestamo['ID_prest'];
@@ -259,6 +261,25 @@ try {
             function calcularLiquidacion() {
                 const diasTrabajados = parseInt(cleanNumberFormat(document.getElementById('dias_trabajados').value)) || 0;
                 const horasTrabajadas = parseInt(cleanNumberFormat(document.getElementById('horas_trabajadas').value)) || 0;
+                const liquidarButton = document.querySelector('.btn.btn-primary');
+
+                if (diasTrabajados < 1 || diasTrabajados > 31) {
+                    document.getElementById('salario_dias_trabajados').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('salario_horas_extras').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('salario_total_a_pagar').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('deduccion_salud').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('deduccion_pension').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('deduccion_arl').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('cuota_prestamo').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('total_deducciones').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('salario_total_deducciones').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('auxilio_transporte_aplica').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    document.getElementById('valor_auxilio_transporte').value = 'Por favor ingrese los valores permitidos entre 1 y 31 dias trabajados';
+                    liquidarButton.disabled = true;
+                    return;
+                } else {
+                    liquidarButton.disabled = false;
+                }
 
                 const salarioBase = salarioBaseInicial / 31 * diasTrabajados;
                 const salarioDiasTrabajados = Math.floor(salarioBase);
@@ -325,6 +346,7 @@ try {
 
             window.onload = calcularLiquidacion;
         </script>
+
 
 
 

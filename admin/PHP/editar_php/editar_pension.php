@@ -34,14 +34,15 @@
                                 $valor = $result['Valor'];
                         ?>
 
-                        <form action="editar_pension.php" method="post">
-                            <div class="form-group">
-                                <label for="valor">Nuevo Valor de Pensión</label>
-                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Nuevo Valor de Pensión" value="<?php echo htmlspecialchars($valor); ?>" required>
-                            </div>
-                            <button type="submit" name="update" class="btn btn-primary">Actualizar Valor</button>
-                        </form>
+                                <form id="editarValorForm" action="editar_pension.php" method="post">
+                                    <div class="form-group">
+                                        <label for="valor">Nuevo Valor de Pensión</label>
+                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+                                        <input type="number" class="form-control" id="valor" name="valor" placeholder="Nuevo Valor de Pensión" value="<?php echo htmlspecialchars($valor); ?>" required>
+                                        <small id="valor_error" class="text-danger"></small>
+                                    </div>
+                                    <button type="submit" name="update" class="btn btn-primary" id="actualizarValorBtn">Actualizar Valor</button>
+                                </form>
 
                         <?php
                             } else {
@@ -72,6 +73,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const editarValorForm = document.getElementById('editarValorForm');
+        const valorInput = document.getElementById('valor');
+        const actualizarValorBtn = document.getElementById('actualizarValorBtn');
+
+        valorInput.addEventListener('input', validarValor);
+
+        function validarValor() {
+            const valor = valorInput.value.trim();
+            if (!/^\d+$/.test(valor)) {
+                valorInput.classList.add('border', 'border-danger');
+                document.getElementById('valor_error').textContent = 'Ingrese un valor de pensión válido (solo números).';
+                actualizarValorBtn.disabled = true;
+            } else {
+                valorInput.classList.remove('border', 'border-danger');
+                document.getElementById('valor_error').textContent = '';
+                actualizarValorBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
+
 
 </html>

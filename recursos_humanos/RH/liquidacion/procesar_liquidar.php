@@ -25,10 +25,9 @@ $horas_trabajadas = isset($_POST['horas_trabajadas']) ? (int)$_POST['horas_traba
 $salario_total_a_pagar = isset($_POST['salario_total_a_pagar']) ? (int)$_POST['salario_total_a_pagar'] : 0;
 $id_prestamo = isset($_POST['id_prestamo']) ? $_POST['id_prestamo'] : null;
 
-// Actualizar el préstamo
-// Actualizar el préstamo
-try {
-    if ($id_prestamo) {
+if ($id_prestamo) {
+    // Actualizar el préstamo si se ha pasado un ID de préstamo
+    try {
         // Iniciar una transacción
         $conexion->beginTransaction();
 
@@ -46,6 +45,20 @@ try {
             $stmt_update_cuotas_pagas->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
             $stmt_update_cuotas_pagas->execute();
 
+            // Verificar si las cuotas en deuda son 0 y actualizar el estado del préstamo a 7
+            $sql_check_cuotas = "SELECT cuotas_en_deuda FROM prestamo WHERE ID_Prest = :id_prestamo";
+            $stmt_check_cuotas = $conexion->prepare($sql_check_cuotas);
+            $stmt_check_cuotas->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
+            $stmt_check_cuotas->execute();
+            $cuotas_en_deuda = $stmt_check_cuotas->fetchColumn();
+
+            if ($cuotas_en_deuda == 0) {
+                $sql_update_estado = "UPDATE prestamo SET estado = 7 WHERE ID_Prest = :id_prestamo";
+                $stmt_update_estado = $conexion->prepare($sql_update_estado);
+                $stmt_update_estado->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
+                $stmt_update_estado->execute();
+            }
+
             // Confirmar la transacción
             $conexion->commit();
         } else {
@@ -54,15 +67,13 @@ try {
             echo "No se pudo actualizar la cuota en deuda.";
             exit();
         }
+    } catch (PDOException $e) {
+        // Si ocurre algún error, hacer rollback y mostrar el mensaje de error
+        $conexion->rollback();
+        echo "Error al actualizar el préstamo: " . $e->getMessage();
+        exit();
     }
-} catch (PDOException $e) {
-    // Si ocurre algún error, hacer rollback y mostrar el mensaje de error
-    $conexion->rollback();
-    echo "Error al actualizar el préstamo: " . $e->getMessage();
-    exit();
 }
-
-
 
 // Insertar en la tabla sumas
 try {
@@ -71,10 +82,13 @@ try {
     $stmt_insert_sumas = $conexion->prepare($sql_insert_sumas);
     $stmt_insert_sumas->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt_insert_sumas->bindParam(':fecha', $fecha, PDO::PARAM_STR);
-    $stmt_insert_sumas->bindParam(':valor_hora_extra', $valor_hora_extra['V_H_extra'], PDO::PARAM_INT); // Aquí se asigna el valor de la hora extra
+    $stmt_insert_sumas->bindParam(':valor_hora_extra', $valor_hora_extra['V_H_extra'], PDO::PARAM_INT);
     $stmt_insert_sumas->bindParam(':horas_trabajadas', $horas_trabajadas, PDO::PARAM_INT);
     $stmt_insert_sumas->bindParam(':total', $salario_total_a_pagar, PDO::PARAM_INT);
     $stmt_insert_sumas->execute();
+
+    // Obtenemos el ID de la última inserción en la tabla sumas
+    $id_suma = $conexion->lastInsertId();
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla sumas: " . $e->getMessage();
     exit();
@@ -97,7 +111,7 @@ try {
     // Calcular el total de deducciones
     $total_deducciones = $_POST['deduccion_salud'] + $_POST['deduccion_pension'];
 
-    $sql_insert_deducciones = "INSERT INTO deduccion (id_usuario, fecha, id_prestamo, id_salud, id_pension,  parafiscales, total) VALUES (:id_usuario, :fecha, :id_prestamo, :id_salud, :id_pension,  :fiscales, :total)";
+    $sql_insert_deducciones = "INSERT INTO deduccion (id_usuario, fecha, id_prestamo, id_salud, id_pension, parafiscales, total) VALUES (:id_usuario, :fecha, :id_prestamo, :id_salud, :id_pension, :fiscales, :total)";
     $stmt_insert_deducciones = $conexion->prepare($sql_insert_deducciones);
     $stmt_insert_deducciones->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt_insert_deducciones->bindParam(':fecha', $fecha, PDO::PARAM_STR);
@@ -105,31 +119,31 @@ try {
     $stmt_insert_deducciones->bindParam(':id_salud', $id_salud, PDO::PARAM_INT);
     $stmt_insert_deducciones->bindParam(':id_pension', $id_pension, PDO::PARAM_INT);
     $stmt_insert_deducciones->bindParam(':fiscales', $total_deducciones, PDO::PARAM_INT);
-    $stmt_insert_deducciones->bindParam(':total', $_POST['salario_total_deducciones'], PDO::PARAM_INT); // Usamos el salario total con deducciones
+    $stmt_insert_deducciones->bindParam(':total', $_POST['salario_total_deducciones'], PDO::PARAM_INT);
     $stmt_insert_deducciones->execute();
+
+    // Obtenemos el ID de la última inserción en la tabla de deducción
+    $id_deduccion = $conexion->lastInsertId();
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla deducciones: " . $e->getMessage();
     exit();
 }
 
 // Insertar en la tabla de nómina
-// Insertar en la tabla de nómina
 try {
-    $id_deduccion = $conexion->lastInsertId(); // Obtenemos el ID de la última inserción en la tabla de deducciones
-
     $fecha = date('Y-m-d');
     $sql_insert_nomina = "INSERT INTO nomina (ID_user, fecha, id_deduccion, id_suma, Valor_Pagar) VALUES (:id_usuario, :fecha, :id_deduccion, :id_suma, :valor_pagar)";
     $stmt_insert_nomina = $conexion->prepare($sql_insert_nomina);
     $stmt_insert_nomina->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt_insert_nomina->bindParam(':fecha', $fecha, PDO::PARAM_STR);
     $stmt_insert_nomina->bindParam(':id_deduccion', $id_deduccion, PDO::PARAM_INT);
-    $stmt_insert_nomina->bindParam(':id_suma', $conexion->lastInsertId(), PDO::PARAM_INT); // Suponiendo que el ID de la tabla sumas es autoincremental
-    $stmt_insert_nomina->bindParam(':valor_pagar', $_POST['salario_total_deducciones'], PDO::PARAM_INT); // Usamos el salario total con deducciones
+    $stmt_insert_nomina->bindParam(':id_suma', $id_suma, PDO::PARAM_INT); // Usamos la variable $id_suma
+    $stmt_insert_nomina->bindParam(':valor_pagar', $_POST['salario_total_deducciones'], PDO::PARAM_INT);
     $stmt_insert_nomina->execute();
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla de nómina: " . $e->getMessage();
     exit();
 }
 
-echo "<script>alert('Proceso de liquidacion completado con éxito.'); window.location.href = '../index.php';</script>";
-
+echo "<script>alert('Liquidación realizada con éxito'); window.location.href='../index.php';</script>";
+?>

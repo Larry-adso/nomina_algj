@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Mover la foto de la ubicación temporal a la permanente
         move_uploaded_file($foto_tmp, $ruta_foto);
     } else {
-        $ruta_foto = null;
+        // Si no se selecciona ninguna foto, asignar la ruta por defecto
+        $ruta_foto = "../../../uploads/fotos/user.jpg";
     }
 
     // Insertar datos en la base de datos
@@ -62,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':token', $token);
     
     if ($stmt->execute()) {
-        echo "Usuario agregado exitosamente.";
+        echo "<script>alert('Usuario insertado correctamente'); window.location.href='../../index.php';</script>";
     } else {
-        echo "Error al agregar el usuario.";
+        echo "<script>alert('Error al insertar el usuario'); window.location.href='../../index.php';</script>";
     }
 }
 ?>

@@ -1,16 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "nomina_algj";
 
-try {
-    // Conexión a la base de datos
-    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Establecer el modo de error PDO en excepción
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Establecer el conjunto de caracteres a UTF-8
-    $conexion->exec("SET CHARACTER SET utf8");
+include("../conexion/db.php");
 
     // Verificar si se proporcionó un ID válido
     if (isset($_GET['id']) && !empty($_GET['id'])) {
@@ -31,7 +21,5 @@ try {
         echo "<script>alert('ID no válido proporcionado para actualizar el registro.'); window.location.href = 'prestamo.php';</script>";
     }
 
-} catch (PDOException $e) {
-    echo "<script>alert('Error al actualizar el registro: " . $e->getMessage() . "'); window.location.href = 'prestamo.php';</script>";
-}
+
 ?>

@@ -1,5 +1,4 @@
 <?php
-require_once("../conexion/db.php");
 if (!isset($_SESSION['id_us'])) {
   echo '
             <script>
@@ -10,6 +9,7 @@ if (!isset($_SESSION['id_us'])) {
   session_destroy();
   die();
 }
+require_once("../conexion/db.php");
 
 $nombre = isset($_SESSION['nombre_us']) ? $_SESSION['nombre_us'] : 'Usuario';
 $apellido = isset($_SESSION['apellido_us']) ? $_SESSION['apellido_us'] : 'Usuario';

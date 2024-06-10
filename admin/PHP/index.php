@@ -107,7 +107,9 @@ try {
                                         <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
-                                    <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">liquidar</button>
+                                    <button class="btn btn-success btn-sm" onclick="window.location.href='editar_php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'">Editar</button>
+
+
                                 </div>
                             </div>
                         </div>
@@ -123,11 +125,7 @@ try {
             </div>
         </div>
     </div>
-    <script>
-        function liquidar(id) {
-            document.getElementById('liquidar_form_' + id).submit();
-        }
-    </script>
+
 
 </body>
 

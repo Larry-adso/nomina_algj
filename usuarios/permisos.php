@@ -1,6 +1,5 @@
 <?php
 // Incluir el archivo db.php que contiene la conexión a la base de datos
-require_once("../conexion/db.php");
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
@@ -13,6 +12,7 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
+require_once("../conexion/db.php");
 
 $id_us = $_SESSION['id_us'];
 $id_rol = $_SESSION['id_rol'];

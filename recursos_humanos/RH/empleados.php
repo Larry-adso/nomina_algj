@@ -1,7 +1,7 @@
 <?php
-include '../conexion/db.php';
 include '../conexion/validar_sesion.php';
 
+include '../conexion/db.php';
 // Obtener la información del usuario activo
 $id_us = $_SESSION['id_us'];
 $query_usuario = $conexion->prepare("SELECT id_empresa, id_rol FROM usuarios WHERE id_us = :id_us");
