@@ -56,7 +56,7 @@ $contactorows = $contacto->fetchAll(PDO::FETCH_ASSOC);
                                 <?php if ($row['id_estado'] == 14) { ?>
                                     <a name="" id="" class="btn btn-secondary" href="#" role="button">Contactado</a>
                                 <?php } elseif ($row['id_estado'] == 13) { ?>
-                                    <a name="" id="" class="btn btn-primary" href="cambiar.php?id=<?php echo $row['id']; ?>" role="button">Se contacto el cliente</a>
+                                    <a name="" id="" class="btn btn-primary" href="cambiar.php?id=<?php echo $row['id']; ?>" role="button">Se debe contactar el cliente</a>
                                 <?php } ?>
                             </td>
                         </tr>

@@ -94,7 +94,7 @@ if ($id_rol == '4') {
             </div>
         </div>
         <div class="button">
-            <a name="" id="" class="btn btn-primary" href="PHP/crear_php/estados.php" role="button">Crear</a>
+            <a name="" id="" class="btn btn-primary" href="estados.php" role="button">Crear</a>
             <a name="" id="" class="btn btn-danger" href="../../index.php">Salir</a>
 
 

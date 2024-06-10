@@ -134,7 +134,7 @@
                         <p><?php echo $mensaje; ?></p>
                     <?php endif; ?>
 
-                    <a name="" id="" class="btn btn-danger" href="../index.php" role="button">Inicio</a>
+                    <a name="" id="" class="btn btn-danger" href="../index.php" role="button">Atras</a>
                 </div>
 
                 <!-- Bootstrap JavaScript Libraries -->
