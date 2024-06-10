@@ -34,14 +34,15 @@
                                 $valor = $result['Tp_user'];
                         ?>
 
-                        <form action="editar_roles.php" method="post">
-                            <div class="form-group">
-                                <label for="valor">Nuevo Rol</label>
-                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-                                <input type="text" class="form-control" id="Tp_user" name="Tp_user" placeholder="Nuevo Rol" value="<?php echo htmlspecialchars($valor); ?>" required>
-                            </div>
-                            <button type="submit" name="update" class="btn btn-primary">Actualizar Rol</button>
-                        </form>
+                                <form id="editarRolForm" action="editar_roles.php" method="post">
+                                    <div class="form-group">
+                                        <label for="valor">Nuevo Rol</label>
+                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+                                        <input type="text" class="form-control" id="Tp_user" name="Tp_user" placeholder="Nuevo Rol" value="<?php echo htmlspecialchars($valor); ?>" required>
+                                        <small id="rol_error" class="text-danger"></small>
+                                    </div>
+                                    <button type="submit" name="update" class="btn btn-primary" id="actualizarRolBtn">Actualizar Rol</button>
+                                </form>
 
                         <?php
                             } else {
@@ -72,6 +73,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const editarRolForm = document.getElementById('editarRolForm');
+        const rolInput = document.getElementById('Tp_user');
+        const actualizarRolBtn = document.getElementById('actualizarRolBtn');
+
+        rolInput.addEventListener('input', validarRol);
+
+        function validarRol() {
+            const rol = rolInput.value.trim();
+            if (!/^[a-zA-Z\s]+$/.test(rol)) {
+                rolInput.classList.add('border', 'border-danger');
+                document.getElementById('rol_error').textContent = 'Ingrese un Rol válido (solo letras y espacios).';
+                actualizarRolBtn.disabled = true;
+            } else {
+                rolInput.classList.remove('border', 'border-danger');
+                document.getElementById('rol_error').textContent = '';
+                actualizarRolBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
+
 
 </html>

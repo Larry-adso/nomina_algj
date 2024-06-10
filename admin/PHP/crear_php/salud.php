@@ -36,18 +36,41 @@
                             }
                         }
                         ?>
-                        <form action="salud.php" method="post">
+                        <form id="cargarSaludForm" action="salud.php" method="post">
                             <div class="form-group">
                                 <label for="valor">Valor de Salud</label>
                                 <input type="number" class="form-control" id="valor" name="valor" placeholder="Ingrese el valor de Salud" required>
+                                <small id="valor_error" class="text-danger"></small>
                             </div>
-                            <button type="submit" class="btn btn-primary">Registrar Valor</button>
+                            <button type="submit" class="btn btn-primary" id="registrarValorBtn">Registrar Valor</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const cargarSaludForm = document.getElementById('cargarSaludForm');
+        const valorInput = document.getElementById('valor');
+        const registrarValorBtn = document.getElementById('registrarValorBtn');
+
+        valorInput.addEventListener('input', validarValorSalud);
+
+        function validarValorSalud() {
+            const valor = valorInput.value.trim();
+            if (!/^(\d+(\.\d{1,2})?)$/.test(valor)) {
+                valorInput.classList.add('border', 'border-danger');
+                document.getElementById('valor_error').textContent = 'Ingrese un valor de salud válido (puede contener hasta 2 decimales).';
+                registrarValorBtn.disabled = true;
+            } else {
+                valorInput.classList.remove('border', 'border-danger');
+                document.getElementById('valor_error').textContent = '';
+                registrarValorBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
+
 
 </html>

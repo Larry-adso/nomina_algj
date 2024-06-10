@@ -107,6 +107,7 @@ try {
                                     </form>
                                     <!-- Botón para liquidar -->
                                     <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">liquidar</button>
+                                    <button class="btn btn-success btn-sm" onclick="window.location.href='php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'">Editar</button>
                                 </div>
                             </div>
                         </div>
