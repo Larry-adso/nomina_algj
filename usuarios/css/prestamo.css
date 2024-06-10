@@ -1,11 +1,14 @@
-.alerta {
-    color: red;
-    font-size: 0.9em;
-    margin-top: -0.5em;
-    margin-bottom: 0.5em;
-  }
+:root {
+	--primary-color: #c7a17a;
+	--background-color: #f9f5f0;
+	--dark-color: #151515;
+	--hover-button-color: #9b7752;
+    --button-login-color: #6DC5D1;
+    --button-login-hover: #59a2ac;
+    --button-decline-term: #e88162;
+}
 
-  body {
+body {
     background-color: #F9F5F0; /* Beige claro */
     color: #0B0B0B; /* Negro oscuro */
 }
@@ -16,25 +19,30 @@ h1 {
 
 .card-body {
     background-color: #FFFFFF; /* Blanco */
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-control {
     border: 1px solid #DDDDDD; /* Gris claro */
 }
 
-.btn-outline-primary {
-    background-color: #001040; /* Azul oscuro */
+input.btn.btn-outline-primary, a.btn.btn-outline-primary {
+    background-color: var(--button-login-color); /* Azul oscuro */
     color: #FFFFFF; /* Blanco */
     border: none; /* Quitar borde para consistencia */
 }
 
-.btn-outline-primary:hover {
-    background-color: #002060; /* Un tono más oscuro para el hover */
+input.btn.btn-outline-primary:hover {
+    background-color: var(--button-login-hover); /* Un tono más oscuro para el hover */
     color: #FFFFFF;
 }
-
+a.btn.btn-outline-primary:hover {
+    background-color: var(--button-login-hover); /* Un tono más oscuro para el hover */
+    color: #FFFFFF;  
+}
 .btn-danger {
-    background-color: #D9534F; /* Rojo */
+    background-color: var(--button-decline-term); /* Rojo */
     color: #FFFFFF; /* Blanco */
 }
 
@@ -46,9 +54,11 @@ h1 {
 .table-light {
     background-color: #FFFFFF; /* Blanco */
     color: #0B0B0B; /* Negro oscuro */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .thead-dark {
-    background-color: #1B1B1B; /* Negro más claro */
+    background-color: var(--hover-button-color); /* Negro más claro */
     color: #FFFFFF; /* Blanco */
 }

@@ -5,7 +5,7 @@ include("../conexion/db.php");
     // Verificar si se proporcionó un ID válido
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         // Preparar la consulta para actualizar el estado del registro con el ID proporcionado
-        $sql = "UPDATE prestamo SET estado = 12 WHERE ID_prest = :id";
+        $sql = "UPDATE prestamo SET estado = 8 WHERE ID_prest = :id";
         $stmt = $conexion->prepare($sql);
 
         // Ejecutar la consulta

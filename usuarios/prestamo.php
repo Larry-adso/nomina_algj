@@ -42,7 +42,7 @@ if ($id_rol == '6') {
     $usuario_existente = $sql_usuario->fetch();
 
     // Verificar si el ID_Empleado existe en la tabla prestamo
-    $sql_prestamo = $conexion->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ? AND estado != 12");
+    $sql_prestamo = $conexion->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ? AND estado != 8");
     $sql_prestamo->execute([$ID_Empleado]);
     $prestamo_existente = $sql_prestamo->fetch();
 
@@ -167,47 +167,46 @@ function prepararEnvio() {
 }
 </script>
 
-<body class="" style="background-color: white;">
+<body class="" style="background-color: #f9f5f0;">
   <?php include 'nav.php'; ?>
   <div class="justify-content-center section text-center container-sm">
     <div class="row full-height">
 
       <h1 class="mb-4 pb-3">SOLICITAR UN PRÉSTAMO</h1>
-      <div class="card-body">
+      <div class="card-body" >
         <form action="#" name="form" method="post" onsubmit="prepararEnvio()">
 
           <div class="row full-height justify-content-center">
             <div class="form-group col-md-4">
               <label>Usuario</label>
               <input type="hidden" class="form-control border border-dark mb-3" name="ID_Empleado" value="<?php echo htmlspecialchars($id_us); ?>" readonly>
-              <label class="form-control border border-dark mb-3"> <?php echo htmlspecialchars($nombre_us . ' ' . $apellido_us); ?></label>
+              <label class="form-control border border-gray mb-3"> <?php echo htmlspecialchars($nombre_us . ' ' . $apellido_us); ?></label>
             </div>
             <div class="form-group col-md-3">
               <label>Fecha actual</label>
-              <input type="datetime-local" class="form-control border border-dark mb-3" name="Fecha" id="fechaActual" readonly>
+              <input type="datetime-local" class="form-control border border-gray mb-3" name="Fecha" id="fechaActual" readonly>
             </div>
 
             <div class="form-group col-md-4">
               <label>Valor</label>
-              <input type="text" id="valor1" class="form-control border border-dark mb-3" name="VALOR" placeholder="" oninput="calcular()" required>
+              <input type="text" id="valor1" class="form-control border border-gray mb-3" name="VALOR" placeholder="" oninput="calcular()" required>
               <div id="alerta" class="alerta"></div>
             </div>
 
             <div class="row full-height justify-content-center">
               <div class="form-group col-md-2">
                 <label>Cantidad de cuotas</label>
-                <input type="number" id="valor2" class="form-control border border-dark mb-3" name="Cantidad_cuotas" placeholder="" oninput="calcular()">
+                <input type="number" id="valor2" class="form-control border border-gray mb-3" name="Cantidad_cuotas" placeholder="" oninput="calcular()">
               </div>
 
               <div class="form-group col-md-3">
                 <label>Valor de las cuotas</label>
-                <input type="text" id="total" class="form-control border border-dark mb-3" name="Valor_Cuotas" placeholder="" readonly>
+                <input type="text" id="total" class="form-control border border-gray mb-3" name="Valor_Cuotas" placeholder="" readonly>
               </div>
             </div>
           </div>
             <input class="btn btn-outline-primary" type="submit" name="validar" value="Registrar">
             <input type="hidden" name="MM_insert" value="regm">
-            <a class="btn btn-outline-primary" href="../../modulo_brian/index.php">Inicio</a>
           </form>
         </div>
       </div>
@@ -262,11 +261,11 @@ function prepararEnvio() {
                       <td>
                         <?php if ($resul['estado'] == 4) { ?>
                           <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['ID_prest']; ?>')">Cancelar préstamo</a>
-                        <?php } elseif ($resul['estado'] == 10) { ?>
+                        <?php } elseif ($resul['estado'] == 6) { ?>
                           <span>Aprobado</span>
-                        <?php } elseif ($resul['estado'] == 11) { ?>
+                        <?php } elseif ($resul['estado'] == 7) { ?>
                           <span>Rechazado</span>
-                        <?php } elseif ($resul['estado'] == 12) { ?>
+                        <?php } elseif ($resul['estado'] == 8) { ?>
                           <span>Cancelado</span>
                         <?php } ?>
 

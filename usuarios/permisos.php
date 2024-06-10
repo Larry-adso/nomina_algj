@@ -77,6 +77,7 @@ if ($id_rol == '6') {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+        <link rel="stylesheet" href="css/prestamo.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <title>Document</title>
@@ -88,7 +89,27 @@ if ($id_rol == '6') {
         </style>
     </head>
 
-    <body style="background-color: white;">
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Obtener la fecha y hora actual
+            let now = new Date();
+            let day = String(now.getDate()).padStart(2, '0');
+            let month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses son indexados desde 0
+            let year = now.getFullYear();
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+
+            // Formatear la fecha y hora en YYYY-MM-DDTHH:MM
+            let currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // Establecer la fecha y hora mínima en el input de tipo datetime-local
+            document.getElementById('datetimeInput').setAttribute('min', currentDateTime);
+            document.getElementById('datetimeInputEnd').setAttribute('min', currentDateTime);
+            
+        });
+    </script>
+
+    <body style="background-color: #f9f5f0;">
         <?php include 'nav.php'; ?>
 
         <div class="section text-center container-sm">
@@ -105,11 +126,11 @@ if ($id_rol == '6') {
 
                         <div class="form-group col-md-4">
                             <label>Fecha de inicio</label>
-                            <input type="datetime-local" class="form-control border border-dark mb-3" name="fecha">
+                            <input type="datetime-local" class="form-control border border-dark mb-3" name="fecha" id="datetimeInput">
                         </div>
                         <div class="form-group col-md-4">
                             <label>Fecha de fin</label>
-                            <input type="datetime-local" class="form-control border border-dark mb-3" name="fecha_reingreso">
+                            <input type="datetime-local" class="form-control border border-dark mb-3" name="fecha_reingreso" id="datetimeInputEnd">
                         </div>
 
                     </div>
@@ -177,8 +198,11 @@ if ($id_rol == '6') {
 
                                     </tr>
                                 </tbody>
-                            <?php
-                            } ?>
+                                <?php
+                }
+     
+              ?>
+                            
                         </form>
                     </table>
             </div>
