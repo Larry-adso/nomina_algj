@@ -4,3 +4,51 @@
     margin-top: -0.5em;
     margin-bottom: 0.5em;
   }
+
+  body {
+    background-color: #F9F5F0; /* Beige claro */
+    color: #0B0B0B; /* Negro oscuro */
+}
+
+h1 {
+    color: #0B0B0B; /* Negro oscuro */
+}
+
+.card-body {
+    background-color: #FFFFFF; /* Blanco */
+}
+
+.form-control {
+    border: 1px solid #DDDDDD; /* Gris claro */
+}
+
+.btn-outline-primary {
+    background-color: #001040; /* Azul oscuro */
+    color: #FFFFFF; /* Blanco */
+    border: none; /* Quitar borde para consistencia */
+}
+
+.btn-outline-primary:hover {
+    background-color: #002060; /* Un tono más oscuro para el hover */
+    color: #FFFFFF;
+}
+
+.btn-danger {
+    background-color: #D9534F; /* Rojo */
+    color: #FFFFFF; /* Blanco */
+}
+
+.table-dark {
+    background-color: #2E2E2E; /* Gris oscuro */
+    color: #FFFFFF; /* Blanco */
+}
+
+.table-light {
+    background-color: #FFFFFF; /* Blanco */
+    color: #0B0B0B; /* Negro oscuro */
+}
+
+.thead-dark {
+    background-color: #1B1B1B; /* Negro más claro */
+    color: #FFFFFF; /* Blanco */
+}
