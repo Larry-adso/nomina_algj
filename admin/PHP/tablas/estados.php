@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<?php include '../nav.php'; ?>
+<a class="btn btn-success" href="../index.php">INICIO</a>
     <div class="content">
         <div class="container">
             <h2 class="mb-5">TABLA ESTADOS</h2>
