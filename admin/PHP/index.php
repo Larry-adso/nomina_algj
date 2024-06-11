@@ -41,7 +41,7 @@ try {
         FROM usuarios 
         LEFT JOIN roles ON usuarios.id_rol = roles.id 
         LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
-        WHERE usuarios.id_rol = 6 AND usuarios.id_empresa = :id_empresa";
+        WHERE usuarios.id_rol >= 6 AND usuarios.id_empresa = :id_empresa";
 
     // Aplicar filtro si se proporciona un término de búsqueda
     if (!empty($search_term)) {
