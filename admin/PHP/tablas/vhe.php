@@ -14,12 +14,12 @@
 <a class="btn btn-success" href="../index.php">INICIO</a>
 <div class="content">
     <div class="container">
-        <h2 class="mb-5">TABLA VALOR HORAS EXTRA</h2>
+        <center><h2 class="mb-5">TABLA VALOR HORAS EXTRA</h2></center>
         <div class="table-responsive">
             <a href="../crear_php/vhe.php" class="btn btn-success">Cargar valor</a>
             
-            <table class="table table-striped custom-table">
-                <thead>
+            <table class="table table-striped custom-table ">
+                <thead >
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">VALOR</th>

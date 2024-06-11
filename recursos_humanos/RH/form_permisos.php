@@ -56,11 +56,14 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Permisos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+<a class="btn btn-success" href="../../admin/PHP/index.php">INICIO</a>
+
     <div class="container mt-5">
         <h2>Lista de Permisos</h2>
-        <table class="table">
+        <table class="table table-dark">
             <thead>
                 <tr>
                     <th>ID Permiso</th>

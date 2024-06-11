@@ -27,10 +27,12 @@ h1 {
     border: 1px solid #DDDDDD; /* Gris claro */
 }
 
-input.btn.btn-primary, a.btn.btn-primary {
+input.btn.btn-primary, a.btn.btn-primary, button.btn.btn-success {
     background-color: var(--button-login-color); 
     color: #FFFFFF; /* Blanco */
     border: none; /* Quitar borde para consistencia */
+    outline: none; /* Elimina el borde del foco */
+    box-shadow: none;
 }
 
 input.btn.btn-primary:hover {
@@ -41,10 +43,13 @@ a.btn.btn-primary:hover {
     background-color: var(--button-login-hover); /* Un tono más oscuro para el hover */
     color: #FFFFFF;  
 }
-a.btn.btn-warning {
+a.btn.btn-warning, button.btn.btn-warning {
     background-color: var(--button-decline-term); /* Rojo */
     color: #FFFFFF; /* Blanco */
     --bs-btn-border-color: none;
+    border: none; /* Elimina el borde */
+    outline: none; /* Elimina el borde del foco */
+    box-shadow: none;
 
 }
 
@@ -67,15 +72,18 @@ a.btn.btn-warning {
 a.btn.btn-success {
     background-color: var(--primary-color);
     --bs-btn-border-color: none;
+    border: none; /* Elimina el borde */
+    outline: none; /* Elimina el borde del foco */
+    box-shadow: none;
 }
 a.btn.btn-success:hover {
     background-color: var(--hover-button-color);
     --bs-btn-border-color: none;
+    border: none; /* Elimina el borde */
+    outline: none; /* Elimina el borde del foco */
+    box-shadow: none;
 }
-
-
 .table-responsive {
     max-width: 600px; /* Establece el ancho máximo deseado */
     margin: auto; /* Centrar el div */
 }
-
