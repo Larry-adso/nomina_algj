@@ -91,8 +91,9 @@ $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <input type="hidden" id="id_empresa" name="id_empresa" value="<?= $id_empresa ?>">
             <div class="form-group">
-                <label for="token">Token</label>
-                <input type="text" class="form-control" id="token" name="token">
+                <label for="token"></label>
+                <input type="hidden" class="form-control" id="token" name="token" >
+                <small id="token_error" class="text-danger"></small>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>

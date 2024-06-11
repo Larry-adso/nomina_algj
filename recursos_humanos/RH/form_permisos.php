@@ -13,6 +13,9 @@ if (!isset($_SESSION['id_us'])) {
 
 require_once "../../conexion/db.php"; // Reemplaza con el nombre correcto de tu archivo de conexión
 
+// Obtener el id_empresa del usuario en sesión
+$id_us_session = $_SESSION['id_us'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
         $id_permiso = $_POST['id_permiso'];
@@ -40,8 +43,10 @@ try {
     $query = "SELECT p.id_permiso, p.fecha, p.fecha_reingreso, p.estado, e.estado AS nombre_estado, u.nombre_us, u.apellido_us
               FROM permisos p
               INNER JOIN estado e ON p.estado = e.ID_Es
-              INNER JOIN usuarios u ON p.id_us = u.id_us";
+              INNER JOIN usuarios u ON p.id_us = u.id_us
+              WHERE u.id_empresa = (SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session)";
     $statement = $conexion->prepare($query);
+    $statement->bindParam(':id_us_session', $id_us_session, PDO::PARAM_INT);
     $statement->execute();
     $permisos = $statement->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
