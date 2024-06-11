@@ -10,38 +10,37 @@ if (!isset($_SESSION['id_us'])) {
 // Incluir el archivo de conexión a la base de datos
 require_once "../../conexion/db.php"; // Reemplazar con el nombre correcto de tu archivo de conexión
 
-// Procesar la acción de aprobar o rechazar un préstamo
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
-        $id_prestamo = $_POST['id_prestamo'];
-        $estado = isset($_POST['aprobar']) ? 6 : 7 ;
-
-        try {
-            // Actualizar el estado del préstamo en la base de datos
-            $query = "UPDATE prestamo SET estado = :estado WHERE ID_prest = :id_prestamo";
-            $statement = $conexion->prepare($query);
-            $statement->bindParam(':estado', $estado, PDO::PARAM_STR);
-            $statement->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
-            $statement->execute();
-        } catch (PDOException $e) {
-            // Manejar errores de actualización de préstamo
-            echo "Error al actualizar el estado del préstamo: " . $e->getMessage();
-        }
-    }
-}
+// Obtener el id_empresa del usuario en sesión
+$id_us_session = $_SESSION['id_us'];
 
 try {
+    // Obtener id_empresa del usuario en sesión
+    $query_empresa = "SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session";
+    $statement_empresa = $conexion->prepare($query_empresa);
+    $statement_empresa->bindParam(':id_us_session', $id_us_session, PDO::PARAM_INT);
+    $statement_empresa->execute();
+    $id_empresa_session = $statement_empresa->fetchColumn();
+
+    if ($id_empresa_session === false) {
+        throw new Exception("No se encontró el id_empresa para el usuario en sesión.");
+    }
+
     // Consultar todos los datos de la tabla de préstamos
     $query = "SELECT p.ID_prest, p.Fecha, p.Cantidad_cuotas, p.Valor_Cuotas, p.cuotas_en_deuda, p.cuotas_pagas, p.VALOR, e.estado AS estado_prestamo, CONCAT(u.nombre_us, ' ', u.apellido_us) AS nombre_empleado
               FROM prestamo p
               INNER JOIN estado e ON p.estado = e.ID_Es
-              INNER JOIN usuarios u ON p.ID_Empleado = u.id_us";
+              INNER JOIN usuarios u ON p.ID_Empleado = u.id_us
+              WHERE u.id_empresa = :id_empresa_session";
     $statement = $conexion->prepare($query);
+    $statement->bindParam(':id_empresa_session', $id_empresa_session, PDO::PARAM_INT);
     $statement->execute();
     $prestamos = $statement->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     // Manejar errores de conexión a la base de datos
     echo "Error de conexión a la base de datos: " . $e->getMessage();
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+    exit();
 }
 ?>
 
