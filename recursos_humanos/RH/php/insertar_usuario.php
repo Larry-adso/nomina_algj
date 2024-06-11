@@ -20,24 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
         $foto_tmp = $_FILES['foto']['tmp_name'];
         $foto_nombre = $_FILES['foto']['name'];
-        
+
         // Obtener la extensión de la imagen
         $extension = pathinfo($foto_nombre, PATHINFO_EXTENSION);
-        
-        // Generar un nombre único para la imagen en formato JPG
-        $nuevo_nombre = uniqid() . '.jpg';
-        
+
+        // Generar un nombre único y al azar para la imagen con su extensión original
+        $nuevo_nombre = uniqid(rand(), true) . '.' . $extension;
+
         // Definir la ruta de destino para la foto
         $ruta_foto = "../../../uploads/fotos/" . $nuevo_nombre;
-        
-        // Convertir todas las imágenes a formato JPG antes de guardarlas
-        if (in_array($extension, array('jpg', 'jpeg', 'png', 'gif'))) {
-            $imagen = imagecreatefromstring(file_get_contents($foto_tmp));
-            imagejpeg($imagen, $ruta_foto, 75);
-            imagedestroy($imagen);
-        }
 
-        // Mover la foto de la ubicación temporal a la permanente
+        // Mover la foto de la ubicación temporal a la permanente con el nuevo nombre
         move_uploaded_file($foto_tmp, $ruta_foto);
     } else {
         // Si no se selecciona ninguna foto, asignar la ruta por defecto
@@ -47,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Insertar datos en la base de datos
     $sql = "INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, ruta_foto, id_puesto, id_rol, Codigo, id_empresa, token) 
             VALUES (:id_us, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :ruta_foto, :id_puesto, :id_rol, :Codigo, :id_empresa, :token)";
-    
+
     $stmt = $conexion->prepare($sql);
     $stmt->bindParam(':id_us', $id_us);
     $stmt->bindParam(':nombre_us', $nombre_us);
@@ -61,11 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':Codigo', $Codigo);
     $stmt->bindParam(':id_empresa', $id_empresa);
     $stmt->bindParam(':token', $token);
-    
+
     if ($stmt->execute()) {
         echo "<script>alert('Usuario insertado correctamente'); window.location.href='../index.php';</script>";
     } else {
         echo "<script>alert('Error al insertar el usuario'); window.location.href='../index.php';</script>";
     }
 }
-?>

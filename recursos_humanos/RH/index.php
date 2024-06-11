@@ -1,4 +1,16 @@
 <?php
+session_start();
+if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
+    echo '
+        <script>
+            alert("Por favor inicie sesión e intente nuevamente");
+            window.location = "../../modulo_larry/PHP/login.php";
+        </script>
+    ';
+    session_destroy();
+    die();
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -11,6 +23,9 @@ $search_term = "";
 $current_month = date('m');
 $current_month_name = date('F');
 
+// Obtener el id_us de la sesión activa
+$id_us_session = $_SESSION['id_us'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Asignar valor de búsqueda si está disponible
     $search_term = isset($_POST["search_term"]) ? $_POST["search_term"] : "";
@@ -21,19 +36,38 @@ try {
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conexion->exec("SET CHARACTER SET utf8");
 
+    // Obtener id_empresa del usuario de la sesión activa
+    $sql_empresa = "SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session";
+    $stmt_empresa = $conexion->prepare($sql_empresa);
+    $stmt_empresa->bindParam(':id_us_session', $id_us_session, PDO::PARAM_INT);
+    $stmt_empresa->execute();
+    $id_empresa_session = $stmt_empresa->fetchColumn();
+
+    if ($id_empresa_session === false) {
+        throw new Exception("No se encontró el id_empresa para el usuario en sesión.");
+    }
+
     // Consulta SQL con filtro de búsqueda
     $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, roles.tp_user, puestos.cargo, puestos.salario, usuarios.ruta_foto
-        FROM usuarios 
-        LEFT JOIN roles ON usuarios.id_rol = roles.id 
-        LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
-        WHERE usuarios.id_rol >= 6";
+            FROM usuarios 
+            LEFT JOIN roles ON usuarios.id_rol = roles.id 
+            LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
+            WHERE usuarios.id_rol = 6 AND usuarios.id_empresa = :id_empresa_session";
 
     // Aplicar filtro si se proporciona un término de búsqueda
     if (!empty($search_term)) {
-        $sql .= " AND (usuarios.nombre_us LIKE '%$search_term%' OR usuarios.apellido_us LIKE '%$search_term%' OR usuarios.tel_us LIKE '%$search_term%' OR usuarios.id_us LIKE '%$search_term%' OR roles.tp_user LIKE '%$search_term%' OR puestos.cargo LIKE '%$search_term%')";
+        $sql .= " AND (usuarios.nombre_us LIKE :search_term OR usuarios.apellido_us LIKE :search_term OR usuarios.tel_us LIKE :search_term OR usuarios.id_us LIKE :search_term OR roles.tp_user LIKE :search_term OR puestos.cargo LIKE :search_term)";
     }
 
     $stmt = $conexion->prepare($sql);
+
+    // Vincular parámetros
+    $stmt->bindParam(':id_empresa_session', $id_empresa_session, PDO::PARAM_INT);
+    if (!empty($search_term)) {
+        $search_term = '%' . $search_term . '%';
+        $stmt->bindParam(':search_term', $search_term, PDO::PARAM_STR);
+    }
+
     $stmt->execute();
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -45,17 +79,17 @@ try {
         $stmt_nomina = $conexion->prepare($sql_nomina);
         $stmt_nomina->execute(['id_us' => $id_us, 'current_month' => $current_month]);
         $count = $stmt_nomina->fetchColumn();
-        if ($count > 0) {
-            $liquidaciones[$id_us] = true;
-        } else {
-            $liquidaciones[$id_us] = false;
-        }
+        $liquidaciones[$id_us] = ($count > 0);
     }
 } catch (PDOException $e) {
     echo "Error de conexión a la base de datos: " . $e->getMessage();
     exit();
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+    exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
