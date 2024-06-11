@@ -104,10 +104,7 @@ $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
                 <small id="Codigo_error" class="text-danger"></small> <!-- Mensaje de error -->
             </div>
             <input type="hidden" id="id_empresa" name="id_empresa" value="<?= $id_empresa ?>">
-            <div class="form-group">
-                <label for="token">Token</label>
-                <input type="text" class="form-control" id="token" name="token" value="<?= $usuario_editar['token'] ?>">
-            </div>
+            
             <input type="hidden" name="id_us" value="<?= $id_us_editar ?>">
             <button type="submit" class="btn btn-primary" id="guardarCambiosBtn" disabled>Guardar Cambios</button> <!-- Botón deshabilitado por defecto -->
         </form>

@@ -1,4 +1,16 @@
 <?php
+session_start();
+if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
+    echo '
+            <script>
+                alert("Por favor inicie sesión e intente nuevamente");
+                window.location = "../../modulo_larry/PHP/login.php";
+            </script>
+            ';
+    session_destroy();
+    die();
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -17,20 +29,31 @@ try {
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conexion->exec("SET CHARACTER SET utf8");
 
-    // Consulta SQL con filtro de búsqueda
+    // Obtener id_empresa del usuario de la sesión activa
+    $id_us = $_SESSION['id_us'];
+    $stmt = $conexion->prepare("SELECT id_empresa FROM usuarios WHERE id_us = :id_us");
+    $stmt->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+    $stmt->execute();
+    $id_empresa = $stmt->fetchColumn();
+
+    // Consulta SQL con filtro de búsqueda y restricción de id_empresa y id_rol
     $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, roles.tp_user, puestos.cargo, puestos.salario, usuarios.ruta_foto
         FROM usuarios 
         LEFT JOIN roles ON usuarios.id_rol = roles.id 
         LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
-        WHERE usuarios.id_rol >= 6";
-
+        WHERE usuarios.id_rol >= 6 AND usuarios.id_empresa = :id_empresa";
 
     // Aplicar filtro si se proporciona un término de búsqueda
     if (!empty($search_term)) {
-        $sql .= " AND (usuarios.nombre_us LIKE '%$search_term%' OR usuarios.apellido_us LIKE '%$search_term%' OR usuarios.tel_us LIKE '%$search_term%' OR usuarios.id_us LIKE '%$search_term%' OR roles.tp_user LIKE '%$search_term%' OR puestos.cargo LIKE '%$search_term%')";
+        $sql .= " AND (usuarios.nombre_us LIKE :search_term OR usuarios.apellido_us LIKE :search_term OR usuarios.tel_us LIKE :search_term OR usuarios.id_us LIKE :search_term OR roles.tp_user LIKE :search_term OR puestos.cargo LIKE :search_term)";
     }
 
     $stmt = $conexion->prepare($sql);
+    $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+    if (!empty($search_term)) {
+        $search_term = "%" . $search_term . "%";
+        $stmt->bindParam(':search_term', $search_term, PDO::PARAM_STR);
+    }
     $stmt->execute();
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
