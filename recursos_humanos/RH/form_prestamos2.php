@@ -52,15 +52,17 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Préstamos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 
 <body>
+<a class="btn btn-success" href="../../admin/PHP/index.php">INICIO</a>
+
     <div class="container mt-5">
         <h2>Lista de Préstamos</h2>
-        <table class="table">
+        <table class="table table-striped custom-table">
             <thead>
                 <tr>
-                    <th>ID Préstamo</th>
                     <th>Empleado</th>
                     <th>Fecha</th>
                     <th>Cantidad de Cuotas</th>
@@ -75,7 +77,6 @@ try {
             <tbody>
                 <?php foreach ($prestamos as $prestamo) : ?>
                     <tr>
-                        <td><?php echo $prestamo['ID_prest']; ?></td>
                         <td><?php echo $prestamo['nombre_empleado']; ?></td>
                         <td><?php echo $prestamo['Fecha']; ?></td>
                         <td><?php echo $prestamo['Cantidad_cuotas']; ?></td>
@@ -87,8 +88,8 @@ try {
                         <td>
                             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                                 <input type="hidden" name="id_prestamo" value="<?php echo $prestamo['ID_prest']; ?>">
-                                <button type="submit" name="aprobar" class="btn btn-success">Aprobar</button>
-                                <button type="submit" name="rechazar" class="btn btn-danger">Rechazar</button>
+                                <button type="submit" name="aprobar" class="btn btn-success ">Aprobar</button>
+                                <button type="submit" name="rechazar" class="btn btn-warning">Rechazar</button>
                             </form>
                         </td>
                     </tr>

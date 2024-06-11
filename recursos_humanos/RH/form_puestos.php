@@ -49,12 +49,14 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="admin.css">
   <title>Document</title>
 </head>
 
-<body class="section text-center container-sm" style="background-color: white;">
+<body class="section text-center container-sm">
 
   <div class="row full-height justify-content-center">
+    
     <h1 class="mb-4 pb-3">REGISTRO DE PUESTOS</h1>
     <div class="card-body">
       <form action="#" name="form" method="post">
@@ -69,9 +71,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
           <input type="number" class="form-control border border-dark" name="salario" placeholder="">
         </div>
         <br>
-        <input class="btn btn-outline-primary" type="submit" name="validar" value="registrar">
+        <input class="btn btn-primary" type="submit" name="validar" value="registrar">
         <input type="hidden" name="MM_insert" value="regm">
-        <a class="btn btn-outline-primary" href="../../modulo_brian/index.php">Inicio</a>
+        <a class="btn btn-primary" href="../../admin/PHP/index.php">Inicio</a>
     </div>
 
   </div>
@@ -89,11 +91,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
           <form autocomplete="off" name="frm_consulta" method="GET">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">ID de puesto</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Salario</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Actualizar</th>
+                <th scope="col">Eliminar</th>
 
               </tr>
             </thead>
@@ -107,9 +108,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
             ?>
               <tbody>
                 <tr scope="row">
-                  <td><input class="form-control" name="ID" type="text" value="<?php echo $resul['ID'] ?>" readonly="readonly" /></td>
                   <td><input class="form-control" name="cargo" type="text" value="<?php echo $resul['cargo'] ?>" readonly="readonly" /></td>
-                  <td><input class="form-control" name="salario" style="width: auto;" type="text" value="<?php echo $resul['salario'] ?>" readonly="readonly" /></td>
+                  <td><input class="form-control" name="salario" style="width: auto;" type="text" value="<?php echo number_format($resul['salario'])  ?>" readonly="readonly" /></td>
 
                   <td><a href="?id=<?php echo $resul['ID'] ?>" class="btn" onclick="window.open('puestos_up.php?id=<?php echo $resul['ID'] ?>','','width= 500,height=500, toolbar=NO');void(null);"><i class="uil uil-edit"></i></a></td>
                   <td><a href="?id=<?php echo $resul['ID'] ?>" class="btn" onclick="window.open('puestos_del.php?id=<?php echo $resul['ID'] ?>','','width= 500,height=500, toolbar=NO');void(null);"><i class="uil uil-trash-alt"></i></a></td>

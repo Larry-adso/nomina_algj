@@ -18,6 +18,7 @@ $nomina = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nóminas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -25,8 +26,7 @@ $nomina = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>ID</th>
-                    <th>ID Usuario</th>
+                    <th>Cedula Usuario</th>
                     <th>Nombre Usuario</th>
                     <th>Fecha</th>
                     <th>ID Deducción</th>
@@ -38,14 +38,13 @@ $nomina = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php foreach ($nomina as $fila): ?>
                 <tr>
-                    <td><?= $fila['ID'] ?></td>
                     <td><?= $fila['ID_user'] ?></td>
                     <td><?= $fila['nombre_completo'] ?></td>
                     <td><?= $fila['fecha'] ?></td>
                     <td><?= $fila['id_deduccion'] ?></td>
                     <td><?= $fila['id_suma'] ?></td>
                     <td><?= $fila['Valor_Pagar'] ?></td>
-                    <td><a href="detalles.php?id=<?= $fila['ID'] ?>" class="btn btn-info">Detalles</a></td>
+                    <td><a href="detalles.php?id=<?= $fila['ID'] ?>" class="btn btn-primary">Detalles</a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
