@@ -10,7 +10,7 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
-require_once("../conexion/db.php");
+require_once("../../conexion/db.php");
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
