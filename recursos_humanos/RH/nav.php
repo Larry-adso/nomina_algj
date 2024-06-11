@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .btn-toggle {
-            background-color: black;
+            background-color: #c7a17a;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -27,7 +27,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #111;
+            background-color: #c7a17a;
             overflow-x: hidden;
             transition: width 0.5s;
             padding-top: 60px;
