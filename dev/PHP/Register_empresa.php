@@ -165,15 +165,16 @@ if ($id_rol == '4') {
                 document.getElementById('nitHelpBlock').textContent = " Deben ser 10 números. Faltan " + charsRemaining;
             }
 
-            function validarNombre(input) {
-                var nombre = input.value.replace(/[^a-zA-Z\s]/g, '');
-                if (nombre.length > 20) {
-                    nombre = nombre.slice(0, 20);
-                }
-                input.value = nombre;
-                var charsRemaining = 20 - nombre.length;
-                document.getElementById('nombreHelpBlock').textContent = " Solo letras. Máximo 20 caracteres. Quedan " + charsRemaining;
-            }
+         function validarNombre(input) {
+    var nombre = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Permitir letras, números y espacios
+    if (nombre.length > 20) {
+        nombre = nombre.slice(0, 20);
+    }
+    input.value = nombre;
+    var charsRemaining = 20 - nombre.length;
+    document.getElementById('nombreHelpBlock').textContent = " Solo letras y números. Máximo 20 caracteres. Quedan " + charsRemaining;
+}
+
 
             function validarCorreo(input) {
                 // Verificar si el correo tiene un formato válido

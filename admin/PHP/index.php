@@ -4,17 +4,15 @@ if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol
     echo '
             <script>
                 alert("Por favor inicie sesión e intente nuevamente");
-                window.location = "../../modulo_larry/PHP/login.php";
+                window.location = "../../dev/PHP/login.php";
             </script>
             ';
     session_destroy();
     die();
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "nomina_algj";
+// Incluir el archivo de conexión
+include '../../conexion/db.php';
 
 // Inicializar las variables de búsqueda
 $search_term = "";
@@ -25,10 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 try {
-    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conexion->exec("SET CHARACTER SET utf8");
-
     // Obtener id_empresa del usuario de la sesión activa
     $id_us = $_SESSION['id_us'];
     $stmt = $conexion->prepare("SELECT id_empresa FROM usuarios WHERE id_us = :id_us");
@@ -61,6 +55,7 @@ try {
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">

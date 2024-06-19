@@ -105,6 +105,7 @@ $apellido = isset($_SESSION['apellido_us']) ? $_SESSION['apellido_us'] : 'Usuari
             <ul class="nav flex-column">
             <li class="nav-item"><a href="prestamo.php" class="nav-link"><i class="fas fa-user-tag"></i> Solicitar prestamos</a></li>
             <li class="nav-item"><a href="permisos.php" class="nav-link"><i class="fas fa-user-tag"></i> Solicitar permisos</a></li>
+            <li class="nav-item"><a href="nomina_Tab.php" class="nav-link"><i class="fas fa-user-tag"></i> Nomina</a></li>
             <li class="nav-item">
 
                 <a type="submit" name="logout" class="nav-link fas fa-sign-out-alt" style="background: none; border: none; padding: 0; cursor: pointer; color:#fff;" href="../dev/PHP/cerrar.php" role="button">Cerrar sesion</a>

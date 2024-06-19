@@ -12,18 +12,19 @@ $usuario = $query_usuario->fetch(PDO::FETCH_ASSOC);
 $id_empresa = $usuario['id_empresa'];
 $rol_usuario_activo = $usuario['id_rol'];
 
-// Obtener puestos
-$query_puestos = $conexion->prepare("SELECT ID, cargo FROM puestos");
+// Obtener puestos de la empresa del usuario activo
+$query_puestos = $conexion->prepare("SELECT ID, cargo FROM puestos WHERE id_empresa = :id_empresa");
+$query_puestos->bindParam(':id_empresa', $id_empresa);
 $query_puestos->execute();
 $puestos = $query_puestos->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener roles, excluyendo el rol del usuario activo
-$query_roles = $conexion->prepare("SELECT ID, Tp_user FROM roles WHERE ID = 6");
+// Obtener roles, excluyendo el rol del usuario activo (ejemplo: ID = 6)
+$query_roles = $conexion->prepare("SELECT ID, Tp_user FROM roles WHERE ID != :rol_usuario_activo");
+$query_roles->bindParam(':rol_usuario_activo', $rol_usuario_activo);
 $query_roles->execute();
 $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

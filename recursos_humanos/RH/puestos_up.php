@@ -61,19 +61,19 @@ if(isset($_POST["update"]))
 
             <tr>
             <div class="form-group col-md-4">
-                    <td>ID usuario</td>
+                    <td>ID Puesto</td>
                     <td><input class="form-control border border-dark mb-3" name ="ID" value="<?php echo $usua['ID']?>" readonly></td> 
                 </div>
 
                 </tr>
 
                 <tr>
-                    <td>Fecha de salida</td>
+                    <td>Cargo</td>
                     <td><input class="form-control border border-gray mb-3"type="text" name ="cargo" value="<?php echo $usua['cargo']?>"></td>
                 </tr>
 
                 <tr>
-                    <td>Fecha de reingreso</td>
+                    <td>Salario</td>
                     <td><input class="form-control border border-gray mb-3" type="text" name ="salario" value="<?php echo $usua['salario']?>" ></td>
                 </tr>
 

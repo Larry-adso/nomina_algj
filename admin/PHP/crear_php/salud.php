@@ -102,18 +102,40 @@ a.btn.btn-success:hover {
                     </div>
                     <div class="card-body">
                         <?php
-                        include '../../../conexion/db.php';
+                        session_start();
+                        require_once '../../../conexion/db.php';
+
+                        if (!isset($_SESSION['id_us'])) {
+                            echo '
+                            <script>
+                                alert("Por favor inicie sesión e intente nuevamente");
+                                window.location = "../../dev/PHP/login.php";
+                            </script>
+                            ';
+                            session_destroy();
+                            die();
+                        }
+
+                        $id_us = $_SESSION['id_us'];
+                        $stmt = $conexion->prepare("SELECT id_empresa FROM usuarios WHERE id_us = :id_us");
+                        $stmt->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+                        $stmt->execute();
+                        $id_empresa = $stmt->fetchColumn();
 
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $valor = $_POST['valor'];
 
                             if ($conexion) {
-                                $sql = "INSERT INTO salud (valor) VALUES ('$valor')";
-
-                                if ($conexion->query($sql)) {
+                                // Modificar la consulta para insertar el id_empresa
+                                $sql = "INSERT INTO salud (id_empresa, valor) VALUES (:id_empresa, :valor)";
+                                $stmt = $conexion->prepare($sql);
+                                $stmt->bindParam(':id_empresa', $id_empresa);
+                                $stmt->bindParam(':valor', $valor);
+                                
+                                if ($stmt->execute()) {
                                     echo '<script>alert("El valor de Salud \'' . $valor . '%\' ha sido insertado correctamente."); window.location.href = "../index.php";</script>';
                                 } else {
-                                    echo '<script>alert("Error al insertar el valor: ' . $conexion->errorInfo()[2] . '"); window.location.href = "../index.php";</script>';
+                                    echo '<script>alert("Error al insertar el valor: ' . $stmt->errorInfo()[2] . '"); window.location.href = "../index.php";</script>';
                                 }
                             } else {
                                 echo '<script>alert("Error al establecer la conexión a la base de datos."); window.location.href = "salud.php";</script>';
@@ -135,7 +157,7 @@ a.btn.btn-success:hover {
     </div>
 
     <script>
-        const cargarSaludForm = document.getElementById('cargarSaludForm');
+        // Validación de formulario (si es necesario)
         const valorInput = document.getElementById('valor');
         const registrarValorBtn = document.getElementById('registrarValorBtn');
 
@@ -155,6 +177,5 @@ a.btn.btn-success:hover {
         }
     </script>
 </body>
-
 
 </html>

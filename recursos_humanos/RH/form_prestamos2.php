@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['id_us'])) {
-    header("Location: ../../login.php");
+    header("Location: ../../dev/PHP/login.php");
     exit; // Terminar el script para evitar que se ejecute más código
 }
 
@@ -41,6 +41,29 @@ try {
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
     exit();
+}
+
+// Procesar el formulario cuando se presiona uno de los botones
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
+        $id_prestamo = $_POST['id_prestamo'];
+        $estado = isset($_POST['aprobar']) ? '6' : '7'; // Si se presiona el botón "Aprobar", establece el estado en '6', de lo contrario, en '7'
+
+        try {
+            // Actualizar el estado del préstamo
+            $query_update_estado = "UPDATE prestamo SET estado = :estado WHERE ID_prest = :id_prestamo";
+            $statement_update = $conexion->prepare($query_update_estado);
+            $statement_update->bindParam(':estado', $estado, PDO::PARAM_STR);
+            $statement_update->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
+            $statement_update->execute();
+            
+            // Redirigir para evitar envío del formulario al actualizar la página
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } catch (PDOException $e) {
+            echo "Error al actualizar el estado del préstamo: " . $e->getMessage();
+        }
+    }
 }
 ?>
 
@@ -139,7 +162,7 @@ a.btn.btn-success:hover {
 </head>
 
 <body>
-<a class="btn btn-success" href="../../admin/PHP/index.php">INICIO</a>
+<a class="btn btn-success" href="index.php">INICIO</a>
 
     <div class="container mt-5">
         <h2>Lista de Préstamos</h2>
@@ -180,6 +203,26 @@ a.btn.btn-success:hover {
             </tbody>
         </table>
     </div>
+    <!-- Script para deshabilitar los botones después de enviar el formulario -->
+    <script>
+        function disableButtons() {
+            var buttons = document.querySelectorAll('button[type="submit"]');
+            buttons.forEach(function(button) {
+                button.disabled = true;
+            });
+            var message = document.createElement('span');
+            message.textContent = "Ya has aprobado o desaprobado este préstamo";
+            message.style.color = "#28a745"; // Verde para indicar éxito
+            document.querySelector('form').appendChild(message);
+        }
+    </script>
+    
+    <?php if ($_SERVER["REQUEST_METHOD"] == "POST") : ?>
+        <script>
+            // Deshabilitar los botones después de enviar el formulario
+            disableButtons();
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-05-2024 a las 15:05:40
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 11-06-2024 a las 04:53:20
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,6 +32,17 @@ CREATE TABLE `arl` (
   `valor` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `arl`
+--
+
+INSERT INTO `arl` (`id_arl`, `valor`) VALUES
+(1, 2),
+(2, 3),
+(3, 4),
+(4, 5),
+(5, 6);
+
 -- --------------------------------------------------------
 
 --
@@ -43,21 +54,43 @@ CREATE TABLE `aux_trasporte` (
   `Valor` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `aux_trasporte`
+--
+
+INSERT INTO `aux_trasporte` (`ID`, `Valor`) VALUES
+(1, 170000);
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `deducciones`
+-- Estructura de tabla para la tabla `contactanos`
 --
 
-CREATE TABLE `deducciones` (
+CREATE TABLE `contactanos` (
+  `id` int(11) NOT NULL,
+  `nombres` varchar(50) NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `telefono` varchar(10) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `id_estado` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `deduccion`
+--
+
+CREATE TABLE `deduccion` (
   `ID_DEDUCCION` int(11) NOT NULL,
-  `MES_DEDUCCION` datetime DEFAULT NULL,
-  `ID_USUARIO` int(11) DEFAULT NULL,
-  `ID_PRESTAMO` int(11) DEFAULT NULL,
-  `ID_SALUD` int(11) DEFAULT NULL,
-  `ID_PENSION` int(11) DEFAULT NULL,
-  `TOTAL_PARAFISCALES` int(12) DEFAULT NULL,
-  `TOTAL_DEDUCCION` int(12) DEFAULT NULL
+  `fecha` datetime DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  `id_prestamo` int(11) DEFAULT NULL,
+  `id_salud` int(11) DEFAULT NULL,
+  `id_pension` int(11) DEFAULT NULL,
+  `parafiscales` int(20) DEFAULT NULL,
+  `total` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -96,24 +129,12 @@ INSERT INTO `estado` (`ID_Es`, `Estado`) VALUES
 (3, 'Disponible'),
 (4, 'En proceso'),
 (5, 'primera vez'),
-(10, 'Aprobado'),
-(11, 'Rechazado'),
-(12, 'Cancelado');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `inducciones`
---
-
-CREATE TABLE `inducciones` (
-  `ID_INDUCCION` int(11) NOT NULL,
-  `MES_INDUCCION` datetime DEFAULT NULL,
-  `ID_USUARIO` int(11) DEFAULT NULL,
-  `ID_VALOR_HORA_EXTRA` int(11) DEFAULT NULL,
-  `HORAS_EXTRAS` int(11) DEFAULT NULL,
-  `TOTAL_INDUCCION` int(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(6, 'aprobado'),
+(7, 'desaprobado'),
+(8, 'Cancelado'),
+(9, 'PAGO'),
+(13, 'Llamar'),
+(14, 'Llamado');
 
 -- --------------------------------------------------------
 
@@ -141,9 +162,8 @@ CREATE TABLE `nomina` (
   `ID_user` int(11) NOT NULL,
   `Fecha` datetime NOT NULL,
   `ID_deduccion` int(11) NOT NULL,
-  `Id_induccion` int(11) NOT NULL,
-  `ID_aux_Trasporte` int(11) NOT NULL,
-  `Valor_Pagar` decimal(10,2) NOT NULL
+  `Id_suma` int(11) NOT NULL,
+  `Valor_Pagar` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -162,7 +182,7 @@ CREATE TABLE `pension` (
 --
 
 INSERT INTO `pension` (`ID`, `Valor`) VALUES
-(10, 4);
+(1, 4);
 
 -- --------------------------------------------------------
 
@@ -174,9 +194,9 @@ CREATE TABLE `permisos` (
   `id_permiso` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
   `fecha_reingreso` datetime NOT NULL,
-  `observacion` varchar(255) NOT NULL,
   `id_us` int(11) NOT NULL,
-  `estado` int(10) DEFAULT NULL
+  `estado` int(10) DEFAULT NULL,
+  `observacion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -190,10 +210,10 @@ CREATE TABLE `prestamo` (
   `ID_Empleado` int(11) NOT NULL,
   `Fecha` datetime NOT NULL,
   `Cantidad_cuotas` int(11) NOT NULL,
-  `Valor_Cuotas` int(10) NOT NULL,
+  `Valor_Cuotas` decimal(10,2) NOT NULL,
   `cuotas_en_deuda` int(11) DEFAULT NULL,
   `cuotas_pagas` int(11) DEFAULT NULL,
-  `VALOR` int(10) NOT NULL,
+  `VALOR` decimal(10,2) NOT NULL,
   `estado` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -206,17 +226,10 @@ CREATE TABLE `prestamo` (
 CREATE TABLE `puestos` (
   `ID` int(11) NOT NULL,
   `cargo` varchar(20) DEFAULT NULL,
-  `salario` int(12) DEFAULT NULL,
+  `salario` decimal(10,2) DEFAULT NULL,
   `id_empresa` int(11) NOT NULL,
   `id_arl` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `puestos`
---
-
-INSERT INTO `puestos` (`ID`, `cargo`, `salario`, `id_empresa`, `id_arl`) VALUES
-(1, 'desarrollador web', 2000000, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -255,17 +268,21 @@ CREATE TABLE `salud` (
 --
 
 INSERT INTO `salud` (`ID`, `Valor`) VALUES
-(4, 4);
+(1, 4);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_deporte`
+-- Estructura de tabla para la tabla `sumas`
 --
 
-CREATE TABLE `tipo_deporte` (
-  `id_tp_deporte` int(10) NOT NULL,
-  `nombre_tp_deporte` varchar(50) DEFAULT NULL
+CREATE TABLE `sumas` (
+  `ID_INDUCCION` int(11) NOT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  `valor_hora_extra` int(11) DEFAULT NULL,
+  `horas_trabajadas` int(11) DEFAULT NULL,
+  `total` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -313,7 +330,7 @@ CREATE TABLE `usuarios` (
   `correo_us` varchar(50) NOT NULL,
   `tel_us` varchar(15) NOT NULL,
   `pass` varchar(500) NOT NULL,
-  `foto` longblob DEFAULT NULL,
+  `ruta_foto` varchar(255) DEFAULT NULL,
   `id_puesto` int(11) DEFAULT NULL,
   `id_rol` int(11) NOT NULL,
   `Codigo` int(10) NOT NULL,
@@ -325,7 +342,7 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_us`, `pass`, `foto`, `id_puesto`, `id_rol`, `Codigo`, `id_empresa`, `token`) VALUES
+INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_us`, `pass`, `ruta_foto`, `id_puesto`, `id_rol`, `Codigo`, `id_empresa`, `token`) VALUES
 (1109000587, 'Larry', 'Garcia', 'windonpc125@gmail.com', '3173328716', '3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79', NULL, NULL, 4, 933, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -336,7 +353,7 @@ INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_u
 
 CREATE TABLE `v_h_extra` (
   `ID` int(11) NOT NULL,
-  `V_H_extra` decimal(10,2) DEFAULT NULL
+  `V_H_extra` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -344,8 +361,7 @@ CREATE TABLE `v_h_extra` (
 --
 
 INSERT INTO `v_h_extra` (`ID`, `V_H_extra`) VALUES
-(6, 100.00),
-(8, 1200.00);
+(6, 6000);
 
 --
 -- Índices para tablas volcadas
@@ -364,14 +380,16 @@ ALTER TABLE `aux_trasporte`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `deducciones`
+-- Indices de la tabla `contactanos`
 --
-ALTER TABLE `deducciones`
-  ADD PRIMARY KEY (`ID_DEDUCCION`),
-  ADD KEY `fk_deducciones_usuarios` (`ID_USUARIO`),
-  ADD KEY `fk_deducciones_prestamo` (`ID_PRESTAMO`),
-  ADD KEY `fk_deducciones_salud` (`ID_SALUD`),
-  ADD KEY `fk_deducciones_pension` (`ID_PENSION`);
+ALTER TABLE `contactanos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `deduccion`
+--
+ALTER TABLE `deduccion`
+  ADD PRIMARY KEY (`ID_DEDUCCION`);
 
 --
 -- Indices de la tabla `empresas`
@@ -386,14 +404,6 @@ ALTER TABLE `estado`
   ADD PRIMARY KEY (`ID_Es`);
 
 --
--- Indices de la tabla `inducciones`
---
-ALTER TABLE `inducciones`
-  ADD PRIMARY KEY (`ID_INDUCCION`),
-  ADD KEY `ID_USUARIO` (`ID_USUARIO`),
-  ADD KEY `ID_VALOR_HORA_EXTRA` (`ID_VALOR_HORA_EXTRA`);
-
---
 -- Indices de la tabla `licencia`
 --
 ALTER TABLE `licencia`
@@ -404,11 +414,7 @@ ALTER TABLE `licencia`
 -- Indices de la tabla `nomina`
 --
 ALTER TABLE `nomina`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `fk_nomina_usuarios` (`ID_user`),
-  ADD KEY `fk_nomina_deducciones` (`ID_deduccion`),
-  ADD KEY `fk_nomina_inducciones` (`Id_induccion`),
-  ADD KEY `fk_nomina_aux_trasporte` (`ID_aux_Trasporte`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indices de la tabla `pension`
@@ -450,10 +456,10 @@ ALTER TABLE `salud`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `tipo_deporte`
+-- Indices de la tabla `sumas`
 --
-ALTER TABLE `tipo_deporte`
-  ADD PRIMARY KEY (`id_tp_deporte`);
+ALTER TABLE `sumas`
+  ADD PRIMARY KEY (`ID_INDUCCION`);
 
 --
 -- Indices de la tabla `tp_licencia`
@@ -486,16 +492,46 @@ ALTER TABLE `v_h_extra`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `arl`
+--
+ALTER TABLE `arl`
+  MODIFY `id_arl` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `aux_trasporte`
+--
+ALTER TABLE `aux_trasporte`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `contactanos`
+--
+ALTER TABLE `contactanos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `deduccion`
+--
+ALTER TABLE `deduccion`
+  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `ID_Es` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_Es` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `licencia`
 --
 ALTER TABLE `licencia`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `nomina`
+--
+ALTER TABLE `nomina`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `pension`
@@ -507,13 +543,13 @@ ALTER TABLE `pension`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `puestos`
@@ -534,6 +570,18 @@ ALTER TABLE `salud`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `sumas`
+--
+ALTER TABLE `sumas`
+  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- AUTO_INCREMENT de la tabla `tp_licencia`
+--
+ALTER TABLE `tp_licencia`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1215;
+
+--
 -- AUTO_INCREMENT de la tabla `v_h_extra`
 --
 ALTER TABLE `v_h_extra`
@@ -544,43 +592,10 @@ ALTER TABLE `v_h_extra`
 --
 
 --
--- Filtros para la tabla `deducciones`
---
-ALTER TABLE `deducciones`
-  ADD CONSTRAINT `deducciones_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`id_us`),
-  ADD CONSTRAINT `deducciones_ibfk_2` FOREIGN KEY (`ID_PRESTAMO`) REFERENCES `prestamo` (`ID_prest`),
-  ADD CONSTRAINT `deducciones_ibfk_3` FOREIGN KEY (`ID_SALUD`) REFERENCES `salud` (`ID`),
-  ADD CONSTRAINT `deducciones_ibfk_4` FOREIGN KEY (`ID_PENSION`) REFERENCES `pension` (`ID`),
-  ADD CONSTRAINT `fk_deducciones_pension` FOREIGN KEY (`ID_PENSION`) REFERENCES `pension` (`ID`),
-  ADD CONSTRAINT `fk_deducciones_prestamo` FOREIGN KEY (`ID_PRESTAMO`) REFERENCES `prestamo` (`ID_prest`),
-  ADD CONSTRAINT `fk_deducciones_salud` FOREIGN KEY (`ID_SALUD`) REFERENCES `salud` (`ID`),
-  ADD CONSTRAINT `fk_deducciones_usuarios` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`id_us`);
-
---
--- Filtros para la tabla `inducciones`
---
-ALTER TABLE `inducciones`
-  ADD CONSTRAINT `inducciones_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`id_us`),
-  ADD CONSTRAINT `inducciones_ibfk_2` FOREIGN KEY (`ID_VALOR_HORA_EXTRA`) REFERENCES `v_h_extra` (`ID`);
-
---
 -- Filtros para la tabla `licencia`
 --
 ALTER TABLE `licencia`
   ADD CONSTRAINT `licencia_ibfk_1` FOREIGN KEY (`ID_Estado`) REFERENCES `estado` (`ID_Es`);
-
---
--- Filtros para la tabla `nomina`
---
-ALTER TABLE `nomina`
-  ADD CONSTRAINT `fk_nomina_aux_trasporte` FOREIGN KEY (`ID_aux_Trasporte`) REFERENCES `aux_trasporte` (`ID`),
-  ADD CONSTRAINT `fk_nomina_deducciones` FOREIGN KEY (`ID_deduccion`) REFERENCES `deducciones` (`ID_DEDUCCION`),
-  ADD CONSTRAINT `fk_nomina_inducciones` FOREIGN KEY (`Id_induccion`) REFERENCES `inducciones` (`ID_INDUCCION`),
-  ADD CONSTRAINT `fk_nomina_usuarios` FOREIGN KEY (`ID_user`) REFERENCES `usuarios` (`id_us`),
-  ADD CONSTRAINT `nomina_ibfk_1` FOREIGN KEY (`ID_user`) REFERENCES `usuarios` (`id_us`),
-  ADD CONSTRAINT `nomina_ibfk_2` FOREIGN KEY (`ID_deduccion`) REFERENCES `deducciones` (`ID_DEDUCCION`),
-  ADD CONSTRAINT `nomina_ibfk_3` FOREIGN KEY (`Id_induccion`) REFERENCES `inducciones` (`ID_INDUCCION`),
-  ADD CONSTRAINT `nomina_ibfk_4` FOREIGN KEY (`ID_aux_Trasporte`) REFERENCES `aux_trasporte` (`ID`);
 
 --
 -- Filtros para la tabla `permisos`

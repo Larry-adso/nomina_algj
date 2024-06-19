@@ -1,20 +1,21 @@
 <?php
+include '../../conexion/db.php';
 session_start();
+
+// Verificar sesión activa y rol permitido
 if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
     echo '
         <script>
             alert("Por favor inicie sesión e intente nuevamente");
-            window.location = "../../modulo_larry/PHP/login.php";
+            window.location = "../../dev/PHP/login.php";
         </script>
     ';
     session_destroy();
     die();
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "nomina_algj";
+// Incluir el archivo de conexión si no lo has incluido ya
+// ...
 
 // Inicializar las variables de búsqueda
 $search_term = "";
@@ -32,10 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 try {
-    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conexion->exec("SET CHARACTER SET utf8");
-
     // Obtener id_empresa del usuario de la sesión activa
     $sql_empresa = "SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session";
     $stmt_empresa = $conexion->prepare($sql_empresa);
@@ -89,7 +86,6 @@ try {
     exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -228,7 +224,7 @@ try {
                 <div class="col">
                     <form method="post" class="form-inline">
                         <div class="form-group mr-2">
-                            <input type="text" class="form-control" name="search_term" placeholder="Buscar...">
+                            <input type="text" class="form-control" name="search_term" placeholder="Buscar..." value="<?php echo htmlspecialchars($search_term); ?>">
                         </div>
                         <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search"></i> Buscar</button>
                         <?php if (!empty($search_term)) : ?>
@@ -253,22 +249,22 @@ try {
                                     <img class="card-img-top" src="../<?php echo $ruta_foto_ajustada; ?>" alt="Foto">
                                 <?php endif; ?>
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo $usuario['nombre_us'] . ' ' . $usuario['apellido_us']; ?></h5>
-                                    <p class="card-text"><strong>Cédula:</strong> <?php echo $usuario['id_us']; ?></p>
-                                    <p class="card-text"><strong>Rol:</strong> <?php echo $usuario['tp_user']; ?></p>
-                                    <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
-                                    <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
+                                    <h5 class="card-title"><?php echo htmlspecialchars($usuario['nombre_us'] . ' ' . $usuario['apellido_us']); ?></h5>
+                                    <p class="card-text"><strong>Cédula:</strong> <?php echo htmlspecialchars($usuario['id_us']); ?></p>
+                                    <p class="card-text"><strong>Rol:</strong> <?php echo htmlspecialchars($usuario['tp_user']); ?></p>
+                                    <p class="card-text"><strong>Cargo:</strong> <?php echo htmlspecialchars($usuario['cargo']); ?></p>
+                                    <p class="card-text"><strong>Salario:</strong> <?php echo htmlspecialchars($usuario['salario']); ?></p>
                                     <!-- Formulario oculto para enviar el id_us -->
-                                    <form action="liquidacion/liquidar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
-                                        <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
+                                    <form action="liquidacion/liquidar.php" method="POST" id="liquidar_form_<?php echo htmlspecialchars($usuario['id_us']); ?>">
+                                        <input type="hidden" name="id_us" value="<?php echo htmlspecialchars($usuario['id_us']); ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
                                     <?php if ($liquidaciones[$usuario['id_us']]) : ?>
-                                        <button class="btn btn-secondary btn-sm" disabled>Este usuario ya tiene una nómina liquidada del mes de <?php echo $current_month_name; ?>. Puede liquidar nuevamente la nómina el próximo mes.</button>
+                                        <button class="btn btn-secondary btn-sm" disabled>Este usuario ya tiene una nómina liquidada del mes de <?php echo htmlspecialchars($current_month_name); ?>. Puede liquidar nuevamente la nómina el próximo mes.</button>
                                     <?php else : ?>
-                                        <button class="btn btn-success btn-sm" onclick="liquidar(<?php echo $usuario['id_us']; ?>)">Liquidar</button>
+                                        <button class="btn btn-success btn-sm" onclick="liquidarForm(<?php echo htmlspecialchars($usuario['id_us']); ?>)">Liquidar</button>
                                     <?php endif; ?>
-                                    <button class="btn btn-success btn-sm" onclick="window.location.href='php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'">Editar</button>
+                                    <button class="btn btn-success btn-sm" onclick="editarEmpleado(<?php echo htmlspecialchars($usuario['id_us']); ?>)">Editar</button>
                                 </div>
                             </div>
                         </div>
@@ -283,9 +279,14 @@ try {
             </div>
         </div>
     </div>
+
     <script>
-        function liquidar(id) {
+        function liquidarForm(id) {
             document.getElementById('liquidar_form_' + id).submit();
+        }
+
+        function editarEmpleado(id) {
+            window.location.href = 'php/editar_empleados.php?id_us=' + id;
         }
     </script>
 

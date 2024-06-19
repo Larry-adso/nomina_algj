@@ -177,12 +177,9 @@ th {
     color: rgb(0, 0, 0);
 }
 
-tbody tr:nth-child(even) {
-    background-color: #596445;
-}
 
 tbody tr:hover {
-    background-color: #3a422c;
+    background-color: #f9f5f0;
 }
 
 .table-responsive {
@@ -228,7 +225,7 @@ tbody tr:hover {
     }
 
     input[type="submit"]:hover {
-        background-color: #3a422c;
+        background-color: #9b7752;
     }
 
     /* Estilos para el select */
@@ -254,5 +251,5 @@ tbody tr:hover {
     }
 
     .pagination a:hover {
-        background-color: #3a422c;
+        background-color: #9b7752;
     }

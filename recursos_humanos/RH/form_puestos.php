@@ -1,12 +1,10 @@
 <?php
-//conectar bd
-
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
             <script>
                 alert("Por favor inicie sesión e intente nuevamente");
-                window.location = "../../modulo_larry/PHP/login.php";
+                window.location = ""../../dev/PHP/login.php"";
             </script>
             ';
     session_destroy();
@@ -16,29 +14,41 @@ require_once("../../conexion/db.php");
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '5') {
-?>
-<?php
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
 
-  $cargo = $_POST['cargo'];
-  $salario = $_POST['salario'];
+        // Obtener el id_empresa de la sesión del usuario
+        $id_us = $_SESSION['id_us'];
+        $stmt = $conexion->prepare("SELECT id_empresa FROM usuarios WHERE id_us = :id_us");
+        $stmt->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+        $stmt->execute();
+        $id_empresa = $stmt->fetchColumn();
 
+        $cargo = $_POST['cargo'];
+        $salario = $_POST['salario'];
+        $id_arl = $_POST['id_arl'];
 
-  $sql = $conexion->prepare("SELECT*FROM puestos where cargo = '$cargo'");
-  $sql->execute();
-  $fila = $sql->fetchALL(PDO::FETCH_ASSOC);
+        $sql = $conexion->prepare("SELECT * FROM puestos WHERE cargo = :cargo");
+        $sql->bindParam(':cargo', $cargo);
+        $sql->execute();
+        $fila = $sql->fetch(PDO::FETCH_ASSOC);
 
-  if ($cargo == "" || $salario == "") {
-    echo '<script>alert("EXISTEN DATOS VACIOS"); </script>';
-  } else if ($fila) {
-    echo '<script>alert("Usuario o telefono ya registrado");</script>';
-  } else {
-    $insertSQL = $conexion->prepare("INSERT INTO puestos (cargo,salario) VALUES ('$cargo','$salario')");
-    $insertSQL->execute();
-    echo '<script>alert("Registro exitoso"); </script>';
-  }
-}
-
+        if ($cargo == "" || $salario == "") {
+            echo '<script>alert("EXISTEN DATOS VACIOS"); </script>';
+        } else if ($fila) {
+            echo '<script>alert("El cargo ya está registrado");</script>';
+        } else {
+            // Preparar la consulta para insertar, incluyendo el id_empresa
+            $insertSQL = $conexion->prepare("INSERT INTO puestos (id_empresa, id_arl, cargo, salario) VALUES (:id_empresa, :id_arl, :cargo, :salario)");
+            // Vincular parámetros
+            $insertSQL->bindParam(':id_empresa', $id_empresa);
+            $insertSQL->bindParam(':id_arl', $id_arl);
+            $insertSQL->bindParam(':cargo', $cargo);
+            $insertSQL->bindParam(':salario', $salario);
+            // Ejecutar la consulta
+            $insertSQL->execute();
+            echo '<script>alert("Registro exitoso"); </script>';
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,6 +164,22 @@ a.btn.btn-success:hover {
           <input type="number" class="form-control border border-dark" name="salario" placeholder="">
         </div>
         <br>
+           <div class="form-row col-md-4 mx-auto">
+            <label for="id_arl">ARL</label>
+            <select class="form-control border border-dark mb-3" name="id_arl">
+                <?php
+                // Obtener valores de la tabla arl
+                $sql_arl = $conexion->prepare("SELECT id_arl, valor FROM arl");
+                $sql_arl->execute();
+                $arl_data = $sql_arl->fetchAll(PDO::FETCH_ASSOC);
+                // Mostrar opciones en el select
+                foreach ($arl_data as $arl) {
+                    echo "<option value='" . $arl['id_arl'] . "'>" . $arl['valor'] . '%' . "</option>";
+                }
+                ?>
+            </select>
+        </div>
+
         <input class="btn btn-primary" type="submit" name="validar" value="registrar">
         <input type="hidden" name="MM_insert" value="regm">
         <a class="btn btn-primary" href="../../admin/PHP/index.php">Inicio</a>

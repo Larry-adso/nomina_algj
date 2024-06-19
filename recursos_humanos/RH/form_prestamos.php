@@ -1,54 +1,72 @@
 <?php
 session_start();
+
+// Verificar si el usuario está autenticado
 if (!isset($_SESSION['id_us'])) {
-    echo '
-            <script>
-                alert("Por favor inicie sesión e intente nuevamente");
-                window.location = "../../modulo_larry/PHP/login.php";
-            </script>
-            ';
-    session_destroy();
-    die();
+    header("Location: ../../login.php");
+    exit; // Terminar el script para evitar que se ejecute más código
 }
-require_once("../conexion/db.php");
 
-$id_rol = $_SESSION['id_rol'];
-if ($id_rol == '5') {
-?>
-<?php
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
+// Incluir el archivo de conexión a la base de datos
+require_once "../../conexion/db.php"; // Reemplazar con el nombre correcto de tu archivo de conexión
 
-  $ID_Empleado = $_POST['ID_Empleado'];
-  $Fecha = $_POST['Fecha'];
-  $Cantidad_cuotas = $_POST['Cantidad_cuotas'];
-  $Valor_Cuotas = $_POST['Valor_Cuotas'];
-  $VALOR = $_POST['VALOR'];
-  $ESTADO_SOLICITUD = $_POST['ESTADO_SOLICITUD'];
+// Obtener el id_empresa del usuario en sesión
+$id_us_session = $_SESSION['id_us'];
 
-  // Verificar si el ID_Empleado existe en la tabla usuarios
-  $sql_usuario = $conexion->prepare("SELECT * FROM usuarios WHERE id_us = ?");
-  $sql_usuario->execute([$ID_Empleado]);
-  $usuario_existente = $sql_usuario->fetch();
+try {
+    // Obtener id_empresa del usuario en sesión
+    $query_empresa = "SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session";
+    $statement_empresa = $conexion->prepare($query_empresa);
+    $statement_empresa->bindParam(':id_us_session', $id_us_session, PDO::PARAM_INT);
+    $statement_empresa->execute();
+    $id_empresa_session = $statement_empresa->fetchColumn();
 
-  // Verificar si el ID_Empleado existe en la tabla prestamo
-  $sql_prestamo = $conexion->prepare("SELECT * FROM prestamo WHERE ID_Empleado = ?");
-  $sql_prestamo->execute([$ID_Empleado]);
-  $prestamo_existente = $sql_prestamo->fetch();
+    if ($id_empresa_session === false) {
+        throw new Exception("No se encontró el id_empresa para el usuario en sesión.");
+    }
 
-  if ($ID_Empleado == "" || $Fecha == "" || $Cantidad_cuotas == "" || $Valor_Cuotas == "" || $VALOR == "" || $ESTADO_SOLICITUD == "") {
-    echo '<script>alert("EXISTEN DATOS VACIOS");</script>';
-  } elseif ($prestamo_existente) {
-    echo '<script>alert("El ID_Empleado ya tiene un préstamo registrado");</script>';
-  } elseif (!$usuario_existente) {
-    echo '<script>alert("El ID_Empleado no existe en la tabla de usuarios");</script>';
-  } else {
-    $insertSQL = $conexion->prepare("INSERT INTO prestamo (ID_Empleado, Fecha, Cantidad_cuotas, Valor_Cuotas, VALOR, estado)
-         VALUES (?, ?, ?, ?, ?, ?)");
-    $insertSQL->execute([$ID_Empleado, $Fecha, $Cantidad_cuotas, $Valor_Cuotas, $VALOR, $ESTADO_SOLICITUD]);
-    echo '<script>alert("Registro exitoso");</script>';
-  }
+    // Consultar todos los datos de la tabla de préstamos
+    $query = "SELECT p.ID_prest, p.Fecha, p.Cantidad_cuotas, p.Valor_Cuotas, p.cuotas_en_deuda, p.cuotas_pagas, p.VALOR, e.estado AS estado_prestamo, CONCAT(u.nombre_us, ' ', u.apellido_us) AS nombre_empleado
+              FROM prestamo p
+              INNER JOIN estado e ON p.estado = e.ID_Es
+              INNER JOIN usuarios u ON p.ID_Empleado = u.id_us
+              WHERE u.id_empresa = :id_empresa_session";
+    $statement = $conexion->prepare($query);
+    $statement->bindParam(':id_empresa_session', $id_empresa_session, PDO::PARAM_INT);
+    $statement->execute();
+    $prestamos = $statement->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Manejar errores de conexión a la base de datos
+    echo "Error de conexión a la base de datos: " . $e->getMessage();
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+    exit();
+}
+
+// Procesar el formulario cuando se presiona uno de los botones
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
+        $id_prestamo = $_POST['id_prestamo'];
+        $estado = isset($_POST['aprobar']) ? '6' : '7'; // Si se presiona el botón "Aprobar", establece el estado en '6', de lo contrario, en '7'
+
+        try {
+            // Actualizar el estado del préstamo
+            $query_update_estado = "UPDATE prestamo SET estado = :estado WHERE ID_prest = :id_prestamo";
+            $statement_update = $conexion->prepare($query_update_estado);
+            $statement_update->bindParam(':estado', $estado, PDO::PARAM_STR);
+            $statement_update->bindParam(':id_prestamo', $id_prestamo, PDO::PARAM_INT);
+            $statement_update->execute();
+            
+            // Redirigir para evitar envío del formulario al actualizar la página
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } catch (PDOException $e) {
+            echo "Error al actualizar el estado del préstamo: " . $e->getMessage();
+        }
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -185,6 +203,26 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
       } catch (e) {}
     }
   </script>
+  <!-- Script para deshabilitar los botones después de enviar el formulario -->
+    <script>
+        function disableButtons() {
+            var buttons = document.querySelectorAll('button[type="submit"]');
+            buttons.forEach(function(button) {
+                button.disabled = true;
+            });
+            var message = document.createElement('span');
+            message.textContent = "Ya has aprobado o desaprobado este préstamo";
+            message.style.color = "#28a745"; // Verde para indicar éxito
+            document.querySelector('form').appendChild(message);
+        }
+    </script>
+    
+    <?php if ($_SERVER["REQUEST_METHOD"] == "POST") : ?>
+        <script>
+            // Deshabilitar los botones después de enviar el formulario
+            disableButtons();
+        </script>
+    <?php endif; ?>
 
 </html>
 <?php

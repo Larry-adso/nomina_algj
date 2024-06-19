@@ -1,18 +1,14 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "nomina_algj";
 include '../../../conexion/validar_sesion.php';
+include '../../../conexion/db.php'; // Incluir el archivo de conexión
 
 try {
-    $conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conexion->exec("SET CHARACTER SET utf8");
-
-    // Consulta SQL para obtener el valor de la hora extra desde la tabla v_h_extra
-    $sql_h_extra = "SELECT * FROM v_h_extra";
+    // Obtener el id_empresa del usuario con sesión activa
+    $id_us = isset($_POST['id_us']) ? $_POST['id_us'] : null;
+    // Consulta SQL para obtener el valor de la hora extra desde la tabla v_h_extra para la empresa del usuario
+    $sql_h_extra = "SELECT * FROM v_h_extra WHERE id_empresa = (SELECT id_empresa FROM usuarios WHERE id_us = :id_us)";
     $stmt_h_extra = $conexion->prepare($sql_h_extra);
+    $stmt_h_extra->bindParam(':id_us', $id_us, PDO::PARAM_INT);
     $stmt_h_extra->execute();
     $valor_hora_extra = $stmt_h_extra->fetch(PDO::FETCH_ASSOC);
 
@@ -25,16 +21,34 @@ try {
     exit();
 }
 
-// Obtener el ID del usuario desde el método POST
-$id_us = isset($_POST['id_us']) ? $_POST['id_us'] : null;
-
-if (!$id_us) {
-    echo "ID de usuario no proporcionado.";
-    exit();
-}
-
 try {
-    // Consulta SQL para obtener la información del usuario y el salario base
+    // Consulta SQL para obtener el valor de salud para la empresa del usuario
+    $sql_salud = "SELECT * FROM salud WHERE id_empresa = (SELECT id_empresa FROM usuarios WHERE id_us = :id_us)";
+    $stmt_salud = $conexion->prepare($sql_salud);
+    $stmt_salud->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+    $stmt_salud->execute();
+    $salud = $stmt_salud->fetch(PDO::FETCH_ASSOC);
+
+    if (!$salud) {
+        echo "Error: No se pudo obtener el valor de salud.";
+        exit();
+    }
+
+    // Consulta SQL para obtener el valor de pensión para la empresa del usuario
+    $sql_pension = "SELECT * FROM pension WHERE id_empresa = (SELECT id_empresa FROM usuarios WHERE id_us = :id_us)";
+    $stmt_pension = $conexion->prepare($sql_pension);
+    $stmt_pension->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+    $stmt_pension->execute();
+    $pension = $stmt_pension->fetch(PDO::FETCH_ASSOC);
+
+    if (!$pension) {
+        echo "Error: No se pudo obtener el valor de pensión.";
+        exit();
+    }
+
+    // Resto del código para calcular el salario y las deducciones ...
+
+    // Consultar la información del usuario y otros datos necesarios
     $sql_usuario = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.ruta_foto, roles.tp_user, puestos.cargo, puestos.salario, puestos.id_arl
             FROM usuarios
             LEFT JOIN roles ON usuarios.id_rol = roles.id
@@ -62,13 +76,15 @@ try {
     $salario_total_a_pagar = $salario_dias_trabajados + $salario_total_horas_extras;
 
     // Consultas para obtener los valores de las deducciones de salud y pensión
-    $sql_salud = "SELECT * FROM salud WHERE id = 1"; // Ajusta el ID según corresponda
+    $sql_salud = "SELECT * FROM salud WHERE id_empresa = (SELECT id_empresa FROM usuarios WHERE id_us = :id_us)";
     $stmt_salud = $conexion->prepare($sql_salud);
+    $stmt_salud->bindParam(':id_us', $id_us, PDO::PARAM_INT);
     $stmt_salud->execute();
     $salud = $stmt_salud->fetch(PDO::FETCH_ASSOC);
 
-    $sql_pension = "SELECT * FROM pension WHERE id = 1"; // Ajusta el ID según corresponda
+    $sql_pension = "SELECT * FROM pension WHERE id_empresa = (SELECT id_empresa FROM usuarios WHERE id_us = :id_us)";
     $stmt_pension = $conexion->prepare($sql_pension);
+    $stmt_pension->bindParam(':id_us', $id_us, PDO::PARAM_INT);
     $stmt_pension->execute();
     $pension = $stmt_pension->fetch(PDO::FETCH_ASSOC);
 
@@ -78,9 +94,10 @@ try {
     }
 
     // Consultar el valor de la ARL
+    $id_arl = $usuario['id_arl'];
     $sql_arl = "SELECT * FROM arl WHERE id_arl = :id_arl";
     $stmt_arl = $conexion->prepare($sql_arl);
-    $stmt_arl->bindParam(':id_arl', $usuario['id_arl'], PDO::PARAM_INT);
+    $stmt_arl->bindParam(':id_arl', $id_arl, PDO::PARAM_INT);
     $stmt_arl->execute();
     $arl = $stmt_arl->fetch(PDO::FETCH_ASSOC);
 
@@ -114,6 +131,8 @@ try {
     exit();
 }
 ?>
+
+
 
 
 

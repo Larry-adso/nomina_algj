@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <main>
         <div class="card text-center">
-            <img class="card-img-top" src="holder.js/60px100/" alt="Title" />
+   
             <div class="col-md-6">
                 <div class="">
                     <h2>welcome</h2>

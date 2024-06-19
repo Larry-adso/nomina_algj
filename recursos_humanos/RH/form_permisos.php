@@ -5,7 +5,7 @@ if (!isset($_SESSION['id_us'])) {
     echo '
         <script>
             alert("Por favor inicie sesión e intente nuevamente");
-            window.location = "../../login.php";
+            window.location = "../../dev/PHP/login.php";
         </script>
     ';
     die();
@@ -19,7 +19,7 @@ $id_us_session = $_SESSION['id_us'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
         $id_permiso = $_POST['id_permiso'];
-        $estado = isset($_POST['aprobar']) ? 8 : 9; // 8 para aprobar, 9 para rechazar
+        $estado = isset($_POST['aprobar']) ? 6 : 7; // 8 para aprobar, 9 para rechazar
 
         try {
             // Actualizar el estado del permiso en la base de datos

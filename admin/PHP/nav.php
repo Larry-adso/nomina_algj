@@ -88,7 +88,6 @@
         <h3>Tablas Admin</h3>
         <ul class="nav flex-column">
             <li class="nav-item"><a href="tablas/vhe.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Horas Extra</a></li>
-            <li class="nav-item"><a href="tablas/roles.php" class="nav-link"><i class="fas fa-user-tag"></i> Tabla Roles</a></li>
             <li class="nav-item"><a href="tablas/salud.php" class="nav-link"><i class="fas fa-heartbeat"></i> Tabla Salud</a></li>
             <li class="nav-item"><a href="tablas/pension.php" class="nav-link"><i class="fas fa-money-check-alt"></i> Tabla Pension</a></li>
             <li class="nav-item"><a href="../../recursos_humanos/RH/form_puestos.php" class="nav-link"><i class="fas fa-briefcase"></i> Tabla Puestos</a></li>

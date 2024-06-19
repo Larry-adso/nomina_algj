@@ -96,7 +96,7 @@ a.btn.btn-success:hover {
 </head>
 
 <body>
-<a class="btn btn-success" href="../index.php">INICIO</a>
+    <a class="btn btn-success" href="../index.php">INICIO</a>
     <div class="content">
         <div class="container">
             <h2 class="mb-5">TABLA SALUD</h2>
@@ -108,42 +108,58 @@ a.btn.btn-success:hover {
                             <th scope="col">ID</th>
                             <th scope="col">VALOR</th>
                             <th scope="col">Acciones</th>
-
                         </tr>
                     </thead>
                     <tbody class="tbody">
                         <?php
-                        // Incluimos el archivo de conexión a la base de datos
+                        session_start();
                         include '../../../conexion/db.php';
 
-                        // Realizamos la conexión a la base de datos utilizando mysqli
+                        // Verificar sesión activa
+                        if (!isset($_SESSION['id_us'])) {
+                            echo '<tr><td colspan="3">Por favor inicie sesión.</td></tr>';
+                            echo '</tbody></table></div></div></div></body></html>';
+                            exit; // Detener la ejecución si no hay sesión activa
+                        }
+
+                        // Obtener id_empresa del usuario de sesión
+                        $id_us = $_SESSION['id_us'];
+                        $stmt = $conexion->prepare("SELECT id_empresa FROM usuarios WHERE id_us = :id_us");
+                        $stmt->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+                        $stmt->execute();
+                        $id_empresa = $stmt->fetchColumn();
+
+                        // Conectar a la base de datos
                         $conn = new mysqli($servername, $username, $password, $dbname);
 
-                        // Verificamos si hay errores en la conexión
+                        // Verificar conexión
                         if ($conn->connect_error) {
                             die("Error de conexión a la base de datos: " . $conn->connect_error);
                         }
 
-                        // Realizamos la consulta SQL para obtener los datos de salud
-                        $sql = "SELECT * FROM salud";
-                        $result = $conn->query($sql);
+                        // Consulta SQL para obtener los datos de salud del id_empresa del usuario
+                        $sql = "SELECT * FROM salud WHERE id_empresa = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $id_empresa);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
 
-                        // Verificamos si hay datos de salud registrados
+                        // Verificar si hay resultados
                         if ($result->num_rows > 0) {
-                            // Iteramos sobre los resultados y generamos las filas de la tabla
+                            // Mostrar los datos de salud
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<td>" . $row['ID'] . "</td>";
                                 echo "<td>" . $row['Valor'] . " %" . "</td>";
-                                echo "<td><a   class='btn btn-primary' href='../editar_php/editar_salud.php?id=" . $row['ID'] . "'>Editar</a> | <a  class='btn btn-warning'  href='../eliminar_php/eliminar_salud.php?id=" . $row['ID'] . "'>Eliminar</a></td>";
+                                echo "<td><a class='btn btn-primary' href='../editar_php/editar_salud.php?id=" . $row['ID'] . "'>Editar</a> | <a class='btn btn-warning' href='../eliminar_php/eliminar_salud.php?id=" . $row['ID'] . "'>Eliminar</a></td>";
                                 echo "</tr>";
                             }
                         } else {
-                            // Si no hay datos de salud registrados, mostramos un mensaje
-                            echo "<tr><td colspan='4'>No hay datos de salud registrados.</td></tr>";
+                            // Mostrar mensaje si no hay datos de salud registrados para ese id_empresa
+                            echo "<tr><td colspan='3'>No hay datos de salud registrados para su empresa.</td></tr>";
                         }
 
-                        // Cerramos la conexión
+                        // Cerrar conexión
                         $conn->close();
                         ?>
                     </tbody>
@@ -151,6 +167,7 @@ a.btn.btn-success:hover {
             </div>
         </div>
     </div>
+
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>

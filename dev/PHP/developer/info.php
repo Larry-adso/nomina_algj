@@ -18,7 +18,17 @@ $contactorows = $contacto->fetchAll(PDO::FETCH_ASSOC);
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 </head>
+    <style>
+        a.btn.btn-warning {
+            background-color: #c7a17a; 
+            border: none;
+        }
+        a.btn.btn-warning:hover {
+            background-color: #9b7752; 
+            border: none;
+        }
 
+    </style>
 <body>
     <header>
         <br>

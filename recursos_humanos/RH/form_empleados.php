@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_us'])) {
     echo '
         <script>
             alert("Por favor inicie sesión e intente nuevamente");
-            window.location = "../../login.php";
+            window.location = "../../dev/PHP/login.php";
         </script>
     ';
     die();
