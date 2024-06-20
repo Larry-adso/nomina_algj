@@ -45,7 +45,7 @@
 				<label for="termsCheckbox">Acepto los términos y condiciones</label>
 				<span class="error" id="termsError" style="color: red;">Acepta los términos y condiciones</span>
 
-				<a href="#">Olvido la contraseña?</a>
+				<a href="metodos.php">Olvido la contraseña?</a>
 				<input type="submit" class="btn" value="Login" id="loginBtn" disabled>
 
 			</form>
