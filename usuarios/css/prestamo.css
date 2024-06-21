@@ -62,3 +62,17 @@ a.btn.btn-outline-primary:hover {
     background-color: var(--hover-button-color); /* Negro más claro */
     color: #FFFFFF; /* Blanco */
 }
+input.btn.btn-primary, a.btn.btn-primary {
+    background-color: var(--button-login-color); 
+    color: #FFFFFF; /* Blanco */
+    border: none; /* Quitar borde para consistencia */
+}
+
+input.btn.btn-primary:hover {
+    background-color: var(--button-login-hover); /* Un tono más oscuro para el hover */
+    color: #FFFFFF;
+}
+a.btn.btn-primary:hover {
+    background-color: var(--button-login-hover); /* Un tono más oscuro para el hover */
+    color: #FFFFFF;  
+}
