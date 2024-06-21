@@ -100,13 +100,13 @@ if ($id_rol == '5') {
                 input.value = value.replace(/\D/g, '');
 
                 // Verificar si la longitud es 10
-                if (input.value.length > 10) {
-                    input.value = input.value.slice(0, 10);
+                if (input.value.length > 13) {
+                    input.value = input.value.slice(0, 13);
                 }
 
                 // Actualizar el mensaje
                 const message = document.getElementById('message');
-                if (input.value.length < 10) {
+                if (input.value.length < 13) {
                     message.textContent = `Llevas ${input.value.length} caracteres. Deben ser 10.`;
                 } else {
                     message.textContent = '';
@@ -115,7 +115,7 @@ if ($id_rol == '5') {
 
             function validarFormulario(event) {
                 const input = document.querySelector('input[name="NIT"]');
-                if (input.value.length !== 10) {
+                if (input.value.length !== 13) {
                     alert('El NIT debe contener exactamente 10 números.');
                     event.preventDefault();
                 }
@@ -192,18 +192,20 @@ if ($id_rol == '5') {
         <br>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+       
+        
         <main>
             <div class="container mt-5">
+                <hr>
+                <h2 style="text-align: center;" >Modulo de activacion de seriales solo para admin</h2>
+                <hr>
+                <br>
+                <br>
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <form action="" method="post" class="border p-4">
                             <label for="NIT" class="form-label">Por su seguridad digite manualmente el NIT de su empresa:</label>
-                            <input type="text" name="NIT" pattern="[0-9]{10}" maxlength="10" required class="form-control mb-3">
+                            <input type="text" name="NIT" pattern="[0-9]{13}" maxlength="13" required class="form-control mb-3">
                             <div id="message" class="message"></div>
 
                             <button type="submit" style="text-align: center;" class="btn btn-success">Activar</button>
@@ -212,6 +214,15 @@ if ($id_rol == '5') {
                         </form>
                     </div>
                 </div>
+                <a
+                    name=""
+                    id=""
+                    class="btn btn-secondary"
+                    href="barra.php"
+                    role="button"
+                    >Button</a
+                >
+                
             </div>
         </main>
         <footer>

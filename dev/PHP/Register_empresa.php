@@ -11,19 +11,24 @@ if (!isset($_SESSION['id_us'])) {
     session_destroy();
     die();
 }
+
 include "../../conexion/db.php";
+
+// Incluir la librería de generación de código de barras
+require '../../vendor/autoload.php';
+use Picqer\Barcode\BarcodeGeneratorHTML;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '4') {
-
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $NIT = isset($_POST["NIT"]) ? $_POST["NIT"] : "";
         $Nombre = isset($_POST["Nombre"]) ? $_POST["Nombre"] : "";
         $Id_licencia = isset($_POST["ID_Licencia"]) ? $_POST["ID_Licencia"] : "";
-        $password = hash('sha512', $password);
         $Correo = isset($_POST["Correo"]) ? $_POST["Correo"] : "";
         $Telefono = isset($_POST["Telefono"]) ? $_POST["Telefono"] : "";
+
         // Verificar si el NIT ya existe en la base de datos 
         $verificarNIT = $conexion->prepare("SELECT * FROM empresas WHERE NIT = :NIT");
         $verificarNIT->bindParam(":NIT", $NIT);
@@ -33,43 +38,51 @@ if ($id_rol == '4') {
         if ($resultadoNIT) {
             // Mostrar alerta de que el NIT ya está registrado
             echo '<script>
-        alert("El NIT ya está registrado. No se puede guardar el registro.");
-    </script>';
+                alert("El NIT ya está registrado. No se puede guardar el registro.");
+            </script>';
         } else {
+            // Generar el código de barras
+            $generator = new BarcodeGeneratorPNG();
+            $barcode = $generator->getBarcode($NIT, $generator::TYPE_CODE_128);
+
+            // Guardar el código de barras en la ruta img/
+            $barcodePath = 'img/' . $NIT . '.png';
+            file_put_contents($barcodePath, $barcode);
+
             // Insertar el nuevo registro en la tabla empresas
-            $sentencia = $conexion->prepare("INSERT INTO empresas(NIT, Nombre, Correo, Telefono, ID_Licencia) 
-                VALUES (:NIT, :Nombre, :Correo, :Telefono, :ID_Licencia)");
+            $sentencia = $conexion->prepare("INSERT INTO empresas(NIT, Nombre, Correo, Telefono, ID_Licencia, barcode) 
+                VALUES (:NIT, :Nombre, :Correo, :Telefono, :ID_Licencia, :barcode)");
             $sentencia->bindParam(":NIT", $NIT);
             $sentencia->bindParam(":Nombre", $Nombre);
             $sentencia->bindParam(":Correo", $Correo);
             $sentencia->bindParam(":Telefono", $Telefono);
             $sentencia->bindParam(":ID_Licencia", $Id_licencia);
+            $sentencia->bindParam(":barcode", $barcodePath);
 
             if ($sentencia->execute()) {
                 $mensaje = "Registro creado correctamente";
                 echo '<script>
-                alert("Registro creado correctamente");
-                window.location = "../index.php";
-            </script>';
+                    alert("Registro creado correctamente");
+                    window.location = "../index.php";
+                </script>';
 
-                // Actualizar el estado de la licencia a 2
+                // Actualizar el estado de la licencia a 5
                 $actualizarEstado = $conexion->prepare("UPDATE licencia SET ID_Estado = 5 WHERE ID = :ID_Licencia");
                 $actualizarEstado->bindParam(":ID_Licencia", $Id_licencia);
                 $actualizarEstado->execute();
             } else {
                 $mensaje = "Error al crear el registro";
                 echo '<script>
-        alert("Error al crear el registro");
-    </script>';
+                    alert("Error al crear el registro");
+                </script>';
             }
         }
     }
 
     $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia 
-    INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
+        INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
     $consultaLicencia->execute();
     $Tp_licencia = $consultaLicencia->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
     <!doctype html>

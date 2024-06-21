@@ -38,7 +38,7 @@ if ($id_rol == '4') {
         $search = $_POST['search'];
     }
 
-    $consulta = $conexion->prepare("SELECT empresas.NIT, empresas.Nombre, empresas.ID_Licencia, empresas.Correo, licencia.Serial, licencia.F_inicio, licencia.F_fin, tp_licencia.Tipo AS Tipo_Licencia, estado.Estado
+    $consulta = $conexion->prepare("SELECT empresas.NIT, empresas.Nombre, empresas.ID_Licencia, empresas.Correo, empresas.barcode, licencia.Serial, licencia.F_inicio, licencia.F_fin, tp_licencia.Tipo AS Tipo_Licencia, estado.Estado
         FROM empresas
         INNER JOIN licencia ON empresas.ID_Licencia = licencia.ID
         INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID
@@ -163,6 +163,8 @@ if ($id_rol == '4') {
                             <th scope="col">Estado Licencia</th>
                             <th scope="col">fecha inicio </th>
                             <th scope="col">fecha fin </th>
+                            <th scope="col">Barcode</th>
+
                             <th scope="col">Tipo licenia </th>
                         </tr>
                     </thead>
@@ -176,7 +178,10 @@ if ($id_rol == '4') {
                                 <td><?php echo $info['Serial']; ?></td>
                                 <td><?php echo $info['Estado']; ?></td>
                                 <td><?php echo $info['F_inicio']; ?></td>
+
                                 <td><?php echo $info['F_fin']; ?></td>
+                                <td> <img src="PHP/<?php echo $info['barcode']; ?>" alt=""></td>
+
                                 <td><?php echo $info['Tipo_Licencia']; ?></td>
                             </tr>
                         <?php } ?>

@@ -124,6 +124,8 @@ CREATE TABLE `empresas` (
   `ID_Licencia` int(11) NOT NULL,
   `Correo` varchar(50) NOT NULL,
   `Telefono` varchar(15) NOT NULL
+  `barcode` varchar(255) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
