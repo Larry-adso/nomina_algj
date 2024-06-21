@@ -46,7 +46,7 @@
 				<span class="error" id="termsError" style="color: red;">Acepta los términos y condiciones</span>
 
 				<a href="metodos.php">Olvido la contraseña?</a>
-				<input type="submit" class="btn" value="Login" id="loginBtn" disabled>
+				<input type="submit" class="btn" value="Iniciar Sesión" id="loginBtn" disabled>
 
 			</form>
 			<div id="termsModal" class="modal">

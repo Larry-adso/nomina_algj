@@ -69,9 +69,9 @@ if ($id_rol == '4') {
                             <td><?php echo $usuario['tel_us']; ?></td>
                             <td><?php echo $usuario['TP_user']; ?></td>
                             <td>
-                                <a href="editar_usuario.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-primary">Editar</a>
-                                <a href="borrar_usuario.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-danger">Borrar</a>
-                            </td>
+                                <a href="edit_us.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-primary">Editar</a>
+                                <a href="deleate_us.php?id=<?php echo $usuario['id_us']; ?>" class="btn btn-danger">Borrar</a>
+                                </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

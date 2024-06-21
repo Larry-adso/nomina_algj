@@ -202,7 +202,7 @@ try {
                                         <input type="text" class="form-control" id="horas_extras_trabajadas_resultado" name="horas_extras_trabajadas_resultado" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="salario_horas_extras">Salario total por horas extras:</label>
+                                        <label for="salario_horas_extras">Valor de  horas extras:</label>
                                         <input type="text" class="form-control" id="salario_horas_extras" name="salario_horas_extras" readonly>
                                     </div>
                                     <div class="form-group">

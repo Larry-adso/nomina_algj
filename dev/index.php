@@ -101,7 +101,7 @@ if ($id_rol == '4') {
                         <h4> Seriales</h4>
                     </div>
                 </a>
-                <a href="PHP/developer/register.php">
+                <a href="PHP/register.php">
                     <div class="option">
                         <i class="far fa-regular fa-user" title="Login"></i>
                         <h4>Registrar Personas</h4>
