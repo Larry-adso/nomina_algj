@@ -14,7 +14,7 @@ try {
     $valor_hora_extra = $stmt_h_extra->fetch(PDO::FETCH_ASSOC);
 
     if (!$valor_hora_extra) {
-        echo "Error: No se pudo obtener el valor de la hora extra.";
+        echo "<script>alert('no se pudo obtener el valor de la hora extra'); window.location.href='../index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {
@@ -61,7 +61,7 @@ if ($id_prestamo) {
         } else {
             // Si la actualización de la cuota en deuda no fue exitosa, hacer un rollback
             $conexion->rollBack();
-            echo "No se pudo actualizar la cuota en deuda.";
+            echo "<script>alert('no se puede actualizar la cuota'); window.location.href='../index.php';</script>";
             exit();
         }
     } catch (PDOException $e) {
