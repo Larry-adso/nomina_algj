@@ -1,27 +1,27 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../../../vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 session_start();
 
 if (!isset($_SESSION['id_us'])) {
     echo '
-            <script>
-                alert("Por favor inicie sesión e intente nuevamente");
-                window.location = "../../login.php";
-            </script>
-            ';
+        <script>
+            alert("Por favor inicie sesión e intente nuevamente");
+            window.location = "../login.php";
+        </script>
+    ';
     die();
 }
-include("../../../conexion/db.php");
+
+include("../../conexion/db.php");
 
 $id_rol = $_SESSION['id_rol'];
 if ($id_rol == '4') {
-
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "regm")) {
-
         $id_us = $_POST['id_us'];
 
         // Verificar si ya existe un usuario con el mismo id_us
@@ -73,8 +73,8 @@ if ($id_rol == '4') {
         $empresaSQL->execute();
         $empresa = $empresaSQL->fetch(PDO::FETCH_ASSOC);
 
-        // Construir la URL completa de la imagen
-        $barcodeURL = $_SERVER['DOCUMENT_ROOT'] . "/nomina_algj/dev/PHP/" . $empresa['barcode'];
+        // Construir la ruta de la imagen
+        $barcodeURL = __DIR__ . '/' . $empresa['barcode'];
 
         // Crear una instancia de PHPMailer
         $mail = new PHPMailer(true);
@@ -95,10 +95,7 @@ if ($id_rol == '4') {
 
             // Adjuntar la imagen si existe
             if (file_exists($barcodeURL)) {
-                $cid = $mail->addAttachment($barcodeURL, 'barcode.png');
-                $barcodeImgTag = '<img src="cid:' . $cid . '" alt="Código de barras">';
-            } else {
-                $barcodeImgTag = '<p>No se pudo cargar la imagen del código de barras.</p>';
+                $mail->addAttachment($barcodeURL, 'barcode.png');
             }
 
             // Contenido del correo
@@ -137,7 +134,6 @@ if ($id_rol == '4') {
                     <p>contraseña : $pass</p>  <!-- Contraseña sin encriptar -->
                     <p>Se adjunta una imagen con un código de barras. Para mayor facilidad, puedes imprimirlo y
                     escanearlo en la sección de activación para activar tu licencia. </p>
-
                     <p>RECUERDE QUE DEBE IMPRIMIR EL CODIGO CON UNA IMPRESORA A LASER</p>
                     <p> Inicia sesión aquí: <a href='https://nominaalgj.000webhostapp.com/dev/PHP/login.php'>Iniciar sesión</a></p>
                     <p>Saludos,<br>Equipo de Soporte</p>
@@ -163,6 +159,8 @@ if ($id_rol == '4') {
     $empresas = $cons->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+
+
 
 
 
@@ -216,36 +214,50 @@ if ($id_rol == '4') {
                             </div>
                             <div class="col-md-4">
                                 <label for="pass" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" title="Debe ser alfanumérico de al menos 8 caracteres con una letra en mayúscula" name="pass" id="pass" required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" title="Debe ser alfanumérico de al menos 8 caracteres con una letra en mayúscula" name="pass" id="pass" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">Mostrar</button>
+                                </div>
                                 <small id="passHelp" class="form-text text-danger"></small>
                             </div>
 
                             <script>
-                                // Obtener referencia al campo de contraseña
+                                // Obtener referencia al campo de contraseña y al botón de alternar visibilidad
                                 var passInput = document.getElementById('pass');
-                                // Agregar evento input
+                                var toggleButton = document.getElementById('togglePassword');
+
+                                // Agregar evento al botón para alternar entre tipo password y text
+                                toggleButton.addEventListener('click', function() {
+                                    if (passInput.type === 'password') {
+                                        passInput.type = 'text';
+                                        toggleButton.textContent = 'Ocultar';
+                                    } else {
+                                        passInput.type = 'password';
+                                        toggleButton.textContent = 'Mostrar';
+                                    }
+                                });
+
+                                // Agregar evento input al campo de contraseña
                                 passInput.addEventListener('input', function(event) {
-                                    // Obtener el valor actual del campo de contraseña
                                     var password = event.target.value;
-                                    // Contar la cantidad de caracteres restantes para llegar a 8
                                     var remainingCharacters = Math.max(8 - password.length, 0);
-                                    // Validar si la contraseña contiene al menos una letra en mayúscula
                                     var uppercaseRegex = /[A-Z]/;
                                     var hasUppercase = uppercaseRegex.test(password);
-                                    // Mostrar la cantidad de caracteres restantes y validar la contraseña
+
                                     if (remainingCharacters > 0) {
                                         document.getElementById('passHelp').textContent = 'Ingrese al menos ' + remainingCharacters + ' caracteres más.';
                                     } else if (!hasUppercase) {
                                         document.getElementById('passHelp').textContent = 'La contraseña debe contener al menos una letra en mayúscula.';
                                     } else {
-                                        document.getElementById('passHelp').textContent = 'correcto';
+                                        document.getElementById('passHelp').textContent = 'Correcto';
                                     }
-                                    // Limitar la longitud máxima de la contraseña a 8 caracteres
+
                                     if (password.length > 8) {
                                         event.target.value = password.slice(0, 8);
                                     }
                                 });
                             </script>
+
 
                             <div class="col-md-4">
                                 <label for="id_empresa" class="form-label">NIT_empresa <a style="text-decoration: none;" href="#" onclick="abrirVentanaEmpresa()"> Crear</a></label>
@@ -359,7 +371,7 @@ if ($id_rol == '4') {
                 return true; // Devuelve true para permitir el envío del formulario
             }
         </script>
-        <script src="../js/register_modal.js"></script>
+        <script src="js/register_modal.js"></script>
     </body>
 
     </html>
