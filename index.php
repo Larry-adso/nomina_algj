@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>NOMINAS</title>
 	<link rel="stylesheet" href="css/styles.css" />
+	<script src="views/script.js"></script>
+	
 </head>
 
 <body>
@@ -36,27 +38,28 @@
 		</div>
 
 		<div class="container-navbar">
-			<nav class="navbar container">
-				<i class="fa-solid fa-bars" id="burger"></i>
-				<ul class="menu">
-					<li><a href="">Inicio</a></li>
-					<li><a href="views/sobre_n.php">Sobre nosotros</a></li>
-					<li><a href="views/contactenos.php">Contactenos</a></li>
-				</ul>
+        <nav class="navbar container">
+            <i class="fa-solid fa-bars" id="burger"></i>
+            <ul class="menu" id="menu">
+                <li><a href="">Inicio</a></li>
+                <li><a href="views/sobre_n.php">Sobre nosotros</a></li>
+                <li><a href="views/contactenos.php">Contactenos</a></li>
+            </ul>
+            <ul class="menu">
+                <li>
+                    <a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-				<ul class="menu">
-					<li>
-						<a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
-					</li>
-				</ul>
-			</nav>
-		</div>
+
 	</header>
 	<section class="banner">
 		<div class="content-banner">
 			<p>Simplifica el cálculo, optimiza la administración y libera tiempo para lo que realmente importa:</p>
 			<h2> ¡Nóminas sin complicaciones, <br /> resultados con excelencia!</h2>
-			<a href="#">Ir a registrarse</a>
+			<a href="dev/PHP/login.php">Ir a iniciar sesión</a>
 		</div>
 	</section>
 
@@ -123,7 +126,6 @@
 			</div>
 		</div>
 	</footer>
-
 	<script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
 </body>
 

@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Contactenos</title>
 	<link rel="stylesheet" href="../css/styles.css" />
+	<script src="script.js"></script>
+
 
 </head>
 
@@ -35,21 +37,20 @@
 		</div>
 
 		<div class="container-navbar">
-			<nav class="navbar container">
-				<i class="fa-solid fa-bars"></i>
-				<ul class="menu">
-					<li><a href="../index.php">Inicio</a></li>
-					<li><a href="sobre_n.php">Sobre nosotros</a></li>
-					<li><a href="contactenos.php">Contactenos</a></li>
-				</ul>
-
-				<ul class="menu">
-					<li>
-						<a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
-					</li>
-				</ul>
-			</nav>
-		</div>
+        <nav class="navbar container">
+            <i class="fa-solid fa-bars" id="burger"></i>
+            <ul class="menu" id="menu">
+                <li><a href="../index.php">Inicio</a></li>
+                <li><a href="sobre_n.php">Sobre nosotros</a></li>
+                <li><a href="contactenos.php">Contactenos</a></li>
+            </ul>
+            <ul class="menu">
+                <li>
+                    <a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
+                </li>
+            </ul>
+        </nav>
+    </div>
 	</header>
 
 	<main class="main-content">

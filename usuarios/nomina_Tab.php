@@ -58,7 +58,6 @@ if ($id_rol == '6') {
                     <th>Cedula Usuario</th>
                     <th>Nombre Usuario</th>
                     <th>Fecha</th>
-
                     <th>Valor a Pagar</th>
                     <th>Detalles Nómina</th>
                 </tr>
