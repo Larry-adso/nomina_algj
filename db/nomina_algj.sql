@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-06-2024 a las 13:33:24
+-- Tiempo de generación: 21-06-2024 a las 21:43:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -96,21 +96,10 @@ CREATE TABLE `deduccion` (
   `id_prestamo` int(11) DEFAULT NULL,
   `id_salud` int(11) DEFAULT NULL,
   `id_pension` int(11) DEFAULT NULL,
+  `cuota` int(255) NOT NULL,
   `parafiscales` int(20) DEFAULT NULL,
   `total` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `deduccion`
---
-
-INSERT INTO `deduccion` (`ID_DEDUCCION`, `fecha`, `id_usuario`, `id_prestamo`, `id_salud`, `id_pension`, `parafiscales`, `total`) VALUES
-(39, '2024-06-19 00:00:00', 1105462833, 0, 1, 1, 43200, 1353600),
-(40, '2024-06-19 00:00:00', 1105462833, 0, 1, 1, 44700, 1400600),
-(41, '2024-06-19 00:00:00', 1105462833, 0, 1, 1, 52200, 1635600),
-(42, '2024-06-19 00:00:00', 1105462833, 0, 1, 1, 43200, 1353600),
-(43, '2024-06-19 00:00:00', 1105462833, 0, 1, 1, 41970, 1315092),
-(44, '2024-06-19 00:00:00', 1105462832, 0, 1, 1, 46200, 1447600);
 
 -- --------------------------------------------------------
 
@@ -123,17 +112,16 @@ CREATE TABLE `empresas` (
   `Nombre` varchar(50) NOT NULL,
   `ID_Licencia` int(11) NOT NULL,
   `Correo` varchar(50) NOT NULL,
-  `Telefono` varchar(15) NOT NULL
+  `Telefono` varchar(15) NOT NULL,
   `barcode` varchar(255) NOT NULL
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empresas`
 --
 
-INSERT INTO `empresas` (`NIT`, `Nombre`, `ID_Licencia`, `Correo`, `Telefono`) VALUES
-(8888888888, 'D1', 20, 'd1@gmail.com', '8888888888');
+INSERT INTO `empresas` (`NIT`, `Nombre`, `ID_Licencia`, `Correo`, `Telefono`, `barcode`) VALUES
+(8888888888, 'D1', 20, 'd1@gmail.com', '8888888888', '');
 
 -- --------------------------------------------------------
 
@@ -201,16 +189,6 @@ CREATE TABLE `nomina` (
   `Valor_Pagar` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `nomina`
---
-
-INSERT INTO `nomina` (`ID`, `ID_user`, `Fecha`, `ID_deduccion`, `Id_suma`, `dias_trabajados`, `Valor_Pagar`) VALUES
-(38, 1105462833, '2024-06-19 00:00:00', 41, 59, NULL, 1635600),
-(39, 1105462833, '2024-06-19 00:00:00', 42, 60, NULL, 1353600),
-(40, 1105462833, '2024-06-19 00:00:00', 43, 61, NULL, 1315092),
-(41, 1105462832, '2024-06-19 00:00:00', 44, 62, NULL, 1447600);
-
 -- --------------------------------------------------------
 
 --
@@ -262,13 +240,6 @@ CREATE TABLE `prestamo` (
   `VALOR` decimal(10,2) NOT NULL,
   `estado` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `prestamo`
---
-
-INSERT INTO `prestamo` (`ID_prest`, `ID_Empleado`, `Fecha`, `Cantidad_cuotas`, `Valor_Cuotas`, `cuotas_en_deuda`, `cuotas_pagas`, `VALOR`, `estado`) VALUES
-(7, 1109000447, '2024-06-13 07:52:20', 3, 166667.00, 3, NULL, 500000.00, 4);
 
 -- --------------------------------------------------------
 
@@ -346,20 +317,9 @@ CREATE TABLE `sumas` (
   `id_usuario` int(11) DEFAULT NULL,
   `valor_hora_extra` int(11) DEFAULT NULL,
   `horas_trabajadas` int(11) DEFAULT NULL,
+  `transporte` int(255) NOT NULL,
   `total` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `sumas`
---
-
-INSERT INTO `sumas` (`ID_INDUCCION`, `fecha`, `id_usuario`, `valor_hora_extra`, `horas_trabajadas`, `total`) VALUES
-(57, '2024-06-19 00:00:00', 1105462833, 6000, 0, 1440000),
-(58, '2024-06-19 00:00:00', 1105462833, 10000, 5, 1490000),
-(59, '2024-06-19 00:00:00', 1105462833, 10000, 30, 1740000),
-(60, '2024-06-19 00:00:00', 1105462833, 10000, 0, 1440000),
-(61, '2024-06-19 00:00:00', 1105462833, 10000, 0, 1399032),
-(62, '2024-06-19 00:00:00', 1105462832, 10000, 10, 1540000);
 
 -- --------------------------------------------------------
 
@@ -507,10 +467,7 @@ ALTER TABLE `pension`
 -- Indices de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  ADD PRIMARY KEY (`id_permiso`),
-  ADD UNIQUE KEY `id_us` (`id_us`),
-  ADD KEY `fk_permisos_usuarios` (`id_us`),
-  ADD KEY `id_us_2` (`id_us`);
+  ADD PRIMARY KEY (`id_permiso`);
 
 --
 -- Indices de la tabla `prestamo`
@@ -522,9 +479,7 @@ ALTER TABLE `prestamo`
 -- Indices de la tabla `puestos`
 --
 ALTER TABLE `puestos`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `id_arl` (`id_arl`),
-  ADD KEY `id_empresa` (`id_empresa`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indices de la tabla `roles`
@@ -551,18 +506,10 @@ ALTER TABLE `tp_licencia`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `triggers`
---
-ALTER TABLE `triggers`
-  ADD PRIMARY KEY (`ID_Triggers`);
-
---
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_us`),
-  ADD KEY `id_puesto` (`id_puesto`),
-  ADD KEY `id_rol` (`id_rol`);
+  ADD PRIMARY KEY (`id_us`);
 
 --
 -- Indices de la tabla `v_h_extra`
@@ -575,28 +522,10 @@ ALTER TABLE `v_h_extra`
 --
 
 --
--- AUTO_INCREMENT de la tabla `arl`
---
-ALTER TABLE `arl`
-  MODIFY `id_arl` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `aux_trasporte`
---
-ALTER TABLE `aux_trasporte`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `contactanos`
---
-ALTER TABLE `contactanos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT de la tabla `deduccion`
 --
 ALTER TABLE `deduccion`
-  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
@@ -614,7 +543,7 @@ ALTER TABLE `licencia`
 -- AUTO_INCREMENT de la tabla `nomina`
 --
 ALTER TABLE `nomina`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `pension`
@@ -626,13 +555,13 @@ ALTER TABLE `pension`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `puestos`
@@ -644,7 +573,7 @@ ALTER TABLE `puestos`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `salud`
@@ -656,7 +585,7 @@ ALTER TABLE `salud`
 -- AUTO_INCREMENT de la tabla `sumas`
 --
 ALTER TABLE `sumas`
-  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `tp_licencia`
@@ -669,35 +598,6 @@ ALTER TABLE `tp_licencia`
 --
 ALTER TABLE `v_h_extra`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `licencia`
---
-ALTER TABLE `licencia`
-  ADD CONSTRAINT `licencia_ibfk_1` FOREIGN KEY (`ID_Estado`) REFERENCES `estado` (`ID_Es`);
-
---
--- Filtros para la tabla `permisos`
---
-ALTER TABLE `permisos`
-  ADD CONSTRAINT `permisos_ibfk_1` FOREIGN KEY (`id_us`) REFERENCES `usuarios` (`id_us`);
-
---
--- Filtros para la tabla `puestos`
---
-ALTER TABLE `puestos`
-  ADD CONSTRAINT `puestos_ibfk_1` FOREIGN KEY (`id_arl`) REFERENCES `arl` (`id_arl`);
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_puesto`) REFERENCES `puestos` (`ID`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -27,7 +27,9 @@ $id_usuario = isset($_POST['id_us']) ? $_POST['id_us'] : null;
 $horas_trabajadas = isset($_POST['horas_trabajadas']) ? (int)$_POST['horas_trabajadas'] : 0;
 $salario_total_a_pagar = isset($_POST['salario_total_a_pagar']) ? (int)$_POST['salario_total_a_pagar'] : 0;
 $id_prestamo = isset($_POST['id_prestamo']) ? $_POST['id_prestamo'] : null;
-
+$dias_trabajados = isset($_POST['dias_trabajados_resultado']) ? $_POST['dias_trabajados_resultado'] : null;
+$cuota= isset($_POST['cuota_prestamo']) ? (int)$_POST['cuota_prestamo'] : 0;
+$transporte = isset($_POST['valor_auxilio_transporte']) ? (int)$_POST['valor_auxilio_transporte'] : 0;
 if ($id_prestamo) {
     // Actualizar el préstamo si se ha pasado un ID de préstamo
     try {
@@ -73,7 +75,7 @@ if ($id_prestamo) {
 // Insertar en la tabla sumas
 try {
     $fecha = date('Y-m-d');
-    $sql_insert_sumas = "INSERT INTO sumas (id_usuario, fecha, valor_hora_extra, horas_trabajadas, total) VALUES ($id_usuario, '$fecha', {$valor_hora_extra['V_H_extra']}, $horas_trabajadas, $salario_total_a_pagar)";
+    $sql_insert_sumas = "INSERT INTO sumas (id_usuario, transporte, fecha, valor_hora_extra, horas_trabajadas, total) VALUES ($id_usuario, $transporte, '$fecha', {$valor_hora_extra['V_H_extra']}, $horas_trabajadas, $salario_total_a_pagar)";
     $stmt_insert_sumas = $conexion->query($sql_insert_sumas);
 
     // Obtenemos el ID de la última inserción en la tabla sumas
@@ -98,7 +100,7 @@ try {
     // Calcular el total de deducciones
     $total_deducciones = $_POST['deduccion_salud'] + $_POST['deduccion_pension'];
 
-    $sql_insert_deducciones = "INSERT INTO deduccion (id_usuario, fecha, id_prestamo, id_salud, id_pension, parafiscales, total) VALUES ($id_usuario, '$fecha', $id_prestamo, $id_salud, $id_pension, $total_deducciones, {$_POST['salario_total_deducciones']})";
+    $sql_insert_deducciones = "INSERT INTO deduccion (id_usuario, cuota, fecha, id_prestamo, id_salud, id_pension, parafiscales, total) VALUES ($id_usuario, $cuota, '$fecha', $id_prestamo, $id_salud, $id_pension, $total_deducciones, {$_POST['salario_total_deducciones']})";
     $stmt_insert_deducciones = $conexion->query($sql_insert_deducciones);
 
     // Obtenemos el ID de la última inserción en la tabla de deducción
@@ -111,7 +113,7 @@ try {
 // Insertar en la tabla de nómina
 try {
     $fecha = date('Y-m-d');
-    $sql_insert_nomina = "INSERT INTO nomina (ID_user, fecha, id_deduccion, id_suma, Valor_Pagar) VALUES ($id_usuario, '$fecha', $id_deduccion, $id_suma, {$_POST['salario_total_deducciones']})";
+    $sql_insert_nomina = "INSERT INTO nomina (ID_user, dias_trabajados, fecha, id_deduccion, id_suma, Valor_Pagar) VALUES ($id_usuario, $dias_trabajados, '$fecha', $id_deduccion, $id_suma, {$_POST['salario_total_deducciones']})";
     $stmt_insert_nomina = $conexion->query($sql_insert_nomina);
 } catch (PDOException $e) {
     echo "Error al insertar en la tabla de nómina: " . $e->getMessage();

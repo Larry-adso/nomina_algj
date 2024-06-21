@@ -4,16 +4,21 @@ include '../../conexion/validar_sesion.php';
 
 
 // Verificar si se ha pasado un ID de nómina
-if(isset($_GET['id'])) {
+if (isset($_GET['id'])) {
     $id_nomina = $_GET['id'];
 
     // Consultar los datos de la tabla nomina
-    $sql_nomina = "SELECT n.*, s.*, d.*, u.nombre_us, u.apellido_us 
-                   FROM nomina n
-                   LEFT JOIN sumas s ON n.id_suma = s.ID_INDUCCION
-                   LEFT JOIN deduccion d ON n.id_deduccion = d.ID_DEDUCCION
-                   LEFT JOIN usuarios u ON n.ID_user = u.id_us
-                   WHERE n.ID = :id_nomina";
+    $sql_nomina = "SELECT n.*, 
+    s.total AS total_s, 
+    s.*,
+    d.*, 
+    u.nombre_us, 
+    u.apellido_us 
+FROM nomina n
+LEFT JOIN sumas s ON n.id_suma = s.ID_INDUCCION
+LEFT JOIN deduccion d ON n.id_deduccion = d.ID_DEDUCCION
+LEFT JOIN usuarios u ON n.ID_user = u.id_us
+WHERE n.ID = :id_nomina";
     $stmt_nomina = $conexion->prepare($sql_nomina);
     $stmt_nomina->bindParam(':id_nomina', $id_nomina, PDO::PARAM_INT);
     $stmt_nomina->execute();
@@ -32,6 +37,7 @@ if(isset($_GET['id'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,101 +45,124 @@ if(isset($_GET['id'])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         :root {
-    --primary-color: #c7a17a !important;
-    --background-color: #f9f5f0 !important;
-    --dark-color: #151515 !important;
-    --hover-button-color: #9b7752 !important;
-    --button-login-color: #6DC5D1 !important;
-    --button-login-hover: #59a2ac !important;
-    --button-decline-term: #e88162 !important;
-}
+            --primary-color: #c7a17a !important;
+            --background-color: #f9f5f0 !important;
+            --dark-color: #151515 !important;
+            --hover-button-color: #9b7752 !important;
+            --button-login-color: #6DC5D1 !important;
+            --button-login-hover: #59a2ac !important;
+            --button-decline-term: #e88162 !important;
+        }
 
-body {
-    background-color: #F9F5F0 !important; /* Beige claro */
-    color: #0B0B0B !important; /* Negro oscuro */
-}
+        body {
+            background-color: #F9F5F0 !important;
+            /* Beige claro */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
-h1 {
-    color: #0B0B0B !important; /* Negro oscuro */
-}
+        h1 {
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
-.card-body {
-    background-color: #FFFFFF !important; /* Blanco */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
-}
+        .card-body {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
 
-.form-control {
-    border: 1px solid #DDDDDD !important; /* Gris claro */
-}
+        .form-control {
+            border: 1px solid #DDDDDD !important;
+            /* Gris claro */
+        }
 
-input.btn.btn-primary, a.btn.btn-primary {
-    background-color: var(--button-login-color) !important;
-    color: #FFFFFF !important; /* Blanco */
-    border: none !important; /* Quitar borde para consistencia */
-}
+        input.btn.btn-primary,
+        a.btn.btn-primary {
+            background-color: var(--button-login-color) !important;
+            color: #FFFFFF !important;
+            /* Blanco */
+            border: none !important;
+            /* Quitar borde para consistencia */
+        }
 
-input.btn.btn-primary:hover {
-    background-color: var(--button-login-hover) !important; /* Un tono más oscuro para el hover */
-    color: #FFFFFF !important;
-}
-a.btn.btn-primary:hover {
-    background-color: var(--button-login-hover) !important; /* Un tono más oscuro para el hover */
-    color: #FFFFFF !important;  
-}
-a.btn.btn-warning {
-    background-color: var(--button-decline-term) !important; /* Rojo */
-    color: #FFFFFF !important; /* Blanco */
-    --bs-btn-border-color: none !important;
+        input.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
 
-}
+        a.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
 
-.table-dark {
-    background-color: #2E2E2E !important; /* Gris oscuro */
-    color: #FFFFFF !important; /* Blanco */
-}
+        a.btn.btn-warning {
+            background-color: var(--button-decline-term) !important;
+            /* Rojo */
+            color: #FFFFFF !important;
+            /* Blanco */
+            --bs-btn-border-color: none !important;
 
-.table-light {
-    background-color: #FFFFFF !important; /* Blanco */
-    color: #0B0B0B !important; /* Negro oscuro */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
 
-}
+        .table-dark {
+            background-color: #2E2E2E !important;
+            /* Gris oscuro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
 
-.thead-dark {
-    background-color: var(--hover-button-color) !important; /* Negro más claro */
-    color: #FFFFFF !important; /* Blanco */
-}
-a.btn.btn-success {
-    background-color: var(--primary-color) !important;
-    --bs-btn-border-color: none !important;
-}
-a.btn.btn-success:hover {
-    background-color: var(--hover-button-color) !important;
-    --bs-btn-border-color: none !important;
-}
+        .table-light {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+
+        }
+
+        .thead-dark {
+            background-color: var(--hover-button-color) !important;
+            /* Negro más claro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
+
+        a.btn.btn-success {
+            background-color: var(--primary-color) !important;
+            --bs-btn-border-color: none !important;
+        }
+
+        a.btn.btn-success:hover {
+            background-color: var(--hover-button-color) !important;
+            --bs-btn-border-color: none !important;
+        }
 
 
-.table-responsive {
-    max-width: 600px !important; /* Establece el ancho máximo deseado */
-    margin: auto !important; /* Centrar el div */
-}
-
+        .table-responsive {
+            max-width: 600px !important;
+            /* Establece el ancho máximo deseado */
+            margin: auto !important;
+            /* Centrar el div */
+        }
     </style>
 </head>
+
 <body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Detalles de Nómina</h2>
-        <div class="row">
-            <div class="col-md-6">
+        <div class="col-md-6">
                 <h4>Información de la Nómina</h4>
                 <table class="table table-bordered">
                     <tr>
-                        <th>ID</th>
+                        <th>Numero de Nomina</th>
                         <td><?= $detalle_nomina['ID'] ?></td>
                     </tr>
                     <tr>
-                        <th>ID Usuario</th>
+                        <th> Usuario</th>
                         <td><?= $detalle_nomina['ID_user'] . ' - ' . $detalle_nomina['nombre_us'] . ' ' . $detalle_nomina['apellido_us'] ?></td>
                     </tr>
                     <tr>
@@ -142,32 +171,54 @@ a.btn.btn-success:hover {
                     </tr>
                     <tr>
                         <th>Valor a Pagar (COP)</th>
-                        <td>COP <?= number_format($detalle_nomina['Valor_Pagar'], 0, ',', '.') ?></td>
+                        <td>$ <?= number_format($detalle_nomina['Valor_Pagar'], 0, ',', '.') ?> COP</td>
                     </tr>
                 </table>
             </div>
+        <div class="row">
+            
             <div class="col-md-6">
-                <h4>Información de Sumas y Deducciones</h4>
+                <h4>Información de Sumas </h4>
                 <table class="table table-bordered">
-                    <tr>
-                        <th>Valor Hora Extra</th>
-                        <td>COP <?= number_format($detalle_nomina['valor_hora_extra'], 0, ',', '.') ?></td>
-                    </tr>
+                   
                     <tr>
                         <th>Horas Trabajadas</th>
-                        <td>COP <?= $detalle_nomina['horas_trabajadas'] ?></td>
+                        <td><?= $detalle_nomina['horas_trabajadas'] ?> HORAS</td>
+                    </tr>
+                    <tr>
+                        <th>Dias Trabajados</th>
+                        <td><?= $detalle_nomina['dias_trabajados'] ?> DIAS</td>
+                    </tr>
+                    <tr>
+                        <th>Valor Hora Extra</th>
+                        <td>$ <?= number_format($detalle_nomina['valor_hora_extra'], 0, ',', '.') ?> COP</td>
+                    </tr>
+                    <tr>
+                        <th>Valor Auxilo de transporte</th>
+                        <td>$ <?= number_format($detalle_nomina['transporte'], 0, ',', '.') ?> COP</td>
                     </tr>
                     <tr>
                         <th>Total Sumas</th>
-                        <td>COP <?= number_format($detalle_nomina['total'], 0, ',', '.') ?></td>
+                        <td>$ <?= number_format($detalle_nomina['total_s'], 0, ',', '.') ?> COP</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h4>Información Deducciones</h4>
+                <table class="table table-bordered">
+                    
+                <tr>
+                        <th>Valor deuccion de cuota</th>
+                        <td>$ <?= number_format($detalle_nomina['cuota'], 0, ',', '.') ?> COP</td>
                     </tr>
                     <tr>
                         <th>Total Deducción de parafiscales</th>
-                        <td>COP <?= number_format($detalle_nomina['parafiscales'], 0, ',', '.') ?></td>
+                        <td>$ <?= number_format($detalle_nomina['parafiscales'], 0, ',', '.') ?> COP</td>
                     </tr>
                     <tr>
-                        <th>Total Deducciones</th>
-                        <td>COP <?= number_format($detalle_nomina['total'], 0, ',', '.') ?></td>
+                        <th>Salario Total a Pagar</th>
+                        <td>$ <?= number_format($detalle_nomina['total'], 0, ',', '.') ?> COP</td>
                     </tr>
                 </table>
             </div>
@@ -177,4 +228,5 @@ a.btn.btn-success:hover {
         </div>
     </div>
 </body>
+
 </html>
