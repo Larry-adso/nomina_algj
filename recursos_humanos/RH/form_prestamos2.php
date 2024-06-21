@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['id_us'])) {
-    header("Location: ../../dev/PHP/login.php");
+    header("Location: ../../login.php");
     exit; // Terminar el script para evitar que se ejecute más código
 }
 
@@ -42,7 +42,6 @@ try {
     echo "Error: " . $e->getMessage();
     exit();
 }
-
 // Procesar el formulario cuando se presiona uno de los botones
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['aprobar']) || isset($_POST['rechazar'])) {
