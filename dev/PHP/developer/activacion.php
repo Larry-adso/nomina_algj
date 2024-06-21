@@ -100,13 +100,13 @@ if ($id_rol == '5') {
                 input.value = value.replace(/\D/g, '');
 
                 // Verificar si la longitud es 10
-                if (input.value.length > 13) {
-                    input.value = input.value.slice(0, 13);
+                if (input.value.length > 10) {
+                    input.value = input.value.slice(0, 10);
                 }
 
                 // Actualizar el mensaje
                 const message = document.getElementById('message');
-                if (input.value.length < 13) {
+                if (input.value.length < 10) {
                     message.textContent = `Llevas ${input.value.length} caracteres. Deben ser 10.`;
                 } else {
                     message.textContent = '';
@@ -115,7 +115,7 @@ if ($id_rol == '5') {
 
             function validarFormulario(event) {
                 const input = document.querySelector('input[name="NIT"]');
-                if (input.value.length !== 13) {
+                if (input.value.length !== 10) {
                     alert('El NIT debe contener exactamente 10 números.');
                     event.preventDefault();
                 }
