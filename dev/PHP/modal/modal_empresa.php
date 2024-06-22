@@ -93,8 +93,10 @@ if ($id_rol == '4') {
                     <div class="card-body">
                         <h1 class="title text-center mb-4">Registro De Empresa</h1>
 
-                        <form action="" class="form" method="POST">
+                        <form action="" class="form" method="POST" autocomplete="off" >
                         <div class="inputContainer mb-3">
+                        <label class="label">Licencia <a style="text-decoration: none;" href="#" onclick="abrirVentanaSerial()">Crear</a></label>
+
                                 <select class="form-select form-select-sm input" name="ID_Licencia" id="id_licencia" required>
                                     <option value="" selected disabled>Seleccione una licencia</option>
                                     <?php foreach ($Tp_licencia as $licencia_) { ?>
