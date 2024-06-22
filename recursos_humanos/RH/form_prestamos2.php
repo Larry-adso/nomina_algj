@@ -1,11 +1,18 @@
 <?php
+
 session_start();
 
 // Verificar si el usuario está autenticado
-if (!isset($_SESSION['id_us'])) {
-    header("Location: ../../login.php");
+if (!isset($_SESSION['id_us']) || !isset($_SESSION['id_rol']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
+    echo '
+        <script>
+            alert("Por favor inicie sesión con un usuario autorizado e intente nuevamente");
+            window.location = "../../dev/PHP/login.php";
+        </script>
+    ';
     exit; // Terminar el script para evitar que se ejecute más código
 }
+
 
 // Incluir el archivo de conexión a la base de datos
 require_once "../../conexion/db.php"; // Reemplazar con el nombre correcto de tu archivo de conexión

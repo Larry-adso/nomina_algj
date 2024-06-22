@@ -1,15 +1,15 @@
 <?php
 session_start();
-if (!isset($_SESSION['id_us'])) {
-    echo '
-            <script>
-                alert("Por favor inicie sesión e intente nuevamente");
-                window.location = "../../dev/PHP/login.php";
-            </script>
-            ';
-    session_destroy();
-    die();
+if (!isset($_SESSION['id_us']) || !isset($_SESSION['id_rol']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
+  echo '
+      <script>
+          alert("Por favor inicie sesión con un usuario autorizado e intente nuevamente");
+          window.location = "../../dev/PHP/login.php";
+      </script>
+  ';
+  exit; // Terminar el script para evitar que se ejecute más código
 }
+
 require_once("../../conexion/db.php");
 
 $id_rol = $_SESSION['id_rol'];
