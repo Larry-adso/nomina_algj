@@ -7,6 +7,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 
 <body>
@@ -24,11 +25,44 @@
 						<i class="fas fa-user"></i>
 					</div>
 					<div class="div">
-						<h5>N° De Identidad</h5>
-						<input type="text" class="input" id="username" name="id_us">
-						<span class="error" id="usernameError" style="font-size: 15px;  text-align: right;">Ingrese solo números</span>
-						<span class="error" id="usernameEmptyError"  style="font-size: 15px;  text-align: right;">Complete el campo</span>
-					</div>
+        <h5>N° De Identidad</h5>
+        <input type="text" class="input" id="username" name="id_us" maxlength="10">
+        <span class="error" id="usernameError" style="font-size: 15px; text-align: right;">Ingrese solo números</span>
+        <span class="error" id="usernameEmptyError" style="font-size: 15px; text-align: right;">Complete el campo</span>
+    </div>
+
+    <script>
+        document.getElementById('username').addEventListener('input', function (e) {
+            const username = e.target.value;
+            const usernameError = document.getElementById('usernameError');
+            const usernameEmptyError = document.getElementById('usernameEmptyError');
+
+            // Remove non-numeric characters
+            e.target.value = username.replace(/[^0-9]/g, '');
+
+            // Validate input
+            if (username.length > 0 && username.length <= 10) {
+                usernameError.style.display = 'none';
+                usernameEmptyError.style.display = 'none';
+            } else if (username.length === 0) {
+                usernameEmptyError.style.display = 'block';
+                usernameError.style.display = 'none';
+            } else {
+                usernameError.style.display = 'block';
+                usernameEmptyError.style.display = 'none';
+            }
+        });
+
+        document.getElementById('username').addEventListener('blur', function (e) {
+            const usernameEmptyError = document.getElementById('usernameEmptyError');
+
+            if (e.target.value.length === 0) {
+                usernameEmptyError.style.display = 'block';
+            } else {
+                usernameEmptyError.style.display = 'none';
+            }
+        });
+    </script>
 				</div>
 				<div class="input-div pass">
 					<div class="i">
@@ -37,8 +71,29 @@
 					<div class="div">
 						<h5>Contraseña</h5>
 						<input type="password" class="input" id="password" name="pass">
+						<span id="togglePassword" class="toggle-password">
+							<i class="fa fa-eye" id="toggleIcon"></i>
+						</span>
 						<span class="error" id="passwordEmptyError" style="font-size: 15px;  text-align: right;">Complete el campo</span>
 					</div>
+					<script>
+						document.getElementById('togglePassword').addEventListener('click', function() {
+							const passwordField = document.getElementById('password');
+							const toggleIcon = document.getElementById('toggleIcon');
+
+							if (passwordField.type === 'password') {
+								passwordField.type = 'text';
+								toggleIcon.classList.remove('fa-eye');
+								toggleIcon.classList.add('fa-eye-slash');
+							} else {
+								passwordField.type = 'password';
+								toggleIcon.classList.remove('fa-eye-slash');
+								toggleIcon.classList.add('fa-eye');
+							}
+						});
+					</script>
+
+
 				</div>
 
 				<input type="checkbox" id="termsCheckbox">
@@ -102,7 +157,7 @@
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('DOMContentLoaded', function() {
 			const username = document.getElementById('username');
 			const password = document.getElementById('password');
 			const termsCheckbox = document.getElementById('termsCheckbox');
@@ -121,7 +176,7 @@
 			let termsAccepted = false;
 
 			// Validación del nombre de usuario
-			username.addEventListener('input', function () {
+			username.addEventListener('input', function() {
 				const usernameValue = username.value.trim();
 				if (usernameValue === '') {
 					usernameError.style.display = 'none';
@@ -140,7 +195,7 @@
 			});
 
 			// Validación de la contraseña
-			password.addEventListener('input', function () {
+			password.addEventListener('input', function() {
 				const passwordValue = password.value.trim();
 				if (passwordValue === '') {
 					passwordEmptyError.style.display = 'block';
@@ -153,7 +208,7 @@
 			});
 
 			// Validación de aceptación de términos
-			termsCheckbox.addEventListener('change', function () {
+			termsCheckbox.addEventListener('change', function() {
 				termsError.style.display = termsCheckbox.checked ? 'none' : 'block';
 				termsAccepted = termsCheckbox.checked;
 				toggleButtonState();
@@ -174,12 +229,12 @@
 			termsModal.style.display = 'none'; // Ocultar inicialmente
 
 			// Mostrar la ventana modal al hacer clic en el enlace de términos y condiciones
-			termsCheckbox.addEventListener('click', function () {
+			termsCheckbox.addEventListener('click', function() {
 				termsModal.style.display = 'block';
 			});
 
 			// Botón de aceptar términos
-			acceptBtn.addEventListener('click', function () {
+			acceptBtn.addEventListener('click', function() {
 				termsModal.style.display = 'none';
 				termsCheckbox.checked = true;
 				termsError.style.display = 'none';
@@ -188,7 +243,7 @@
 			});
 
 			// Botón de declinar términos
-			declineBtn.addEventListener('click', function () {
+			declineBtn.addEventListener('click', function() {
 				termsModal.style.display = 'none';
 				termsCheckbox.checked = false;
 				termsError.style.display = 'block';
@@ -197,11 +252,10 @@
 			});
 
 			// Botón de cerrar modal
-			closeBtn.addEventListener('click', function () {
+			closeBtn.addEventListener('click', function() {
 				termsModal.style.display = 'none';
 			});
 		});
-
 	</script>
 </body>
 
