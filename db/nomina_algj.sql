@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2024 a las 21:43:45
+-- Tiempo de generación: 23-06-2024 a las 01:18:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -101,6 +101,19 @@ CREATE TABLE `deduccion` (
   `total` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `deduccion`
+--
+
+INSERT INTO `deduccion` (`ID_DEDUCCION`, `fecha`, `id_usuario`, `id_prestamo`, `id_salud`, `id_pension`, `cuota`, `parafiscales`, `total`) VALUES
+(3, '2024-06-21 00:00:00', 1105462832, 0, 1, 1, 0, 47970, 1503092),
+(4, '2024-06-22 00:00:00', 1105462832, 9, 1, 1, 127000, 46200, 1320600),
+(5, '2024-06-22 00:00:00', 1105462832, 9, 1, 1, 127000, 46200, 1320600),
+(6, '2024-06-22 00:00:00', 1105462832, 9, 1, 1, 127000, 32680, 896994),
+(7, '2024-06-22 00:00:00', 1105462830, 0, 1, 1, 0, 46200, 1447600),
+(8, '2024-06-22 00:00:00', 1105462830, 0, 1, 1, 0, 32680, 1023994),
+(9, '2024-06-22 00:00:00', 1105462832, 9, 1, 1, 127000, 32535, 892446);
+
 -- --------------------------------------------------------
 
 --
@@ -189,6 +202,14 @@ CREATE TABLE `nomina` (
   `Valor_Pagar` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `nomina`
+--
+
+INSERT INTO `nomina` (`ID`, `ID_user`, `Fecha`, `ID_deduccion`, `Id_suma`, `dias_trabajados`, `Valor_Pagar`) VALUES
+(49, 1105462830, '2024-06-22 00:00:00', 8, 70, 20, 1023994),
+(50, 1105462832, '2024-06-22 00:00:00', 9, 71, 15, 892446);
+
 -- --------------------------------------------------------
 
 --
@@ -223,6 +244,13 @@ CREATE TABLE `permisos` (
   `observacion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `permisos`
+--
+
+INSERT INTO `permisos` (`id_permiso`, `fecha`, `fecha_reingreso`, `id_us`, `estado`, `observacion`) VALUES
+(1, '2024-06-23 12:53:00', '2024-06-29 12:53:00', 1105462832, 7, 'quiero farrear');
+
 -- --------------------------------------------------------
 
 --
@@ -236,10 +264,17 @@ CREATE TABLE `prestamo` (
   `Cantidad_cuotas` int(11) NOT NULL,
   `Valor_Cuotas` decimal(10,2) NOT NULL,
   `cuotas_en_deuda` int(11) DEFAULT NULL,
-  `cuotas_pagas` int(11) DEFAULT NULL,
+  `cuotas_pagas` int(11) NOT NULL,
   `VALOR` decimal(10,2) NOT NULL,
   `estado` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `prestamo`
+--
+
+INSERT INTO `prestamo` (`ID_prest`, `ID_Empleado`, `Fecha`, `Cantidad_cuotas`, `Valor_Cuotas`, `cuotas_en_deuda`, `cuotas_pagas`, `VALOR`, `estado`) VALUES
+(9, 1105462832, '2024-06-22 12:20:40', 10, 127000.00, 6, 3, 1270000.00, 6);
 
 -- --------------------------------------------------------
 
@@ -262,7 +297,8 @@ CREATE TABLE `puestos` (
 INSERT INTO `puestos` (`ID`, `cargo`, `salario`, `id_empresa`, `id_arl`) VALUES
 (2, 'sdfdsf', 213123.00, 8888888888, 2),
 (4, 'Tintero', 1270000.00, 8888888888, 2),
-(5, 'bj', 2000.00, 100000, 1);
+(5, 'bj', 2000.00, 100000, 1),
+(6, 'desarrollador js', 5000000.00, 8888888888, 1);
 
 -- --------------------------------------------------------
 
@@ -320,6 +356,19 @@ CREATE TABLE `sumas` (
   `transporte` int(255) NOT NULL,
   `total` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `sumas`
+--
+
+INSERT INTO `sumas` (`ID_INDUCCION`, `fecha`, `id_usuario`, `valor_hora_extra`, `horas_trabajadas`, `transporte`, `total`) VALUES
+(65, '2024-06-21 00:00:00', 1105462832, 10000, 20, 170000, 1599032),
+(66, '2024-06-22 00:00:00', 1105462832, 10000, 10, 170000, 1540000),
+(67, '2024-06-22 00:00:00', 1105462832, 10000, 10, 170000, 1540000),
+(68, '2024-06-22 00:00:00', 1105462832, 10000, 10, 170000, 1089354),
+(69, '2024-06-22 00:00:00', 1105462830, 10000, 10, 170000, 1540000),
+(70, '2024-06-22 00:00:00', 1105462830, 10000, 10, 170000, 1089354),
+(71, '2024-06-22 00:00:00', 1105462832, 10000, 30, 170000, 1084516);
 
 -- --------------------------------------------------------
 
@@ -379,6 +428,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_us`, `pass`, `ruta_foto`, `id_puesto`, `id_rol`, `Codigo`, `id_empresa`, `token`) VALUES
+(1105462830, 'brian', 'avila', 'barrear@gmail.com', '3023004176', 'ea8ca18c781aa37f665f6eff7ac7c6aa7d671a9d2cad0003ddd1f2a40c08b00b4b62c2758b72b02bd95d57c767ae4d4b885ae6191a3207ffa9182a8f0949a967', '../../../uploads/fotos/119066015366771a73bb8461.94114926.png', 4, 6, 2005, 8888888888, ''),
 (1105462832, 'emiliano', 'ardila', 'bjulian1605@gmail.com', '3023004176', 'ea8ca18c781aa37f665f6eff7ac7c6aa7d671a9d2cad0003ddd1f2a40c08b00b4b62c2758b72b02bd95d57c767ae4d4b885ae6191a3207ffa9182a8f0949a967', '../../../uploads/fotos/user.jpg', 4, 6, 2005, 8888888888, ''),
 (1105462833, 'julian', 'contreras', 'bjulian1605@gmail.com', '3023004176', 'ea8ca18c781aa37f665f6eff7ac7c6aa7d671a9d2cad0003ddd1f2a40c08b00b4b62c2758b72b02bd95d57c767ae4d4b885ae6191a3207ffa9182a8f0949a967', '../../../uploads/fotos/user.jpg', 4, 7, 2005, 8888888888, ''),
 (1105462834, 'brian', 'avila', 'bjulian1605@gmail.com', '3023004176', 'ea8ca18c781aa37f665f6eff7ac7c6aa7d671a9d2cad0003ddd1f2a40c08b00b4b62c2758b72b02bd95d57c767ae4d4b885ae6191a3207ffa9182a8f0949a967', NULL, NULL, 5, 2005, 8888888888, NULL),
@@ -525,7 +575,7 @@ ALTER TABLE `v_h_extra`
 -- AUTO_INCREMENT de la tabla `deduccion`
 --
 ALTER TABLE `deduccion`
-  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
@@ -543,7 +593,7 @@ ALTER TABLE `licencia`
 -- AUTO_INCREMENT de la tabla `nomina`
 --
 ALTER TABLE `nomina`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `pension`
@@ -555,19 +605,19 @@ ALTER TABLE `pension`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `puestos`
 --
 ALTER TABLE `puestos`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -585,7 +635,7 @@ ALTER TABLE `salud`
 -- AUTO_INCREMENT de la tabla `sumas`
 --
 ALTER TABLE `sumas`
-  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `tp_licencia`
