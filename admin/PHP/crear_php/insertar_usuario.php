@@ -37,6 +37,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $ruta_foto = "../../../uploads/fotos/user.jpg";
     }
 
+    // Validar si el id_us ya existe en la base de datos
+    $sql_id = "SELECT COUNT(*) AS count FROM usuarios WHERE id_us = :id_us";
+    $stmt_id = $conexion->prepare($sql_id);
+    $stmt_id->bindParam(':id_us', $id_us);
+    $stmt_id->execute();
+    $result_id = $stmt_id->fetch(PDO::FETCH_ASSOC);
+
+    // Validar si el correo_us ya existe en la base de datos
+    $sql_correo = "SELECT COUNT(*) AS count FROM usuarios WHERE correo_us = :correo_us";
+    $stmt_correo = $conexion->prepare($sql_correo);
+    $stmt_correo->bindParam(':correo_us', $correo_us);
+    $stmt_correo->execute();
+    $result_correo = $stmt_correo->fetch(PDO::FETCH_ASSOC);
+
+    // Si el id_us o el correo_us ya existen, mostrar mensaje de error
+    if ($result_id['count'] > 0) {
+        echo "<script>alert('El ID de usuario ya existe en la base de datos'); window.location.href='../index.php';</script>";
+        exit; // Detener la ejecución si hay error
+    }
+
+    if ($result_correo['count'] > 0) {
+        echo "<script>alert('El correo electrónico ya está registrado en la base de datos'); window.location.href='../index.php';</script>";
+        exit; // Detener la ejecución si hay error
+    }
+
     // Insertar datos en la base de datos
     $sql = "INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, ruta_foto, id_puesto, id_rol, Codigo, id_empresa, token) 
             VALUES (:id_us, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :ruta_foto, :id_puesto, :id_rol, :Codigo, :id_empresa, :token)";

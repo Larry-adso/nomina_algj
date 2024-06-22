@@ -4,7 +4,7 @@ if (!isset($_SESSION['id_us'])) {
     echo '
             <script>
                 alert("Por favor inicie sesión e intente nuevamente");
-                window.location = ""../../dev/PHP/login.php"";
+                window.location = "../../dev/PHP/login.php";
             </script>
             ';
     session_destroy();
@@ -166,7 +166,8 @@ a.btn.btn-success:hover {
         <br>
            <div class="form-row col-md-4 mx-auto">
             <label for="id_arl">ARL</label>
-            <select class="form-control border border-dark mb-3" name="id_arl">
+            <select class="form-control border border-dark mb-3" name="id_arl" >
+              <option value="" readonly>Seleccione un valor de ARL</option>
                 <?php
                 // Obtener valores de la tabla arl
                 $sql_arl = $conexion->prepare("SELECT id_arl, valor FROM arl");
@@ -209,7 +210,16 @@ a.btn.btn-success:hover {
             </thead>
 
             <?php
-            $sql1 = $conexion->prepare("SELECT * FROM puestos");
+            // Obtener el id_empresa de la sesión del usuario
+            $id_us = $_SESSION['id_us'];
+            $stmt = $conexion->prepare("SELECT id_empresa FROM usuarios WHERE id_us = :id_us");
+            $stmt->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+            $stmt->execute();
+            $id_empresa = $stmt->fetchColumn();
+
+            // Modificar la consulta para obtener solo los puestos del id_empresa del usuario activo
+            $sql1 = $conexion->prepare("SELECT * FROM puestos WHERE id_empresa = :id_empresa");
+            $sql1->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
             $sql1->execute();
             $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
             foreach ($resultado1 as $resul) {
