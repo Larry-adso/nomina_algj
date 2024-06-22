@@ -126,6 +126,7 @@ a.btn.btn-success:hover {
 
 
     <div class="container">
+    <a class="btn btn-success" href="../index.php" style="border:none;" >INICIO</a>
         <h2>Agregar Usuario</h2>
         <form id="agregarUsuarioForm" action="insertar_usuario.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
