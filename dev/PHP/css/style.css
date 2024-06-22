@@ -301,3 +301,20 @@ a:hover {
 		justify-content: center;
 	}
 }
+
+.div {
+    position: relative;
+    display: inline-block;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.input {
+    padding-right: 30px; /* Ajusta el padding para que el icono no cubra el texto */
+}
