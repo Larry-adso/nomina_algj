@@ -2,79 +2,87 @@
 include '../../conexion/db.php';
 include '../../conexion/validar_sesion.php';
 
-// Obtener el id_empresa y el rol del usuario activo
-$id_us = $_SESSION['id_us'];
-$query_usuario = $conexion->prepare("SELECT id_empresa, id_rol FROM usuarios WHERE id_us = :id_us");
-$query_usuario->bindParam(':id_us', $id_us);
-$query_usuario->execute();
-$usuario_activo = $query_usuario->fetch(PDO::FETCH_ASSOC);
+// Obtener id_us de la sesión activa
+$id_us_session = $_SESSION['id_us'];
 
-$id_empresa = $usuario_activo['id_empresa'];
-$rol_usuario_activo = $usuario_activo['id_rol'];
+try {
+    // Obtener id_empresa del usuario en sesión
+    $query_empresa = "SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session";
+    $statement_empresa = $conexion->prepare($query_empresa);
+    $statement_empresa->bindParam(':id_us_session', $id_us_session, PDO::PARAM_INT);
+    $statement_empresa->execute();
+    $id_empresa_session = $statement_empresa->fetchColumn();
 
-// Consultar los datos de la tabla nomina filtrando por id_empresa
-$sql = "SELECT n.ID, n.ID_user, CONCAT(u.nombre_us, ' ', u.apellido_us) AS nombre_completo, DATE_FORMAT(n.fecha, '%d de %M de %Y') AS fecha, n.id_deduccion, n.id_suma, FORMAT(n.Valor_Pagar, 0) AS Valor_Pagar
-        FROM nomina n
-        INNER JOIN usuarios u ON n.ID_user = u.id_us
-        WHERE u.id_empresa = :id_empresa";
-$stmt = $conexion->prepare($sql);
-$stmt->bindParam(':id_empresa', $id_empresa);
-$stmt->execute();
-$nomina = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($id_empresa_session === false) {
+        throw new Exception("No se encontró el id_empresa para el usuario en sesión.");
+    }
 
-// Arreglo de traducción de meses
-$meses_espanol = array(
-    'January' => 'Enero',
-    'February' => 'Febrero',
-    'March' => 'Marzo',
-    'April' => 'Abril',
-    'May' => 'Mayo',
-    'June' => 'Junio',
-    'July' => 'Julio',
-    'August' => 'Agosto',
-    'September' => 'Septiembre',
-    'October' => 'Octubre',
-    'November' => 'Noviembre',
-    'December' => 'Diciembre'
-);
+    // Consultar los datos de la tabla nomina para el id_empresa específico
+    $sql = "SELECT n.ID, n.ID_user, CONCAT(u.nombre_us, ' ', u.apellido_us) AS nombre_completo, DATE_FORMAT(n.fecha, '%d de %M de %Y') AS fecha, n.id_deduccion, n.id_suma, FORMAT(n.Valor_Pagar, 0) AS Valor_Pagar
+            FROM nomina n
+            INNER JOIN usuarios u ON n.ID_user = u.id_us
+            WHERE u.id_empresa = :id_empresa";
 
-// Reemplazar los nombres de los meses en inglés con los nombres en español
-foreach ($nomina as &$fila) {
-    $fila['fecha'] = str_replace(array_keys($meses_espanol), array_values($meses_espanol), $fila['fecha']);
-}
+    // Verificar si hay una búsqueda específica
+    if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
+        $buscar = '%' . $_GET['buscar'] . '%';
+        $sql .= " AND (u.nombre_us LIKE :buscar OR u.apellido_us LIKE :buscar OR n.ID_user LIKE :buscar)";
+    }
 
-// Filtrar los registros por ID de usuario si se ha enviado una búsqueda
-$buscar_id = isset($_GET['buscar_id']) ? $_GET['buscar_id'] : '';
+    $stmt = $conexion->prepare($sql);
+    $stmt->bindParam(':id_empresa', $id_empresa_session, PDO::PARAM_INT);
 
-if ($buscar_id !== '') {
-    $nomina = array_filter($nomina, function ($fila) use ($buscar_id) {
-        return strpos($fila['ID_user'], $buscar_id) !== false;
-    });
+    if (isset($buscar)) {
+        $stmt->bindParam(':buscar', $buscar, PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
+    $nomina = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Array para transformar nombres de meses de inglés a español
+    $meses = array(
+        'January' => 'Enero',
+        'February' => 'Febrero',
+        'March' => 'Marzo',
+        'April' => 'Abril',
+        'May' => 'Mayo',
+        'June' => 'Junio',
+        'July' => 'Julio',
+        'August' => 'Agosto',
+        'September' => 'Septiembre',
+        'October' => 'Octubre',
+        'November' => 'Noviembre',
+        'December' => 'Diciembre'
+    );
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+    // Puedes redirigir a una página de error o manejar la situación de otra forma
+    exit();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nóminas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4"><i class="fas fa-money-check-alt"></i> Nóminas</h2>
-
-        <!-- Barra de búsqueda -->
-        <form class="form-inline mb-4" method="GET">
-            <input class="form-control mr-sm-2" type="search" name="buscar_id" placeholder="Buscar por ID de Usuario" aria-label="Buscar" value="<?= htmlspecialchars($buscar_id) ?>">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        <h2 class="mb-4">Nóminas</h2>
+        <form action="" method="GET" class="mb-3">
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Buscar por nombre o N° de Documento" name="buscar">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
         </form>
-
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -86,24 +94,27 @@ if ($buscar_id !== '') {
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($nomina)) : ?>
-                    <tr>
-                        <td colspan="7" class="text-center">No se encontraron resultados</td>
-                    </tr>
-                <?php else : ?>
-                    <?php foreach ($nomina as $fila) : ?>
-                        <tr>
-                            <td><?= htmlspecialchars($fila['ID_user']) ?></td>
-                            <td><?= htmlspecialchars($fila['nombre_completo']) ?></td>
-                            <td><?= htmlspecialchars($fila['fecha']) ?></td>
-                            <td>$ <?= htmlspecialchars($fila['Valor_Pagar']) ?> COP</td>
-                            <td><a href="detalles.php?id=<?= htmlspecialchars($fila['ID']) ?>" class="btn btn-primary">Detalles</a></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php foreach ($nomina as $fila): ?>
+                <tr>
+                    <td><?= $fila['ID_user'] ?></td>
+                    <td><?= $fila['nombre_completo'] ?></td>
+                    <td>
+                        <?php
+                            // Transformar el nombre del mes de inglés a español
+                            $fecha = $fila['fecha'];
+                            foreach ($meses as $mes_en => $mes_es) {
+                                $fecha = str_replace($mes_en, $mes_es, $fecha);
+                            }
+                            echo $fecha;
+                        ?>
+                    </td>
+                    
+                    <td> $<?= $fila['Valor_Pagar'] ?> COP</td>
+                    <td><a href="detalles.php?id=<?= $fila['ID'] ?>" class="btn btn-primary">Detalles</a></td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </body>
-
 </html>

@@ -19,10 +19,12 @@ $query_puestos->execute();
 $puestos = $query_puestos->fetchAll(PDO::FETCH_ASSOC);
 
 // Obtener roles, excluyendo el rol del usuario activo (ejemplo: ID = 6)
-$query_roles = $conexion->prepare("SELECT ID, Tp_user FROM roles WHERE ID != :rol_usuario_activo");
-$query_roles->bindParam(':rol_usuario_activo', $rol_usuario_activo);
+$query_roles = $conexion->prepare("SELECT ID, Tp_user FROM roles WHERE ID = :id_rol");
+$id_rol = 6; // ID que queremos seleccionar
+$query_roles->bindParam(':id_rol', $id_rol);
 $query_roles->execute();
 $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 
@@ -120,6 +122,7 @@ a.btn.btn-success:hover {
 </head>
 
 <body>
+<a class="btn btn-success" href="../index.php" style="border:none;" >INICIO</a>
     <div class="container">
         <h2>Agregar Usuario</h2>
         <form id="agregarUsuarioForm" action="insertar_usuario.php" method="post" enctype="multipart/form-data">

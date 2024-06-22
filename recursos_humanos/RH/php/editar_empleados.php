@@ -128,6 +128,7 @@ a.btn.btn-success:hover {
 </head>
 
 <body>
+<a class="btn btn-success" href="../index.php" style="border:none;" >INICIO</a>
     <div class="container">
         <h2>Editar Usuario</h2>
         <form id="editarUsuarioForm" action="actualizar_usuario.php" method="post" enctype="multipart/form-data">
