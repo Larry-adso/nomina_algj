@@ -317,7 +317,7 @@ if ($id_rol == '4') {
                         </div>
                         <div class="text-center mt-4">
                             <button class="btn btn-primary me-2" type="submit" name="validar">Registrar</button>
-                            <a class="btn btn-danger" href="../../index.php">Inicio</a>
+                            <a class="btn btn-danger" href="../index.php">Inicio</a>
                         </div>
                         <input type="hidden" name="MM_insert" value="regm">
                     </form>

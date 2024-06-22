@@ -122,6 +122,9 @@ a.btn.btn-success:hover {
 </head>
 
 <body>
+<a class="btn btn-success" href="../index.php" style="border: none;">INICIO</a>
+
+
     <div class="container">
         <h2>Agregar Usuario</h2>
         <form id="agregarUsuarioForm" action="insertar_usuario.php" method="post" enctype="multipart/form-data">
@@ -190,6 +193,7 @@ a.btn.btn-success:hover {
                 <small id="token_error" class="text-danger"></small>
             </div>
             <button type="submit" class="btn btn-primary" id="guardarBtn">Guardar</button>
+            
         </form>
     </div>
 
