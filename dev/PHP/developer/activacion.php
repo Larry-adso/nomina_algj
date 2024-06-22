@@ -205,7 +205,7 @@ if ($id_rol == '5') {
                     <div class="col-md-6">
                         <form action="" method="post" class="border p-4">
                             <label for="NIT" class="form-label">Por su seguridad digite manualmente el NIT de su empresa:</label>
-                            <input type="text" name="NIT" pattern="[0-9]{13}" maxlength="13" required class="form-control mb-3">
+                            <input type="text" name="NIT" pattern="[0-9]{10}" maxlength="13" required class="form-control mb-3">
                             <div id="message" class="message"></div>
 
                             <button type="submit" style="text-align: center;" class="btn btn-success">Activar</button>
