@@ -1,65 +1,71 @@
 <?php
-session_start();
+session_start(); // Inicia la sesión
 
+// Verifica si el usuario ha iniciado sesión
 if (!isset($_SESSION['id_us'])) {
+    // Si no ha iniciado sesión, muestra una alerta y redirige al usuario a la página de inicio de sesión
     echo '
     <script>
         alert("Por favor inicie sesión e intente nuevamente");
         window.location = "PHP/login.php";
     </script>
     ';
-    session_destroy();
-    die();
+    session_destroy(); // Destruye la sesión
+    die(); // Termina la ejecución del script
 }
 
-include "../conexion/db.php";
+include "../conexion/db.php"; // Incluye el archivo de conexión a la base de datos
 
-$id_rol = $_SESSION['id_rol'];
-if ($id_rol == '4') {
+$id_rol = $_SESSION['id_rol']; // Obtiene el rol del usuario de la sesión
+if ($id_rol == '4') { // Verifica si el rol del usuario es '4'
 
-    // Paginación
-    $results_per_page = 5;
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
+    // Configuración de la paginación
+    $results_per_page = 5; // Número de resultados por página
+    if (isset($_GET['page'])) { // Verifica si se ha establecido la página actual en la URL
+        $page = $_GET['page']; // Establece la página actual
     } else {
-        $page = 1;
+        $page = 1; // Si no se ha establecido, por defecto es la página 1
     }
-    $start_from = ($page - 1) * $results_per_page;
+    $start_from = ($page - 1) * $results_per_page; // Calcula el punto de inicio para la consulta SQL
 
-    // Filtro de tablas
+    // Inicializa el filtro
     $filter = "";
-    if (isset($_POST['filter'])) {
-        $filter = $_POST['filter'];
+    if (isset($_POST['filter'])) { // Verifica si se ha enviado un filtro en el formulario
+        $filter = $_POST['filter']; // Establece el filtro
     }
 
-    // Búsqueda
+    // Inicializa la búsqueda
     $search = "";
-    if (isset($_POST['search'])) {
-        $search = $_POST['search'];
+    if (isset($_POST['search'])) { // Verifica si se ha enviado una búsqueda en el formulario
+        $search = $_POST['search']; // Establece el término de búsqueda
     }
 
+    // Prepara la consulta SQL para obtener datos de las empresas
     $consulta = $conexion->prepare("SELECT empresas.NIT, empresas.Nombre, empresas.ID_Licencia, empresas.Correo, empresas.barcode, licencia.Serial, licencia.F_inicio, licencia.F_fin, tp_licencia.Tipo AS Tipo_Licencia, estado.Estado
         FROM empresas
         INNER JOIN licencia ON empresas.ID_Licencia = licencia.ID
         INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID
         INNER JOIN estado ON licencia.ID_Estado = estado.ID_Es
-        WHERE empresas.Nombre LIKE '%$search%'
+        WHERE empresas.Nombre LIKE '%$search%' -- Aplica el término de búsqueda
         ORDER BY empresas.Nombre
-        LIMIT $start_from, $results_per_page");
-    $consulta->execute();
-    $consulta_ = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        LIMIT $start_from, $results_per_page"); // Aplica la paginación
+    $consulta->execute(); // Ejecuta la consulta
+    $consulta_ = $consulta->fetchAll(PDO::FETCH_ASSOC); // Obtiene todos los resultados
 
+    // Prepara la consulta SQL para obtener el nombre del usuario autenticado
     $consultaUsuario = $conexion->prepare("SELECT nombre_us FROM usuarios WHERE id_us = :id_us");
-    $consultaUsuario->bindParam(':id_us', $_SESSION['id_us']);
-    $consultaUsuario->execute();
-    $usuario = $consultaUsuario->fetch(PDO::FETCH_ASSOC);
-    $nombreUsuario = $usuario['nombre_us'];
+    $consultaUsuario->bindParam(':id_us', $_SESSION['id_us']); // Vincula el parámetro de la consulta con el ID de usuario de la sesión
+    $consultaUsuario->execute(); // Ejecuta la consulta
+    $usuario = $consultaUsuario->fetch(PDO::FETCH_ASSOC); // Obtiene el resultado
+    $nombreUsuario = $usuario['nombre_us']; // Obtiene el nombre de usuario
 
+    // Prepara la consulta SQL para obtener datos de licencias en un estado específico
     $consultaLicencia = $conexion->prepare("SELECT licencia.ID, licencia.Serial, tp_licencia.Tipo FROM licencia 
     INNER JOIN tp_licencia ON licencia.TP_licencia = tp_licencia.ID WHERE licencia.ID_estado = 3");
-    $consultaLicencia->execute();
-    $Tp_licencia = $consultaLicencia->fetchAll(PDO::FETCH_ASSOC);
+    $consultaLicencia->execute(); // Ejecuta la consulta
+    $Tp_licencia = $consultaLicencia->fetchAll(PDO::FETCH_ASSOC); // Obtiene todos los resultados
 ?>
+
     <!DOCTYPE html>
     <html lang="en">
 
