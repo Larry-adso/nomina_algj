@@ -62,6 +62,7 @@ if ($id_rol == '4') {
 ?>
     <!DOCTYPE html>
     <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,15 +72,17 @@ if ($id_rol == '4') {
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
         </style>
     </head>
+
     <body id="body">
         <header>
             <div class="icon__menu">
+                <i class="fas fa-bars" id="menu_toggle"></i>
             </div>
         </header>
         <div class="menu__side" id="menu_side">
             <div class="name__page">
-                <i class="far fa-solid fa-user"></i>
-                <h4>DEV </h4>
+                <i class="far fa-user"></i>
+                <h4>DEV</h4>
                 <p>: <?php echo $nombreUsuario; ?></p>
             </div>
             <div class="options__menu">
@@ -97,44 +100,50 @@ if ($id_rol == '4') {
                 </a>
                 <a href="PHP/serial.php">
                     <div class="option">
-                        <i class="fas fa-solid fa-key" title="seriales "></i>
-                        <h4> Seriales</h4>
+                        <i class="fas fa-key" title="Seriales"></i>
+                        <h4>Seriales</h4>
                     </div>
                 </a>
                 <a href="PHP/register.php">
                     <div class="option">
-                        <i class="far fa-regular fa-user" title="Login"></i>
+                        <i class="far fa-user" title="Login"></i>
                         <h4>Registrar Personas</h4>
                     </div>
                 </a>
                 <a href="PHP/developer/devs.php">
                     <div class="option">
-                        <i class="fa-solid fa-children"></i>
-
+                        <i class="fas fa-children"></i>
                         <h4>Ver Personas</h4>
                     </div>
                 </a>
                 <a href="PHP/developer/estados.php">
                     <div class="option">
-                        <i class="far fa-address-card" title="Nosotros"></i>
+                        <i class="far fa-address-card" title="Opciones de estados"></i>
                         <h4>Opciones de estados</h4>
                     </div>
                 </a>
                 <a href="PHP/developer/info.php">
                     <div class="option">
-                        <i class="far fa-address-card" title="Nosotros"></i>
+                        <i class="far fa-address-card" title="Contactos"></i>
                         <h4>Contactos</h4>
                     </div>
                 </a>
                 <a href="PHP/cerrar.php">
                     <div class="option">
-                        <i class="far fa-solid fa-share-from-square" title="Nosotros"></i>
-                        <h4>Cerrar session</h4>
+                        <i class="fas fa-share-from-square" title="Cerrar sesión"></i>
+                        <h4>Cerrar sesión</h4>
                     </div>
                 </a>
             </div>
+            <div class="icon__menu icon__close">
+                <i class="fas fa-times" id="menu_close"></i>
+            </div>
         </div>
-
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <main>
             <h4>Empresas que han adquirido el software</h4>
 
@@ -151,9 +160,7 @@ if ($id_rol == '4') {
             </div>
 
             <div class="table-responsive">
-                <table class="table table-primary table-bordered" id="datatable_users">
-                    <!-- Encabezados de la tabla -->
-                    <br>
+                <table class="table table-primary table-bordered text-nowrap" id="datatable_users">
                     <thead>
                         <tr>
                             <th scope="col">NIT</th>
@@ -161,33 +168,46 @@ if ($id_rol == '4') {
                             <th scope="col">Correo</th>
                             <th scope="col">Seriales</th>
                             <th scope="col">Estado Licencia</th>
-                            <th scope="col">fecha inicio </th>
-                            <th scope="col">fecha fin </th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Fin</th>
                             <th scope="col">Barcode</th>
+                            <th scope="col">Tipo Licencia</th>
+                            <th scope="col">Renovar</th>
 
-                            <th scope="col">Tipo licenia </th>
                         </tr>
                     </thead>
-                    <!-- Cuerpo de la tabla -->
                     <tbody>
                         <?php foreach ($consulta_ as $info) { ?>
                             <tr>
-                                <td scope="row"><?php echo $info['NIT']; ?></td>
-                                <td><?php echo $info['Nombre']; ?></td>
-                                <td><?php echo $info['Correo']; ?></td>
-                                <td><?php echo $info['Serial']; ?></td>
-                                <td><?php echo $info['Estado']; ?></td>
-                                <td><?php echo $info['F_inicio']; ?></td>
-
-                                <td><?php echo $info['F_fin']; ?></td>
-                                <td> <img src="PHP/<?php echo $info['barcode']; ?>" alt=""></td>
-
-                                <td><?php echo $info['Tipo_Licencia']; ?></td>
+                                <td scope="row"><?php echo htmlspecialchars($info['NIT']); ?></td>
+                                <td><?php echo htmlspecialchars($info['Nombre']); ?></td>
+                                <td><?php echo htmlspecialchars($info['Correo']); ?></td>
+                                <td><?php echo htmlspecialchars($info['Serial']); ?></td>
+                                <td><?php echo htmlspecialchars($info['Estado']); ?></td>
+                                <td><?php echo htmlspecialchars($info['F_inicio']); ?></td>
+                                <td><?php echo htmlspecialchars($info['F_fin']); ?></td>
+                                <td><img src="PHP/<?php echo htmlspecialchars($info['barcode']); ?>" alt="Barcode"></td>
+                                <td><?php echo htmlspecialchars($info['Tipo_Licencia']); ?></td>
+                                <td>
+                                    <?php
+                                    if ($info['Estado'] == 'Activa') {
+                                        echo '<a name="" id="" class="btn-custom" href="#" role="button" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 4px; border: 1px solid #398439;">Vigente</a>';
+                                    } elseif ($info['Estado'] == 'primera vez') {
+                                        echo '<a name="" id="" class="btn-custom" href="#" role="button" style="background-color: #408df1; color: blue; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 4px; border: 1px solid #398439;">Por activar</a>';
+                                    } else {
+                                        echo '<a name="" id="" class="btn-custom" href="PHP/renovar.php?NIT=' . $info['NIT'] . '" role="button" style="background-color: #f50c0c; color: white; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 4px; border: 1px solid #398439;">Renovar</a>';
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                         <?php } ?>
+
+
+
                     </tbody>
                 </table>
             </div>
+
 
             <!-- Paginación -->
             <?php
