@@ -37,27 +37,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $ruta_foto = "../../../uploads/fotos/user.jpg";
     }
 
+    // Validar si el id_us ya existe en la base de datos
+    $sql_id = "SELECT COUNT(*) AS count FROM usuarios WHERE id_us = :id_us";
+    $stmt_id = $conexion->prepare($sql_id);
+    $stmt_id->bindParam(':id_us', $id_us);
+    $stmt_id->execute();
+    $result_id = $stmt_id->fetch(PDO::FETCH_ASSOC);
+
+    // Validar si el correo_us ya existe en la base de datos
+    $sql_correo = "SELECT COUNT(*) AS count FROM usuarios WHERE correo_us = :correo_us";
+    $stmt_correo = $conexion->prepare($sql_correo);
+    $stmt_correo->bindParam(':correo_us', $correo_us);
+    $stmt_correo->execute();
+    $result_correo = $stmt_correo->fetch(PDO::FETCH_ASSOC);
+
+    // Si el id_us o el correo_us ya existen, mostrar mensaje de error
+    if ($result_id['count'] > 0) {
+        echo "<script>alert('El ID de usuario ya existe en la base de datos'); window.location.href='../index.php';</script>";
+        exit; // Detener la ejecución si hay error
+    }
+
+    if ($result_correo['count'] > 0) {
+        echo "<script>alert('El correo electrónico ya está registrado en la base de datos'); window.location.href='../index.php';</script>";
+        exit; // Detener la ejecución si hay error
+    }
+
     // Insertar datos en la base de datos
-    $sql = "INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, ruta_foto, id_puesto, id_rol, Codigo, id_empresa, token) 
+    $sql_insert = "INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, ruta_foto, id_puesto, id_rol, Codigo, id_empresa, token) 
             VALUES (:id_us, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :ruta_foto, :id_puesto, :id_rol, :Codigo, :id_empresa, :token)";
 
-    $stmt = $conexion->prepare($sql);
-    $stmt->bindParam(':id_us', $id_us);
-    $stmt->bindParam(':nombre_us', $nombre_us);
-    $stmt->bindParam(':apellido_us', $apellido_us);
-    $stmt->bindParam(':correo_us', $correo_us);
-    $stmt->bindParam(':tel_us', $tel_us);
-    $stmt->bindParam(':pass', $pass);
-    $stmt->bindParam(':ruta_foto', $ruta_foto); // Se guarda el nuevo nombre en la base de datos
-    $stmt->bindParam(':id_puesto', $id_puesto);
-    $stmt->bindParam(':id_rol', $id_rol);
-    $stmt->bindParam(':Codigo', $Codigo);
-    $stmt->bindParam(':id_empresa', $id_empresa);
-    $stmt->bindParam(':token', $token);
+    $stmt_insert = $conexion->prepare($sql_insert);
+    $stmt_insert->bindParam(':id_us', $id_us);
+    $stmt_insert->bindParam(':nombre_us', $nombre_us);
+    $stmt_insert->bindParam(':apellido_us', $apellido_us);
+    $stmt_insert->bindParam(':correo_us', $correo_us);
+    $stmt_insert->bindParam(':tel_us', $tel_us);
+    $stmt_insert->bindParam(':pass', $pass);
+    $stmt_insert->bindParam(':ruta_foto', $ruta_foto); // Se guarda el nuevo nombre en la base de datos
+    $stmt_insert->bindParam(':id_puesto', $id_puesto);
+    $stmt_insert->bindParam(':id_rol', $id_rol);
+    $stmt_insert->bindParam(':Codigo', $Codigo);
+    $stmt_insert->bindParam(':id_empresa', $id_empresa);
+    $stmt_insert->bindParam(':token', $token);
 
-    if ($stmt->execute()) {
+    if ($stmt_insert->execute()) {
         echo "<script>alert('Usuario insertado correctamente'); window.location.href='../index.php';</script>";
     } else {
         echo "<script>alert('Error al insertar el usuario'); window.location.href='../index.php';</script>";
     }
 }
+?>

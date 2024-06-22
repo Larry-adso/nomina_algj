@@ -2,37 +2,57 @@
 include '../../conexion/db.php';
 session_start();
 
-// Verificar sesión activa y rol permitido
-if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
-    echo '
-        <script>
-            alert("Por favor inicie sesión e intente nuevamente");
-            window.location = "../../dev/PHP/login.php";
-        </script>
-    ';
-    session_destroy();
-    die();
-}
+// Función para obtener el nombre del mes en español
+function obtenerNombreMes($mes)
+{
+    $meses = [
+        'January' => 'enero',
+        'February' => 'febrero',
+        'March' => 'marzo',
+        'April' => 'abril',
+        'May' => 'mayo',
+        'June' => 'junio',
+        'July' => 'julio',
+        'August' => 'agosto',
+        'September' => 'septiembre',
+        'October' => 'octubre',
+        'November' => 'noviembre',
+        'December' => 'diciembre'
+    ];
 
-// Incluir el archivo de conexión si no lo has incluido ya
-// ...
-
-// Inicializar las variables de búsqueda
-$search_term = "";
-
-// Obtener el mes actual
-$current_month = date('m');
-$current_month_name = date('F');
-
-// Obtener el id_us de la sesión activa
-$id_us_session = $_SESSION['id_us'];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Asignar valor de búsqueda si está disponible
-    $search_term = isset($_POST["search_term"]) ? $_POST["search_term"] : "";
+    return $meses[$mes];
 }
 
 try {
+
+
+    // Verificar sesión activa y rol permitido
+    if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
+        echo '
+            <script>
+                alert("Por favor inicie sesión e intente nuevamente");
+                window.location = "../../dev/PHP/login.php";
+            </script>
+        ';
+        session_destroy();
+        die();
+    }
+
+    // Inicializar las variables de búsqueda
+    $search_term = "";
+
+    // Obtener el mes actual en inglés y convertirlo a español
+    $current_month = date('F');
+    $current_month_spanish = obtenerNombreMes($current_month);
+
+    // Obtener el id_us de la sesión activa
+    $id_us_session = $_SESSION['id_us'];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Asignar valor de búsqueda si está disponible
+        $search_term = isset($_POST["search_term"]) ? $_POST["search_term"] : "";
+    }
+
     // Obtener id_empresa del usuario de la sesión activa
     $sql_empresa = "SELECT id_empresa FROM usuarios WHERE id_us = :id_us_session";
     $stmt_empresa = $conexion->prepare($sql_empresa);
@@ -74,7 +94,7 @@ try {
         $id_us = $usuario['id_us'];
         $sql_nomina = "SELECT COUNT(*) FROM nomina WHERE ID_User = :id_us AND MONTH(fecha) = :current_month";
         $stmt_nomina = $conexion->prepare($sql_nomina);
-        $stmt_nomina->execute(['id_us' => $id_us, 'current_month' => $current_month]);
+        $stmt_nomina->execute(['id_us' => $id_us, 'current_month' => date('m')]);
         $count = $stmt_nomina->fetchColumn();
         $liquidaciones[$id_us] = ($count > 0);
     }
@@ -260,7 +280,11 @@ try {
                                     </form>
                                     <!-- Botón para liquidar -->
                                     <?php if ($liquidaciones[$usuario['id_us']]) : ?>
-                                        <button class="btn btn-secondary btn-sm" disabled>Este usuario ya tiene una nómina liquidada del mes de <?php echo htmlspecialchars($current_month_name); ?>. Puede liquidar nuevamente la nómina el próximo mes.</button>
+                                        <button class="btn btn-secondary btn-sm" disabled>
+                                            Este usuario ya tiene una nómina liquidada del mes de <?php echo htmlspecialchars($current_month_spanish); ?>.
+                                            Puede liquidar nuevamente la nómina el próximo mes.
+                                        </button>
+
                                     <?php else : ?>
                                         <button class="btn btn-success btn-sm" onclick="liquidarForm(<?php echo htmlspecialchars($usuario['id_us']); ?>)">Liquidar</button>
                                     <?php endif; ?>

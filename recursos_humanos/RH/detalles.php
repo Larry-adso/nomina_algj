@@ -153,6 +153,7 @@ WHERE n.ID = :id_nomina";
 
 <body>
     <div class="container mt-5">
+    <a class="btn btn-success" href="nomina.php" style="border:none;" >INICIO</a>
         <h2 class="text-center mb-4">Detalles de Nómina</h2>
         <div class="col-md-6">
                 <h4>Información de la Nómina</h4>
