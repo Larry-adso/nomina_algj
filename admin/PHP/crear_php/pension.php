@@ -193,7 +193,7 @@
     let valor = parseInt(pensionInput.value.trim(), 10);  // Convertimos el valor a entero base 10
 
     // Verificamos si el valor es un número y está dentro del rango 1 a 10
-    if (!isNaN(valor) && valor >= 1 && valor <= 10) {
+    if (!isNaN(valor) && valor >= 0 && valor <= 10) {
         // Si es válido, quitamos el borde rojo y el mensaje de error
         pensionInput.classList.remove('border', 'border-danger');
         document.getElementById('pension_error').textContent = '';
@@ -205,8 +205,8 @@
         registrarValorBtn.disabled = true;
 
         // Ajustamos el valor automáticamente si es menor que 1 o mayor que 10
-        if (isNaN(valor) || valor < 1) {
-            valor = 1;
+        if (isNaN(valor) || valor < 0) {
+            valor = 0;
         } else if (valor > 10) {
             valor = 10;
         }
