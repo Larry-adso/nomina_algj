@@ -169,39 +169,44 @@ if ($id_rol == '6') {
                             </thead>
 
                             <?php
-                            $sql1 = $conexion->prepare("SELECT * FROM permisos, usuarios, estado where permisos.id_us = usuarios.id_us AND estado.ID_Es = permisos.estado ORDER BY id_permiso ASC ");
-                            $sql1->execute();
-                            $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($resultado1 as $resul) {
+                            $id_us = $_SESSION['id_us'];
 
-                            ?>
-                                <tbody>
-                                    <tr scope="row">
-                                        <td><input class="form-control" name="fecha" type="text" value="<?php echo $resul['fecha'] ?>" readonly="readonly" /></td>
-                                        <td><input class="form-control" name="fecha_reingreso" style="width: auto;" type="text" value="<?php echo $resul['fecha_reingreso'] ?>" readonly="readonly" /></td>
-                                        <td><input class="form-control" name="id_us" type="text" value="<?php echo $resul['id_us'] ?>" readonly="readonly" /></td>
-                                        <td><input class="form-control" name="nombre_us" type="text" value="<?php echo $resul['nombre_us'] ?>" readonly="readonly" /></td>
-                                        <td><input class="form-control" name="apellido_us" type="text" value="<?php echo $resul['apellido_us'] ?>" readonly="readonly" /></td>
-                                        <td>
-                      <?php if ($resul['estado'] == 4) { ?>
+    $sql1 = $conexion->prepare("SELECT * FROM permisos, usuarios, estado 
+                                WHERE permisos.id_us = usuarios.id_us 
+                                AND estado.ID_Es = permisos.estado 
+                                AND permisos.id_us = :id_us 
+                                ORDER BY id_permiso ASC");
+    $sql1->bindParam(':id_us', $id_us, PDO::PARAM_INT);
+    $sql1->execute();
+    $resultado1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($resultado1 as $resul) {
+        ?>
+        <tbody>
+            <tr scope="row">
+                <td><input class="form-control" name="fecha" type="text" value="<?php echo $resul['fecha'] ?>" readonly="readonly" /></td>
+                <td><input class="form-control" name="fecha_reingreso" style="width: auto;" type="text" value="<?php echo $resul['fecha_reingreso'] ?>" readonly="readonly" /></td>
+                <td><input class="form-control" name="id_us" type="text" value="<?php echo $resul['id_us'] ?>" readonly="readonly" /></td>
+                <td><input class="form-control" name="nombre_us" type="text" value="<?php echo $resul['nombre_us'] ?>" readonly="readonly" /></td>
+                <td><input class="form-control" name="apellido_us" type="text" value="<?php echo $resul['apellido_us'] ?>" readonly="readonly" /></td>
+                <td>
+                    <?php if ($resul['estado'] == 4) { ?>
                         <a class="btn btn-danger" href="#" onclick="confirmarCancelacion('<?php echo $resul['id_permiso']; ?>')">Desistir permiso</a>
-                      <?php } elseif ($resul['estado'] == 10) { ?>
+                    <?php } elseif ($resul['estado'] == 10) { ?>
                         <span>Aprobado</span>
-                      <?php } elseif ($resul['estado'] == 11) { ?>
+                    <?php } elseif ($resul['estado'] == 11) { ?>
                         <span>Rechazado</span>
-                      <?php } elseif ($resul['estado'] == 12) { ?>
+                    <?php } elseif ($resul['estado'] == 12) { ?>
                         <span>Cancelado</span>
-                      <?php } ?>
-                    </td>
+                    <?php } ?>
+                </td>
+            </tr>
+        </tbody>
+        <?php
+    }
 
-                                  
+?>
 
-                                    </tr>
-                                </tbody>
-                                <?php
-                }
-     
-              ?>
                             
                         </form>
                     </table>

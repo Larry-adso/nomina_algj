@@ -181,9 +181,32 @@ a.btn.btn-success:hover {
             </div>
             <div class="form-group">
                 <label for="Codigo">Código</label>
-                <input type="number" class="form-control" id="Codigo" name="Codigo" required>
+                <input type="password" class="form-control" id="Codigo" name="Codigo" maxlength="4" required>
                 <small id="Codigo_error" class="text-danger"></small>
+                <small class="form-text text-muted">El código debe ser de exactamente 4 dígitos.</small>
             </div>
+
+            <script>
+                document.getElementById('Codigo').addEventListener('input', function() {
+                    var input = this.value;
+                    var errorMessage = document.getElementById('Codigo_error');
+                    var pattern = /^\d{4}$/;
+
+                    if (pattern.test(input)) {
+                        errorMessage.textContent = '';
+                    } else {
+                        errorMessage.textContent = 'El código debe ser de exactamente 4 dígitos.';
+                    }
+                });
+
+                // Evitar que se ingresen caracteres no numéricos
+                document.getElementById('Codigo').addEventListener('keydown', function(e) {
+                    var key = e.key;
+                    if (!/\d/.test(key) && key !== 'Backspace' && key !== 'Delete' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
+                        e.preventDefault();
+                    }
+                });
+            </script>
             <input type="hidden" id="id_empresa" name="id_empresa" value="<?= $id_empresa ?>">
             <div class="form-group">
                 <label for="token"></label>

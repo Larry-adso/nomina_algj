@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-06-2024 a las 03:22:50
+-- Tiempo de generación: 23-06-2024 a las 04:32:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -99,7 +99,8 @@ CREATE TABLE `deduccion` (
 --
 
 INSERT INTO `deduccion` (`ID_DEDUCCION`, `fecha`, `id_usuario`, `id_prestamo`, `id_salud`, `id_pension`, `cuota`, `parafiscales`, `total`) VALUES
-(12, '2024-06-23 00:00:00', 1109000123, 10, 1, 1, 93519, 73188, 1016519);
+(12, '2024-06-23 00:00:00', 1109000123, 10, 1, 1, 93519, 73188, 1016519),
+(15, '2024-06-23 00:00:00', 1007428011, 11, 1, 1, 356663, 199808, 1866213);
 
 -- --------------------------------------------------------
 
@@ -122,6 +123,7 @@ CREATE TABLE `empresas` (
 
 INSERT INTO `empresas` (`NIT`, `Nombre`, `ID_Licencia`, `Correo`, `Telefono`, `barcode`) VALUES
 (1109000123, 'Celcia', 21, 'Celcia123@gmail.com', '3112222222', 'img/1109000123.png'),
+(1109111919, 'hola', 25, 'hola@gmail.com', '3229894890', 'img/1109111919.png'),
 (7501033210, 'hghghgh', 22, 'fggf@gmail.com', '1424554545', 'img/7501033210.png'),
 (7700304515, 'angie', 23, 'hh@gmail.com', '8767887678', 'img/7700304515.png');
 
@@ -176,7 +178,8 @@ INSERT INTO `licencia` (`ID`, `Serial`, `ID_Estado`, `F_inicio`, `F_fin`, `TP_li
 (21, 'cDtB2spjCgNBz1WGDosIOkHTr', 5, NULL, NULL, 1214),
 (22, 'wHZMqeu8sBc3SHq49wUHybuPH', 1, '2024-06-23 02:22:51', '2024-12-23 02:22:51', 1213),
 (23, 'Z07OhpeubEB9TdknMGgxHB2nG', 1, '2024-06-23 02:28:02', '2025-05-23 02:28:02', 1214),
-(24, 'DftWLtcduG0Pk39xkBeMe6BpV', 2, NULL, NULL, 1213);
+(24, 'DftWLtcduG0Pk39xkBeMe6BpV', 2, NULL, NULL, 1213),
+(25, 'sBrKyVogS88pfe4BhFXcUKBzl', 1, '2024-06-23 03:41:38', '2025-06-23 03:41:38', 1214);
 
 -- --------------------------------------------------------
 
@@ -199,7 +202,8 @@ CREATE TABLE `nomina` (
 --
 
 INSERT INTO `nomina` (`ID`, `ID_user`, `Fecha`, `ID_deduccion`, `Id_suma`, `dias_trabajados`, `Valor_Pagar`) VALUES
-(53, 1109000123, '2024-06-23 00:00:00', 12, 74, 29, 1016519);
+(53, 1109000123, '2024-06-23 00:00:00', 12, 74, 29, 1016519),
+(56, 1007428011, '2024-06-23 00:00:00', 15, 77, 19, 1866213);
 
 -- --------------------------------------------------------
 
@@ -218,7 +222,8 @@ CREATE TABLE `pension` (
 --
 
 INSERT INTO `pension` (`ID`, `Valor`, `id_empresa`) VALUES
-(12, 2, 7700304515);
+(12, 2, 7700304515),
+(14, 6, 1109111919);
 
 -- --------------------------------------------------------
 
@@ -240,7 +245,8 @@ CREATE TABLE `permisos` (
 --
 
 INSERT INTO `permisos` (`id_permiso`, `fecha`, `fecha_reingreso`, `id_us`, `estado`, `observacion`) VALUES
-(2, '2024-07-10 07:01:00', '2024-07-11 11:13:00', 1109000123, 4, 'tengo cita con un man que es re pedagogo');
+(2, '2024-07-10 07:01:00', '2024-07-11 11:13:00', 1109000123, 4, 'tengo cita con un man que es re pedagogo'),
+(3, '2024-06-23 09:02:00', '2024-06-23 00:06:00', 1007428011, 4, 'Tengo clases de natación');
 
 -- --------------------------------------------------------
 
@@ -265,7 +271,8 @@ CREATE TABLE `prestamo` (
 --
 
 INSERT INTO `prestamo` (`ID_prest`, `ID_Empleado`, `Fecha`, `Cantidad_cuotas`, `Valor_Cuotas`, `cuotas_en_deuda`, `cuotas_pagas`, `VALOR`, `estado`) VALUES
-(10, 1109000123, '2024-06-22 20:10:24', 12, 93519.00, 11, 1, 1122222.00, 6);
+(10, 1109000123, '2024-06-22 20:10:24', 12, 93519.00, 11, 1, 1122222.00, 6),
+(11, 1007428011, '2024-06-22 21:02:32', 11, 356663.00, 10, 1, 3923292.00, 6);
 
 -- --------------------------------------------------------
 
@@ -286,7 +293,8 @@ CREATE TABLE `puestos` (
 --
 
 INSERT INTO `puestos` (`ID`, `cargo`, `salario`, `id_empresa`, `id_arl`) VALUES
-(7, 'conserje', 1122222.00, 7700304515, 2);
+(7, 'conserje', 1122222.00, 7700304515, 2),
+(9, 'secretario', 4000000.00, 1109111919, 2);
 
 -- --------------------------------------------------------
 
@@ -326,7 +334,8 @@ CREATE TABLE `salud` (
 --
 
 INSERT INTO `salud` (`ID`, `Valor`, `id_empresa`) VALUES
-(21, 4, 7700304515);
+(21, 4, 7700304515),
+(25, 2, 1109111919);
 
 -- --------------------------------------------------------
 
@@ -349,7 +358,8 @@ CREATE TABLE `sumas` (
 --
 
 INSERT INTO `sumas` (`ID_INDUCCION`, `fecha`, `id_usuario`, `valor_hora_extra`, `horas_trabajadas`, `transporte`, `total`) VALUES
-(74, '2024-06-23 00:00:00', 1109000123, 25800, 0, 170000, 1219820);
+(74, '2024-06-23 00:00:00', 1109000123, 25800, 0, 170000, 1219820),
+(77, '2024-06-23 00:00:00', 1007428011, 23000, 2, 0, 2497612);
 
 -- --------------------------------------------------------
 
@@ -409,6 +419,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_us`, `pass`, `ruta_foto`, `id_puesto`, `id_rol`, `Codigo`, `id_empresa`, `token`) VALUES
+(1007428011, 'angie', 'gutierrez', 'angie@gmail.com', '3187738647', '35f8b64ac3b2cfa9c3ec7f52a572edf60f831e7e3befaefe17928d958f6ccb730eb2037f1e1875b3be44a9eb18a621ef449decd52d985169a84858a5d57bca8e', '../../../uploads/fotos/19678155966677815c86be76.49030288.png', 9, 6, 2000, 1109111919, ''),
+(1007428012, 'angie', 'gutierrez', 'gutierrez@gmail.com', '3187738647', '35f8b64ac3b2cfa9c3ec7f52a572edf60f831e7e3befaefe17928d958f6ccb730eb2037f1e1875b3be44a9eb18a621ef449decd52d985169a84858a5d57bca8e', '../../../uploads/fotos/15689771586677800a3c0ac0.48210996.jpg', 9, 7, 2000, 1109111919, ''),
+(1007428013, 'angie', 'gutierrez', 'gutierrezangietatiana@gmail.com', '3187738647', '35f8b64ac3b2cfa9c3ec7f52a572edf60f831e7e3befaefe17928d958f6ccb730eb2037f1e1875b3be44a9eb18a621ef449decd52d985169a84858a5d57bca8e', NULL, NULL, 5, 2000, 1109111919, NULL),
 (1105462834, 'Brian', 'Avila', 'Brianjulian@gmail.com', '3112346543', 'fc1a24b284807264e93dcefa6e26e175e8165f8c85fc6c777840b9fa8718b54e87fdd37a6e67ac80d06e046bd59e8a368ee6591ce92d31e9b684e2f4ec3017d6', '../../../uploads/fotos/user.jpg', 7, 7, 3434, 7700304515, ''),
 (1109000123, 'larry', 'garcia', 'garcialarry03@gmail.com', '3173328716', 'fc1a24b284807264e93dcefa6e26e175e8165f8c85fc6c777840b9fa8718b54e87fdd37a6e67ac80d06e046bd59e8a368ee6591ce92d31e9b684e2f4ec3017d6', '../../../uploads/fotos/user.jpg', 7, 6, 730004, 7700304515, ''),
 (1109000445, 'Prueba', 'UNO', 'garcialarry0338@gmail.com', '3173328715', '4d0b24ccade22df6d154778cd66baf04288aae26df97a961f3ea3dd616fbe06dcebecc9bbe4ce93c8e12dca21e5935c08b0954534892c568b8c12b92f26a2448', NULL, NULL, 5, 3436, 1109000123, NULL),
@@ -433,7 +446,8 @@ CREATE TABLE `v_h_extra` (
 --
 
 INSERT INTO `v_h_extra` (`ID`, `V_H_extra`, `id_empresa`) VALUES
-(11, 25800, 7700304515);
+(11, 25800, 7700304515),
+(13, 23000, 1109111919);
 
 --
 -- Índices para tablas volcadas
@@ -556,7 +570,7 @@ ALTER TABLE `v_h_extra`
 -- AUTO_INCREMENT de la tabla `deduccion`
 --
 ALTER TABLE `deduccion`
-  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
@@ -568,37 +582,37 @@ ALTER TABLE `estado`
 -- AUTO_INCREMENT de la tabla `licencia`
 --
 ALTER TABLE `licencia`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `nomina`
 --
 ALTER TABLE `nomina`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `pension`
 --
 ALTER TABLE `pension`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `puestos`
 --
 ALTER TABLE `puestos`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -610,13 +624,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `salud`
 --
 ALTER TABLE `salud`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `sumas`
 --
 ALTER TABLE `sumas`
-  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT de la tabla `tp_licencia`
@@ -628,7 +642,7 @@ ALTER TABLE `tp_licencia`
 -- AUTO_INCREMENT de la tabla `v_h_extra`
 --
 ALTER TABLE `v_h_extra`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
