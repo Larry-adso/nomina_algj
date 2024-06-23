@@ -214,15 +214,6 @@ if ($id_rol == '5') {
                         </form>
                     </div>
                 </div>
-                <a
-                    name=""
-                    id=""
-                    class="btn btn-secondary"
-                    href="barra.php"
-                    role="button"
-                    >Button</a
-                >
-                
             </div>
         </main>
         <footer>
