@@ -190,17 +190,33 @@
         pensionInput.addEventListener('input', validarPension);
 
         function validarPension() {
-            const valor = pensionInput.value.trim();
-            if (!/^\d+$/.test(valor)) {
-                pensionInput.classList.add('border', 'border-danger');
-                document.getElementById('pension_error').textContent = 'Ingrese un valor de pensión válido (solo números).';
-                registrarValorBtn.disabled = true;
-            } else {
-                pensionInput.classList.remove('border', 'border-danger');
-                document.getElementById('pension_error').textContent = '';
-                registrarValorBtn.disabled = false;
-            }
+    let valor = parseInt(pensionInput.value.trim(), 10);  // Convertimos el valor a entero base 10
+
+    // Verificamos si el valor es un número y está dentro del rango 1 a 10
+    if (!isNaN(valor) && valor >= 1 && valor <= 10) {
+        // Si es válido, quitamos el borde rojo y el mensaje de error
+        pensionInput.classList.remove('border', 'border-danger');
+        document.getElementById('pension_error').textContent = '';
+        registrarValorBtn.disabled = false;
+    } else {
+        // Si no es válido, agregamos el borde rojo, mostramos el mensaje de error y deshabilitamos el botón
+        pensionInput.classList.add('border', 'border-danger');
+        document.getElementById('pension_error').textContent = 'Ingrese un valor de pensión válido (entre 1 y 10).';
+        registrarValorBtn.disabled = true;
+
+        // Ajustamos el valor automáticamente si es menor que 1 o mayor que 10
+        if (isNaN(valor) || valor < 1) {
+            valor = 1;
+        } else if (valor > 10) {
+            valor = 10;
         }
+    }
+
+    // Actualizamos el valor mostrado en el input
+    pensionInput.value = valor;
+}
+
+        
     </script>
 </body>
 
