@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $Codigo = $_POST['Codigo'];
     $id_empresa = $_POST['id_empresa'];
     $token = $_POST['token'];
+    $id_estado = 1; // Aquí deberías establecer el valor correcto para id_estado
 
     // Manejo de la foto
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
@@ -63,11 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insertar datos en la base de datos
-    $sql = "INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, ruta_foto, id_puesto, id_rol, Codigo, id_empresa, token) 
-            VALUES (:id_us, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :ruta_foto, :id_puesto, :id_rol, :Codigo, :id_empresa, :token)";
+    $sql = "INSERT INTO usuarios (id_us, id_estado, nombre_us, apellido_us, correo_us, tel_us, pass, ruta_foto, id_puesto, id_rol, Codigo, id_empresa, token) 
+            VALUES (:id_us, :id_estado, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :ruta_foto, :id_puesto, :id_rol, :Codigo, :id_empresa, :token)";
     
     $stmt = $conexion->prepare($sql);
     $stmt->bindParam(':id_us', $id_us);
+    $stmt->bindParam(':id_estado', $id_estado); // Aquí corregimos el binding para id_estado
     $stmt->bindParam(':nombre_us', $nombre_us);
     $stmt->bindParam(':apellido_us', $apellido_us);
     $stmt->bindParam(':correo_us', $correo_us);
