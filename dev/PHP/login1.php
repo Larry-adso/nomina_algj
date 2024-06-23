@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Verificar el estado del usuario
                 if ($id_estado == 15) {
-                    echo '<script>alert("No puede acceder porque fue despedido.");
+                    echo '<script>alert("No puede acceder al sistema porque fue despedido comunicate con tu jefe inmediato.");
                     window.location = "login.php";
                     </script>';
                     exit();
