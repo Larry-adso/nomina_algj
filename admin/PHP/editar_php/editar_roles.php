@@ -123,7 +123,7 @@ a.btn.btn-success:hover {
                                     <div class="form-group">
                                         <label for="valor">Nuevo Rol</label>
                                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-                                        <input type="text" class="form-control" id="Tp_user" name="Tp_user" placeholder="Nuevo Rol" value="<?php echo htmlspecialchars($valor); ?>" required>
+                                        <input type="text" class="form-control" id="Tp_user" name="Tp_user" placeholder="Nuevo Rol" value="<?php echo htmlspecialchars($valor); ?>" required  pattern="[0-9]{1,10}>
                                         <small id="rol_error" class="text-danger"></small>
                                     </div>
                                     <button type="submit" name="update" class="btn btn-primary" id="actualizarRolBtn">Actualizar Rol</button>
