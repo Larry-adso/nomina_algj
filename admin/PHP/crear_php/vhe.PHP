@@ -180,26 +180,31 @@
     </div>
 
     <script>
-        // Validación de formulario (si es necesario)
-        const cargarValorHoraExtraForm = document.getElementById('cargarValorHoraExtraForm');
-        const v_h_extraInput = document.getElementById('v_h_extra');
-        const registrarValorBtn = document.getElementById('registrarValorBtn');
+    // Validación de formulario (si es necesario)
+    const cargarValorHoraExtraForm = document.getElementById('cargarValorHoraExtraForm');
+    const v_h_extraInput = document.getElementById('v_h_extra');
+    const registrarValorBtn = document.getElementById('registrarValorBtn');
 
-        v_h_extraInput.addEventListener('input', validarValorHoraExtra);
+    v_h_extraInput.addEventListener('input', validarValorHoraExtra);
 
-        function validarValorHoraExtra() {
-            const valor = v_h_extraInput.value.trim();
-            if (!/^\d+(\.\d{1,2})?$/.test(valor)) {
-                v_h_extraInput.classList.add('is-invalid');
-                document.getElementById('v_h_extra_error').textContent = 'Ingrese un valor válido para la Hora Extra.';
-                registrarValorBtn.disabled = true;
-            } else {
-                v_h_extraInput.classList.remove('is-invalid');
-                document.getElementById('v_h_extra_error').textContent = '';
-                registrarValorBtn.disabled = false;
-            }
+    function validarValorHoraExtra() {
+        const valor = v_h_extraInput.value.trim();
+        if (valor === '') {
+            v_h_extraInput.classList.add('is-invalid');
+            document.getElementById('v_h_extra_error').textContent = 'Complete el campo, no puede estar vacío.';
+            registrarValorBtn.disabled = true;
+        } else if (!/^\d+(\.\d{1,2})?$/.test(valor)) {
+            v_h_extraInput.classList.add('is-invalid');
+            document.getElementById('v_h_extra_error').textContent = 'Ingrese un valor válido para la Hora Extra.';
+            registrarValorBtn.disabled = true;
+        } else {
+            v_h_extraInput.classList.remove('is-invalid');
+            document.getElementById('v_h_extra_error').textContent = '';
+            registrarValorBtn.disabled = false;
         }
-    </script>
+    }
+</script>
+
 </body>
 
 </html>

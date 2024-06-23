@@ -145,7 +145,7 @@ a.btn.btn-success:hover {
                         <form id="cargarSaludForm" action="salud.php" method="post">
                             <div class="form-group">
                                 <label for="valor">Valor de Salud</label>
-                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Ingrese el valor de Salud" required  pattern="[0-9]{1,10}>
+                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Ingrese el valor de Salud" required >
                                 <small id="valor_error" class="text-danger"></small>
                             </div>
                             <button type="submit" class="btn btn-primary" id="registrarValorBtn">Registrar Valor</button>
@@ -166,7 +166,7 @@ a.btn.btn-success:hover {
         let valor = parseFloat(valorInput.value.trim());  // Convertimos el valor a punto flotante
 
         // Verificamos si el valor es un número y está dentro del rango 1 a 10
-        if (!isNaN(valor) && valor >= 1 && valor <= 10) {
+        if (!isNaN(valor) && valor >= 0 && valor <= 10) {
             // Si es válido, quitamos el borde rojo y el mensaje de error
             valorInput.classList.remove('border', 'border-danger');
             document.getElementById('valor_error').textContent = '';
@@ -179,7 +179,7 @@ a.btn.btn-success:hover {
 
             // Ajustamos el valor automáticamente si es menor que 1 o mayor que 10
             if (isNaN(valor) || valor < 1) {
-                valor = 1;
+                valor = 0;
             } else if (valor > 10) {
                 valor = 10;
             }
@@ -189,6 +189,8 @@ a.btn.btn-success:hover {
         valorInput.value = Math.floor(valor); // Utilizamos Math.floor() para redondear hacia abajo y quitar los decimales
     }
 </script>
+
+
 
 </body>
 
