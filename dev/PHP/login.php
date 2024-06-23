@@ -17,7 +17,7 @@
 			<img src="img/bg.png">
 		</div>
 		<div class="login-content">
-			<form action="login1.php" method="post">
+			<form action="login1.php" method="post" autocomplete="off">
 				<img src="img/avatar.svg">
 				<h2 class="title">Bienvenido</h2>
 				<div class="input-div one">

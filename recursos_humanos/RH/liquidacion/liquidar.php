@@ -13,7 +13,7 @@ try {
     $valor_hora_extra = $stmt_h_extra->fetch(PDO::FETCH_ASSOC);
 
     if (!$valor_hora_extra) {
-        echo "Error: No se pudo obtener el valor de la hora extra.";
+        echo "<script>alert('No se pudo obtener el valor de hora extra, registre uno he intentelo nuevamente'); window.location.href='../index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {
@@ -30,7 +30,7 @@ try {
     $salud = $stmt_salud->fetch(PDO::FETCH_ASSOC);
 
     if (!$salud) {
-        echo "Error: No se pudo obtener el valor de salud.";
+        echo "<script>alert('No se pudo obtener el valor de salud, registre uno he intentelo nuevamente'); window.location.href='../index.php';</script>";
         exit();
     }
 
@@ -42,7 +42,7 @@ try {
     $pension = $stmt_pension->fetch(PDO::FETCH_ASSOC);
 
     if (!$pension) {
-        echo "Error: No se pudo obtener el valor de pensión.";
+        echo "<script>alert('No se pudo obtener el valor de pension, registre uno he intentelo nuevamente'); window.location.href='../index.php';</script>";
         exit();
     }
 
@@ -60,7 +60,7 @@ try {
     $usuario = $stmt_usuario->fetch(PDO::FETCH_ASSOC);
 
     if (!$usuario) {
-        echo "Usuario no encontrado.";
+        echo "<script>alert('Usuario no encontrado registre uno he intentelo nuevamente'); window.location.href='../index.php';</script>";
         exit();
     }
 
@@ -89,7 +89,7 @@ try {
     $pension = $stmt_pension->fetch(PDO::FETCH_ASSOC);
 
     if (!$salud || !$pension) {
-        echo "Error: No se pudo obtener el valor de salud o pensión.";
+        echo "<script>alert('No se pudo obtener el valor de la pension, inserte uno he intentelo nuevamente'); window.location.href='../index.php';</script>";
         exit();
     }
 
@@ -102,7 +102,7 @@ try {
     $arl = $stmt_arl->fetch(PDO::FETCH_ASSOC);
 
     if (!$arl) {
-        echo "Error: No se pudo obtener el valor de la ARL.";
+        echo "<script>alert('No se pudo obtener el valor de la ARL verifique su registro de el puesto e intentelo nuevamente'); window.location.href='../index.php';</script>";
         exit();
     }
 

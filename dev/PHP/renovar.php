@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_us'])) {
     echo '
         <script>
             alert("Por favor inicie sesión e intente nuevamente");
-            window.location = "../login.php";
+            window.location = "login.php";
         </script>
     ';
     session_destroy();
@@ -25,6 +25,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_empresa'])) {
     $empresa = $_GET['NIT'];
 
     try {
+        // Calcular la fecha de fin de la licencia según el tipo de licencia
+        $fechaInicio = date('Y-m-d H:i:s'); // Fecha actual
+
+        // Obtener el tipo de licencia
+        $consultaTipoLicencia = $conexion->prepare("SELECT TP_licencia FROM licencia WHERE ID = :id_licencia");
+        $consultaTipoLicencia->bindParam(":id_licencia", $nuevo_id_licencia);
+        $consultaTipoLicencia->execute();
+        $tipoLicencia = $consultaTipoLicencia->fetchColumn();
+
+        if ($tipoLicencia == 1213) {
+            // Si es de tipo 1213 (6 meses)
+            $fechaFin = date('Y-m-d H:i:s', strtotime('+6 months', strtotime($fechaInicio)));
+        } elseif ($tipoLicencia == 1214) {
+            // Si es de tipo 1214 (1 año)
+            $fechaFin = date('Y-m-d H:i:s', strtotime('+1 year', strtotime($fechaInicio)));
+        } else {
+            // Por defecto 1 año
+            $fechaFin = date('Y-m-d H:i:s', strtotime('+1 year', strtotime($fechaInicio)));
+        }
+
+        // Actualizar el campo F_inicio y F_fin en la tabla licencia
+        $updateFechas = $conexion->prepare("UPDATE licencia SET F_inicio = :fechaInicio, F_fin = :fechaFin WHERE ID = :id_licencia");
+        $updateFechas->bindParam(":fechaInicio", $fechaInicio);
+        $updateFechas->bindParam(":fechaFin", $fechaFin);
+        $updateFechas->bindParam(":id_licencia", $nuevo_id_licencia);
+        $updateFechas->execute();
+
         // Consulta SQL para actualizar solo el ID_Licencia de la empresa
         $consulta_update = "UPDATE empresas SET 
                             ID_Licencia = :id_licencia
@@ -64,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_empresa'])) {
         echo '<div class="alert alert-danger" role="alert">Error al actualizar la licencia: ' . $e->getMessage() . '</div>';
     }
 }
-
 
 // Consulta SQL para obtener los datos actuales de la empresa
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['NIT'])) {
@@ -107,7 +133,6 @@ try {
 // Cerrar conexión
 $conexion = null;
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
