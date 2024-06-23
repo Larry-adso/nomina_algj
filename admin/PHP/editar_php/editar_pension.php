@@ -10,86 +10,109 @@
     <link rel="stylesheet" href="../../css/admin.css">
     <style>
         :root {
-    --primary-color: #c7a17a !important;
-    --background-color: #f9f5f0 !important;
-    --dark-color: #151515 !important;
-    --hover-button-color: #9b7752 !important;
-    --button-login-color: #6DC5D1 !important;
-    --button-login-hover: #59a2ac !important;
-    --button-decline-term: #e88162 !important;
-}
+            --primary-color: #c7a17a !important;
+            --background-color: #f9f5f0 !important;
+            --dark-color: #151515 !important;
+            --hover-button-color: #9b7752 !important;
+            --button-login-color: #6DC5D1 !important;
+            --button-login-hover: #59a2ac !important;
+            --button-decline-term: #e88162 !important;
+        }
 
-body {
-    background-color: #F9F5F0 !important; /* Beige claro */
-    color: #0B0B0B !important; /* Negro oscuro */
-}
+        body {
+            background-color: #F9F5F0 !important;
+            /* Beige claro */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
-h1 {
-    color: #0B0B0B !important; /* Negro oscuro */
-}
+        h1 {
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
-.card-body {
-    background-color: #FFFFFF !important; /* Blanco */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
-}
+        .card-body {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
 
-.form-control {
-    border: 1px solid #DDDDDD !important; /* Gris claro */
-}
+        .form-control {
+            border: 1px solid #DDDDDD !important;
+            /* Gris claro */
+        }
 
-input.btn.btn-primary, a.btn.btn-primary {
-    background-color: var(--button-login-color) !important;
-    color: #FFFFFF !important; /* Blanco */
-    border: none !important; /* Quitar borde para consistencia */
-}
+        input.btn.btn-primary,
+        a.btn.btn-primary {
+            background-color: var(--button-login-color) !important;
+            color: #FFFFFF !important;
+            /* Blanco */
+            border: none !important;
+            /* Quitar borde para consistencia */
+        }
 
-input.btn.btn-primary:hover {
-    background-color: var(--button-login-hover) !important; /* Un tono más oscuro para el hover */
-    color: #FFFFFF !important;
-}
-a.btn.btn-primary:hover {
-    background-color: var(--button-login-hover) !important; /* Un tono más oscuro para el hover */
-    color: #FFFFFF !important;  
-}
-a.btn.btn-warning {
-    background-color: var(--button-decline-term) !important; /* Rojo */
-    color: #FFFFFF !important; /* Blanco */
-    --bs-btn-border-color: none !important;
+        input.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
 
-}
+        a.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
 
-.table-dark {
-    background-color: #2E2E2E !important; /* Gris oscuro */
-    color: #FFFFFF !important; /* Blanco */
-}
+        a.btn.btn-warning {
+            background-color: var(--button-decline-term) !important;
+            /* Rojo */
+            color: #FFFFFF !important;
+            /* Blanco */
+            --bs-btn-border-color: none !important;
 
-.table-light {
-    background-color: #FFFFFF !important; /* Blanco */
-    color: #0B0B0B !important; /* Negro oscuro */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
 
-}
+        .table-dark {
+            background-color: #2E2E2E !important;
+            /* Gris oscuro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
 
-.thead-dark {
-    background-color: var(--hover-button-color) !important; /* Negro más claro */
-    color: #FFFFFF !important; /* Blanco */
-}
-a.btn.btn-success {
-    background-color: var(--primary-color) !important;
-    --bs-btn-border-color: none !important;
-}
-a.btn.btn-success:hover {
-    background-color: var(--hover-button-color) !important;
-    --bs-btn-border-color: none !important;
-}
+        .table-light {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+
+        }
+
+        .thead-dark {
+            background-color: var(--hover-button-color) !important;
+            /* Negro más claro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
+
+        a.btn.btn-success {
+            background-color: var(--primary-color) !important;
+            --bs-btn-border-color: none !important;
+        }
+
+        a.btn.btn-success:hover {
+            background-color: var(--hover-button-color) !important;
+            --bs-btn-border-color: none !important;
+        }
 
 
-.table-responsive {
-    max-width: 600px !important; /* Establece el ancho máximo deseado */
-    margin: auto !important; /* Centrar el div */
-}
-
+        .table-responsive {
+            max-width: 600px !important;
+            /* Establece el ancho máximo deseado */
+            margin: auto !important;
+            /* Centrar el div */
+        }
     </style>
 
 </head>
@@ -123,8 +146,8 @@ a.btn.btn-success:hover {
                                     <div class="form-group">
                                         <label for="valor">Nuevo Valor de Pensión</label>
                                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-                                        <input type="number" class="form-control" id="valor" name="valor" placeholder="Nuevo Valor de Pensión" value="<?php echo htmlspecialchars($valor); ?>" required  pattern="[0-9]{1,10}>
-                                        <small id="valor_error" class="text-danger"></small>
+                                        <input type="number" class="form-control" id="valor" name="valor" placeholder="Nuevo Valor de Pensión" value="<?php echo htmlspecialchars($valor); ?>" required pattern="[0-9]{1,10}>
+                                        <small id=" valor_error" class="text-danger"></small>
                                     </div>
                                     <button type="submit" name="update" class="btn btn-primary" id="actualizarValorBtn">Actualizar Valor</button>
                                 </form>
@@ -167,18 +190,33 @@ a.btn.btn-success:hover {
         valorInput.addEventListener('input', validarValor);
 
         function validarValor() {
-            const valor = valorInput.value.trim();
-            if (!/^\d+$/.test(valor)) {
-                valorInput.classList.add('border', 'border-danger');
-                document.getElementById('valor_error').textContent = 'Ingrese un valor de pensión válido (solo números).';
-                actualizarValorBtn.disabled = true;
-            } else {
+            let valor = parseInt(valorInput.value.trim(), 10); // Convertimos el valor a entero base 10
+
+            // Verificamos si el valor es un número y está dentro del rango 1 a 10
+            if (!isNaN(valor) && valor >= 1 && valor <= 10) {
+                // Si es válido, quitamos el borde rojo y el mensaje de error
                 valorInput.classList.remove('border', 'border-danger');
                 document.getElementById('valor_error').textContent = '';
                 actualizarValorBtn.disabled = false;
+            } else {
+                // Si no es válido, agregamos el borde rojo, mostramos el mensaje de error y deshabilitamos el botón
+                valorInput.classList.add('border', 'border-danger');
+                document.getElementById('valor_error').textContent = 'Ingrese un valor de pensión válido (entre 1 y 10).';
+                actualizarValorBtn.disabled = true;
+
+                // Ajustamos el valor automáticamente si es menor que 1 o mayor que 10
+                if (isNaN(valor) || valor < 1) {
+                    valor = 1;
+                } else if (valor > 10) {
+                    valor = 10;
+                }
             }
+
+            // Actualizamos el input con el valor ajustado
+            valorInput.value = valor;
         }
     </script>
+
 </body>
 
 
