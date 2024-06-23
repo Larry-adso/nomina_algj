@@ -71,6 +71,8 @@ try {
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+<a class="btn btn-success" href="index.php" style="border: none;">INICIO</a>
+
     <div class="container mt-5">
         <h2 class="mb-4">Nóminas</h2>
         <form action="" method="GET" class="mb-3">

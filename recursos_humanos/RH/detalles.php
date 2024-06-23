@@ -153,35 +153,35 @@ WHERE n.ID = :id_nomina";
 
 <body>
     <div class="container mt-5">
-    <a class="btn btn-success" href="nomina.php" style="border:none;" >INICIO</a>
+        <a class="btn btn-success" href="nomina.php" style="border:none;">INICIO</a>
         <h2 class="text-center mb-4">Detalles de Nómina</h2>
         <div class="col-md-6">
-                <h4>Información de la Nómina</h4>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Numero de Nomina</th>
-                        <td><?= $detalle_nomina['ID'] ?></td>
-                    </tr>
-                    <tr>
-                        <th> Usuario</th>
-                        <td><?= $detalle_nomina['ID_user'] . ' - ' . $detalle_nomina['nombre_us'] . ' ' . $detalle_nomina['apellido_us'] ?></td>
-                    </tr>
-                    <tr>
-                        <th>Fecha</th>
-                        <td><?= $fecha->format('d') . ' de ' . $nombre_mes . ' de ' . $fecha->format('Y') ?></td>
-                    </tr>
-                    <tr>
-                        <th>Valor a Pagar (COP)</th>
-                        <td>$ <?= number_format($detalle_nomina['Valor_Pagar'], 0, ',', '.') ?> COP</td>
-                    </tr>
-                </table>
-            </div>
+            <h4>Información de la Nómina</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Numero de Nomina</th>
+                    <td><?= $detalle_nomina['ID'] ?></td>
+                </tr>
+                <tr>
+                    <th> Usuario</th>
+                    <td><?= $detalle_nomina['ID_user'] . ' - ' . $detalle_nomina['nombre_us'] . ' ' . $detalle_nomina['apellido_us'] ?></td>
+                </tr>
+                <tr>
+                    <th>Fecha</th>
+                    <td><?= $fecha->format('d') . ' de ' . $nombre_mes . ' de ' . $fecha->format('Y') ?></td>
+                </tr>
+                <tr>
+                    <th>Valor a Pagar (COP)</th>
+                    <td>$ <?= number_format($detalle_nomina['Valor_Pagar'], 0, ',', '.') ?> COP</td>
+                </tr>
+            </table>
+        </div>
         <div class="row">
-            
+
             <div class="col-md-6">
                 <h4>Información de Sumas </h4>
                 <table class="table table-bordered">
-                   
+
                     <tr>
                         <th>Horas Trabajadas</th>
                         <td><?= $detalle_nomina['horas_trabajadas'] ?> HORAS</td>
@@ -202,14 +202,14 @@ WHERE n.ID = :id_nomina";
                         <th>Total Sumas</th>
                         <td>$ <?= number_format($detalle_nomina['total_s'], 0, ',', '.') ?> COP</td>
                     </tr>
-                    
+
                 </table>
             </div>
             <div class="col-md-6">
                 <h4>Información Deducciones</h4>
                 <table class="table table-bordered">
-                    
-                <tr>
+
+                    <tr>
                         <th>Valor deuccion de cuota</th>
                         <td>$ <?= number_format($detalle_nomina['cuota'], 0, ',', '.') ?> COP</td>
                     </tr>
