@@ -105,7 +105,6 @@ a.btn.btn-success:hover {
                 <table class="table table-striped custom-table">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">VALOR</th>
                             <th scope="col">Acciones</th>
                         </tr>
@@ -149,7 +148,6 @@ a.btn.btn-success:hover {
                             // Mostrar los datos de salud
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
-                                echo "<td>" . $row['ID'] . "</td>";
                                 echo "<td>" . $row['Valor'] . " %" . "</td>";
                                 echo "<td><a class='btn btn-primary' href='../editar_php/editar_salud.php?id=" . $row['ID'] . "'>Editar</a> | <a class='btn btn-warning' href='../eliminar_php/eliminar_salud.php?id=" . $row['ID'] . "'>Eliminar</a></td>";
                                 echo "</tr>";

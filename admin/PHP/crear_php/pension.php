@@ -122,7 +122,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Cargar Valor Pension</h3>
+                        <h3 class="text-center">Cargar Porcentaje de Pensión</h3>
                     </div>
                     <div class="card-body">
                         <?php
@@ -168,12 +168,12 @@
                         ?>
                         <form id="cargarValorForm" action="pension.php" method="post">
                             <div class="form-group">
-                                <label for="pension">Valor de Pensión</label>
+                                <label for="pension">Valor de Pensión (Solo numeros enteros)</label>
                                 <input type="number" class="form-control" id="pension" name="pension" placeholder="Ingrese el valor de Pensión" required pattern="[0-9]{1,10}">
 
                                 <small id="pension_error" class="text-danger"></small>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="registrarValorBtn">Registrar Valor</button>
+                            <button type="submit" class="btn btn-primary" id="registrarValorBtn">Registrar Porcentaje</button>
                         </form>
                     </div>
                 </div>

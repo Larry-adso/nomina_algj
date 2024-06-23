@@ -98,7 +98,7 @@ a.btn.btn-success:hover {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Cargar Valor Salud</h3>
+                        <h3 class="text-center">Cargar Porcentaje de Salud (Solo numeros enteros)</h3>
                     </div>
                     <div class="card-body">
                         <?php
