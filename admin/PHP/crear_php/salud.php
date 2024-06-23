@@ -157,25 +157,39 @@ a.btn.btn-success:hover {
     </div>
 
     <script>
-        // Validación de formulario (si es necesario)
-        const valorInput = document.getElementById('valor');
-        const registrarValorBtn = document.getElementById('registrarValorBtn');
+    const valorInput = document.getElementById('valor');
+    const registrarValorBtn = document.getElementById('registrarValorBtn');
 
-        valorInput.addEventListener('input', validarValorSalud);
+    valorInput.addEventListener('input', validarValorSalud);
 
-        function validarValorSalud() {
-            const valor = valorInput.value.trim();
-            if (!/^(\d+(\.\d{1,2})?)$/.test(valor)) {
-                valorInput.classList.add('border', 'border-danger');
-                document.getElementById('valor_error').textContent = 'Ingrese un valor de salud válido (puede contener hasta 2 decimales).';
-                registrarValorBtn.disabled = true;
-            } else {
-                valorInput.classList.remove('border', 'border-danger');
-                document.getElementById('valor_error').textContent = '';
-                registrarValorBtn.disabled = false;
+    function validarValorSalud() {
+        let valor = parseFloat(valorInput.value.trim());  // Convertimos el valor a punto flotante
+
+        // Verificamos si el valor es un número y está dentro del rango 1 a 10
+        if (!isNaN(valor) && valor >= 1 && valor <= 10) {
+            // Si es válido, quitamos el borde rojo y el mensaje de error
+            valorInput.classList.remove('border', 'border-danger');
+            document.getElementById('valor_error').textContent = '';
+            registrarValorBtn.disabled = false;
+        } else {
+            // Si no es válido, agregamos el borde rojo, mostramos el mensaje de error y deshabilitamos el botón
+            valorInput.classList.add('border', 'border-danger');
+            document.getElementById('valor_error').textContent = 'Ingrese un valor de salud válido (entre 1 y 10).';
+            registrarValorBtn.disabled = true;
+
+            // Ajustamos el valor automáticamente si es menor que 1 o mayor que 10
+            if (isNaN(valor) || valor < 1) {
+                valor = 1;
+            } else if (valor > 10) {
+                valor = 10;
             }
         }
-    </script>
+
+        // Actualizamos el input con el valor ajustado
+        valorInput.value = Math.floor(valor); // Utilizamos Math.floor() para redondear hacia abajo y quitar los decimales
+    }
+</script>
+
 </body>
 
 </html>
