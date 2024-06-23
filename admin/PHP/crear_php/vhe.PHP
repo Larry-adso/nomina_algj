@@ -168,7 +168,7 @@
                         <form id="cargarValorHoraExtraForm" action="vhe.php" method="post">
                             <div class="form-group">
                                 <label for="v_h_extra">Valor de Hora Extra</label>
-                                <input type="number" class="form-control" id="v_h_extra" name="v_h_extra" placeholder="Ingrese el valor de Hora Extra" required>
+                                <input type="number" class="form-control" id="v_h_extra" name="v_h_extra" placeholder="Ingrese el valor de Hora Extra" required  pattern="[0-9]{1,10}>
                                 <small id="v_h_extra_error" class="text-danger"></small>
                             </div>
                             <button type="submit" class="btn btn-primary" id="registrarValorBtn">Registrar Valor</button>

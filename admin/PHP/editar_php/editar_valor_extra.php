@@ -122,7 +122,7 @@ a.btn.btn-success:hover {
                                     <div class="form-group">
                                         <label for="v_h_extra">Nuevo Valor de Hora Extra</label>
                                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-                                        <input type="number" class="form-control" id="v_h_extra" name="v_h_extra" placeholder="Nuevo Valor de Hora Extra" value="<?php echo htmlspecialchars($valor); ?>" required>
+                                        <input type="number" class="form-control" id="v_h_extra" name="v_h_extra" placeholder="Nuevo Valor de Hora Extra" value="<?php echo htmlspecialchars($valor); ?>" required  pattern="[0-9]{1,10}>
                                         <small id="v_h_extra_error" class="text-danger"></small>
                                     </div>
                                     <button type="submit" name="update" class="btn btn-primary" id="actualizarValorBtn">Actualizar Valor</button>

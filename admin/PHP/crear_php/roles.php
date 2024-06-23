@@ -123,7 +123,7 @@ a.btn.btn-success:hover {
                         <form id="cargarRolForm" action="roles.php" method="post">
                             <div class="form-group">
                                 <label for="valor">ROL</label>
-                                <input type="text" class="form-control" id="tp_user" name="tp_user" placeholder="Ingrese el Rol" required>
+                                <input type="text" class="form-control" id="tp_user" name="tp_user" placeholder="Ingrese el Rol" required  pattern="[0-9]{1,10}>
                                 <small id="rol_error" class="text-danger"></small>
                             </div>
                             <button type="submit" class="btn btn-primary" id="registrarRolBtn">Registrar Rol</button>

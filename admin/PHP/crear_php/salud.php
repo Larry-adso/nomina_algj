@@ -145,7 +145,7 @@ a.btn.btn-success:hover {
                         <form id="cargarSaludForm" action="salud.php" method="post">
                             <div class="form-group">
                                 <label for="valor">Valor de Salud</label>
-                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Ingrese el valor de Salud" required>
+                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Ingrese el valor de Salud" required  pattern="[0-9]{1,10}>
                                 <small id="valor_error" class="text-danger"></small>
                             </div>
                             <button type="submit" class="btn btn-primary" id="registrarValorBtn">Registrar Valor</button>
