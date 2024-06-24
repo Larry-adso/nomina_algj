@@ -89,36 +89,34 @@
 		<div class="container container-footer">
 			<div class="menu-footer">
 				<div class="contact-info">
-					<p class="title-footer">Información de Contacto</p>
+					<a href="views/contactenos.php" class="title-footer">Información de Contacto</a>
 					<ul>
 						<li>
 							Dirección: SENA Centro de industria y construcción <br> Ibagué - Tolima
 						<li>Teléfono: +57 318 773 86 47</li>
 						<li>EmaiL: senatrabajos2022@gmail.com</li>
 					</ul>
-				
+
 				</div>
 
 				<div class="information">
-					<p class="title-footer">Información</p>
+					<a href="views/sobre_n.php" class="title-footer">Información desarrolladores</a>
 					<ul>
 						<li><a href="views/sobre_n.php">Acerca de Nosotros</a></li>
 						<li><a href="views/contactenos.php">Contactános</a></li>
-
-
 					</ul>
 				</div>
 
 				<div class="my-account">
-					<p class="title-footer">Mi cuenta</p>
+					<a href="dev/PHP/login.php" class="title-footer">Mi cuenta</a>
 
 					<ul>
-						<li><a href="#">Iniciar sesión</a></li>
-						<li><a href="#">Manual de uso</a></li>
+						<li><a href="dev/PHP/login.php">Iniciar sesión</a></li>
+						<li><a href="https://docs.google.com/document/d/1kdiEfqIHL1a879InM30_-BwDaQEdN3L8/edit?usp=sharing&ouid=100333253493459131869&rtpof=true&sd=true">Manual de uso</a></li>
 					</ul>
 				</div>
 
-				
+
 			</div>
 
 			<div class="copyright">

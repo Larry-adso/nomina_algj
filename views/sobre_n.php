@@ -1,29 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-=======
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>SOBRE NOSOTROS</title>
-		<link rel="icon" type="image/png" href="../img/logo_algj.png">
-		<link rel="stylesheet" href="../css/styles.css" />
-		<script src="script.js"></script>
->>>>>>> bf30f424a51927c17741c7c12ebb1fc5011a4fd4
 
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>SOBRE NOSOTROS</title>
+	<link rel="icon" type="image/png" href="../img/logo_algj.png">
 	<link rel="stylesheet" href="../css/styles.css" />
 	<script src="script.js"></script>
-	<link rel="icon" type="image/png" href="../img/logo_algj.png">
-</head>
+	</head>
+
 
 <body>
 	<header>
@@ -50,19 +37,18 @@
 		</div>
 
 		<div class="container-navbar">
-			<nav class="navbar container">
-				<i class="fa-solid fa-bars" id="burger"></i>
-				<ul class="menu" id="menu">
-					<li><a href="../index.php">Inicio</a></li>
-					<li><a href="sobre_n.php">Sobre nosotros</a></li>
-					<li><a href="contactenos.php">Contactenos</a></li>
-				</ul>
-				<ul class="menu">
-					<li>
-						<a href="https://docs.google.com/document/d/1kdiEfqIHL1a879InM30_-BwDaQEdN3L8/edit?usp=sharing&ouid=100333253493459131869&rtpof=true&sd=true">Manual</a><i class="fa-solid fa-circle-question"></i>
-					</li>
-				</ul>
-			</nav>
+		<nav class="navbar container">
+            <i class="fa-solid fa-bars" id="burger"></i>
+            <ul class="menu" id="menu">
+                <li><a href="../index.php">Inicio</a></li>
+                <li><a href="sobre_n.php">Sobre nosotros</a></li>
+                <li><a href="contactenos.php">Contactenos</a></li>
+            </ul>
+            <ul class="menu">
+                <li>
+                    <a href="https://docs.google.com/document/d/1kdiEfqIHL1a879InM30_-BwDaQEdN3L8/edit?usp=sharing&ouid=100333253493459131869&rtpof=true&sd=true">Manual</a><i class="fa-solid fa-circle-question"></i>
+                </li>
+            </ul>
 		</div>
 	</header>
 
@@ -166,7 +152,7 @@
 		<div class="container container-footer">
 			<div class="menu-footer">
 				<div class="contact-info">
-					<p class="title-footer">Información de Contacto</p>
+					<a href="contactenos.php" class="title-footer">Información de Contacto</a>
 					<ul>
 						<li>
 							Dirección: SENA Centro de industria y construcción <br> Ibagué - Tolima
@@ -177,21 +163,19 @@
 				</div>
 
 				<div class="information">
-					<p class="title-footer">Información</p>
+					<a href="sobre_n.php" class="title-footer">Información desarrolladores</a>
 					<ul>
 						<li><a href="sobre_n.php">Acerca de Nosotros</a></li>
 						<li><a href="contactenos.php">Contactános</a></li>
-
-
 					</ul>
 				</div>
 
 				<div class="my-account">
-					<p class="title-footer">Mi cuenta</p>
+					<a href="../dev/PHP/login.php" class="title-footer">Mi cuenta</a>
 
 					<ul>
-						<li><a href="#">Iniciar sesión</a></li>
-						<li><a href="#">Manual de uso</a></li>
+						<li><a href="../dev/PHP/login.php">Iniciar sesión</a></li>
+						<li><a href="https://docs.google.com/document/d/1kdiEfqIHL1a879InM30_-BwDaQEdN3L8/edit?usp=sharing&ouid=100333253493459131869&rtpof=true&sd=true">Manual de uso</a></li>
 					</ul>
 				</div>
 
