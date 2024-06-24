@@ -28,7 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo '<script>alert("No puede acceder al sistema porque fue despedido comunicate con tu jefe inmediato.");
                     window.location = "login.php";
                     </script>';
+                    
                     exit();
+                } elseif ($id_estado == 5) {
+                    // Redirigir a doc.php si el estado es 5
+                    header("Location: update.php");
                 }
 
                 // Iniciar sesión y guardar el ID de usuario y el tipo de usuario en variables de sesión
