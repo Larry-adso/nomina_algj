@@ -181,7 +181,7 @@ if ($id_rol == '4') {
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="mb-4 pb-3 text-center">REGISTRO DE DESARROLLADOR</h1>
+                    <h1 class="mb-4 pb-3 text-center">REGISTRO DE PERSONAS</h1>
                     <form action="#" name="form" method="post" onsubmit="return validarFormulario()" autocomplete="off">
                         <div class="row g-3">
                             <div class="col-md-4">

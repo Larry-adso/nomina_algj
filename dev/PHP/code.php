@@ -50,14 +50,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/recuperar.css">
+
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Validar Codigo Para El Usuario :</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </nav>
     </header>
     <main class="container">
-        <div class="card mt-5 mx-auto" style="max-width: 500px;">
             <div class="card-body">
                 <h4 class="card-title text-center">Validación de Código de Seguridad</h4>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -89,10 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </form>
                 <div class="text-center mt-3">
-                    <a class="btn btn-primary" href="cerrar.php" role="button">Cerrar</a>
+                    <a class="boton_volver" href="cerrar.php" role="button">Cerrar</a>
                 </div>
             </div>
-        </div>
     </main>
     <footer class="mt-5 text-center">
         <!-- Place footer content here -->

@@ -47,7 +47,7 @@
             </ul>
             <ul class="menu">
                 <li>
-                    <a href="">Manual</a><i class="fa-solid fa-circle-question"></i>
+                    <a href="https://docs.google.com/document/d/1kdiEfqIHL1a879InM30_-BwDaQEdN3L8/edit?usp=sharing&ouid=100333253493459131869&rtpof=true&sd=true">Manual</a><i class="fa-solid fa-circle-question"></i>
                 </li>
             </ul>
         </nav>
