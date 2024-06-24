@@ -23,22 +23,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $id_rol = $row["id_rol"];
                 $id_estado = $row["id_estado"];
 
+                // Iniciar sesión y guardar el ID de usuario y el tipo de usuario en variables de sesión
+                session_start();
+                $_SESSION["id_us"] = $id_us;
+                $_SESSION["id_rol"] = $id_rol;
+
                 // Verificar el estado del usuario
                 if ($id_estado == 15) {
                     echo '<script>alert("No puede acceder al sistema porque fue despedido comunicate con tu jefe inmediato.");
                     window.location = "login.php";
                     </script>';
-                    
                     exit();
                 } elseif ($id_estado == 5) {
-                    // Redirigir a doc.php si el estado es 5
+                    // Redirigir a update.php si el estado es 5
                     header("Location: update.php");
+                    exit();
                 }
-
-                // Iniciar sesión y guardar el ID de usuario y el tipo de usuario en variables de sesión
-                session_start();
-                $_SESSION["id_us"] = $id_us;
-                $_SESSION["id_rol"] = $id_rol;
 
                 // Redireccionar según el tipo de usuario
                 switch ($id_rol) {

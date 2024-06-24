@@ -26,44 +26,44 @@
 						<i class="fas fa-user"></i>
 					</div>
 					<div class="div">
-        <h5>N° De Identidad</h5>
-        <input type="text" class="input" id="username" name="id_us" maxlength="10">
-        <span class="error" id="usernameError" style="font-size: 15px; text-align: right;">Ingrese solo números</span>
-        <span class="error" id="usernameEmptyError" style="font-size: 15px; text-align: right;">Complete el campo</span>
-    </div>
+						<h5>N° De Identidad</h5>
+						<input type="text" class="input" id="username" name="id_us" maxlength="10">
+						<span class="error" id="usernameError" style="font-size: 15px; text-align: right;">Ingrese solo números</span>
+						<span class="error" id="usernameEmptyError" style="font-size: 15px; text-align: right;">Complete el campo</span>
+					</div>
 
-    <script>
-        document.getElementById('username').addEventListener('input', function (e) {
-            const username = e.target.value;
-            const usernameError = document.getElementById('usernameError');
-            const usernameEmptyError = document.getElementById('usernameEmptyError');
+					<script>
+						document.getElementById('username').addEventListener('input', function(e) {
+							const username = e.target.value;
+							const usernameError = document.getElementById('usernameError');
+							const usernameEmptyError = document.getElementById('usernameEmptyError');
 
-            // Remove non-numeric characters
-            e.target.value = username.replace(/[^0-9]/g, '');
+							// Remove non-numeric characters
+							e.target.value = username.replace(/[^0-9]/g, '');
 
-            // Validate input
-            if (username.length > 0 && username.length <= 10) {
-                usernameError.style.display = 'none';
-                usernameEmptyError.style.display = 'none';
-            } else if (username.length === 0) {
-                usernameEmptyError.style.display = 'block';
-                usernameError.style.display = 'none';
-            } else {
-                usernameError.style.display = 'block';
-                usernameEmptyError.style.display = 'none';
-            }
-        });
+							// Validate input
+							if (username.length > 0 && username.length <= 10) {
+								usernameError.style.display = 'none';
+								usernameEmptyError.style.display = 'none';
+							} else if (username.length === 0) {
+								usernameEmptyError.style.display = 'block';
+								usernameError.style.display = 'none';
+							} else {
+								usernameError.style.display = 'block';
+								usernameEmptyError.style.display = 'none';
+							}
+						});
 
-        document.getElementById('username').addEventListener('blur', function (e) {
-            const usernameEmptyError = document.getElementById('usernameEmptyError');
+						document.getElementById('username').addEventListener('blur', function(e) {
+							const usernameEmptyError = document.getElementById('usernameEmptyError');
 
-            if (e.target.value.length === 0) {
-                usernameEmptyError.style.display = 'block';
-            } else {
-                usernameEmptyError.style.display = 'none';
-            }
-        });
-    </script>
+							if (e.target.value.length === 0) {
+								usernameEmptyError.style.display = 'block';
+							} else {
+								usernameEmptyError.style.display = 'none';
+							}
+						});
+					</script>
 				</div>
 				<div class="input-div pass">
 					<div class="i">
