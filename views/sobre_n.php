@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
+=======
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>SOBRE NOSOTROS</title>
+		<link rel="icon" type="image/png" href="../img/logo_algj.png">
+		<link rel="stylesheet" href="../css/styles.css" />
+		<script src="script.js"></script>
+>>>>>>> bf30f424a51927c17741c7c12ebb1fc5011a4fd4
 
 <head>
 	<meta charset="UTF-8" />
