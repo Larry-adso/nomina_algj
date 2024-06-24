@@ -150,7 +150,7 @@ $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="container">
         <h2>Agregar Usuario</h2>
-        <form id="agregarUsuarioForm" action="insertar_usuario.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form id="agregarUsuarioForm" action="insertar_usuario.php" method="post" autocomplete="off" enctype="multipart/form-data" autocomplete="off">
             <div class="form-group">
                 <label for="nombre_us">N° De Identificación</label>
                 <input type="text" class="form-control" id="id" name="id" required>

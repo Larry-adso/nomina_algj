@@ -15,11 +15,11 @@ $id_rol = $_POST['id_rol'];
 $Codigo = $_POST['Codigo'];
 $id_empresa = $_POST['id_empresa'];
 $token = $_POST['token'];
-$id_estado = $_POST['id_estado']; // Falta el punto y coma al final de esta línea
+$id_estado = $_POST['id_estado'];
 
 // Verificar si se actualiza la contraseña
 if (!empty($pass)) {
-    $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
+    $hashed_pass = hash('sha512', $pass); // Encriptar la contraseña con SHA-512
     $query = "UPDATE usuarios SET nombre_us = :nombre_us, id_estado = :id_estado, apellido_us = :apellido_us, correo_us = :correo_us, tel_us = :tel_us, pass = :pass, id_puesto = :id_puesto, id_rol = :id_rol, Codigo = :Codigo, id_empresa = :id_empresa, token = :token WHERE id_us = :id_us";
 } else {
     $query = "UPDATE usuarios SET nombre_us = :nombre_us, id_estado = :id_estado, apellido_us = :apellido_us, correo_us = :correo_us, tel_us = :tel_us, id_puesto = :id_puesto, id_rol = :id_rol, Codigo = :Codigo, id_empresa = :id_empresa, token = :token WHERE id_us = :id_us";
@@ -27,7 +27,7 @@ if (!empty($pass)) {
 
 $query_update = $conexion->prepare($query);
 $query_update->bindParam(':nombre_us', $nombre_us);
-$query_update->bindParam(':id_estado', $id_estado); // Corregido el nombre del parámetro
+$query_update->bindParam(':id_estado', $id_estado);
 $query_update->bindParam(':apellido_us', $apellido_us);
 $query_update->bindParam(':correo_us', $correo_us);
 $query_update->bindParam(':tel_us', $tel_us);
