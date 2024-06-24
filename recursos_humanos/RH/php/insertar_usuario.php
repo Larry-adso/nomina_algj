@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $Codigo = $_POST['Codigo'];
     $id_empresa = $_POST['id_empresa'];
     $token = $_POST['token'];
-    $id_estado = 1; // Aquí deberías establecer el valor correcto para id_estado
+    $id_estado = 5; // Aquí deberías establecer el valor correcto para id_estado
 
     // Manejo de la foto
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
