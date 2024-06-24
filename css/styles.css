@@ -962,6 +962,10 @@ textarea {
 button:hover {
     background-color: var(--hover-button-color);
 }
+a.title-footer {
+    text-decoration: none;
+    color: black;
+}
 
 /* ********************************** */
 /*       MEDIA QUERIES -- 768px       */
@@ -1075,6 +1079,10 @@ button:hover {
         align-items: center;
         gap: 1.5rem;
     }
+    a.title-footer {
+        text-decoration: none;
+        color: black;
+    }
 }
 
 /* ********************************** */
@@ -1177,5 +1185,9 @@ button:hover {
 
     .content p {
         font-size: 1.6rem;
+    }
+    a.title-footer {
+        text-decoration: none;
+        color: black;
     }
 }
