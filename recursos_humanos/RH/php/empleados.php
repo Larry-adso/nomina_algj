@@ -213,7 +213,7 @@ a.btn.btn-success:hover {
                 <input type="hidden" class="form-control" id="token" name="token" >
                 <small id="token_error" class="text-danger"></small>
             </div>
-            <button type="submit" class="btn btn-primary" id="guardarBtn">Guardar</button>
+            <button type="submit" class="btn btn-primary" id="guardarBtn" style="background-color:#c7a17a; border:none;">Guardar</button>
         </form>
     </div>
 

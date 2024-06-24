@@ -195,7 +195,7 @@ a.btn.btn-success:hover {
                 <small id="token_error" class="text-danger"></small>
             </div>
             <input type="hidden" name="id_us" value="<?= $id_us_editar ?>">
-            <button type="submit" class="btn btn-primary" id="guardarCambiosBtn" disabled>Guardar Cambios</button> <!-- Botón deshabilitado por defecto -->
+            <button type="submit" class="btn btn-primary" id="guardarCambiosBtn" disabled style="background-color:#c7a17a; border:none;">Guardar Cambios</button> <!-- Botón deshabilitado por defecto -->
         </form>
     </div>
 

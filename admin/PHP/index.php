@@ -83,8 +83,115 @@ WHERE usuarios.id_rol >= 6
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="../css/admin.css">
     <style>
+        :root {
+            --primary-color: #c7a17a !important;
+            --background-color: #f9f5f0 !important;
+            --dark-color: #151515 !important;
+            --hover-button-color: #9b7752 !important;
+            --button-login-color: #6DC5D1 !important;
+            --button-login-hover: #59a2ac !important;
+            --button-decline-term: #e88162 !important;
+        }
+
+        body {
+            background-color: #F9F5F0 !important;
+            /* Beige claro */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
+
+        h1 {
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
+
+        .card-body {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .form-control {
+            border: 1px solid #DDDDDD !important;
+            /* Gris claro */
+        }
+
+        input.btn.btn-primary,
+        a.btn.btn-primary {
+            background-color: var(--button-login-color) !important;
+            color: #FFFFFF !important;
+            /* Blanco */
+            border: none !important;
+            /* Quitar borde para consistencia */
+        }
+
+        input.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
+
+        a.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
+
+        a.btn.btn-warning {
+            background-color: var(--button-decline-term) !important;
+            /* Rojo */
+            color: #FFFFFF !important;
+            /* Blanco */
+            --bs-btn-border-color: none !important;
+
+        }
+
+        .table-dark {
+            background-color: #2E2E2E !important;
+            /* Gris oscuro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
+
+        .table-light {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+
+        }
+
+        .thead-dark {
+            background-color: var(--hover-button-color) !important;
+            /* Negro más claro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
+
+        a.btn.btn-success {
+            background-color: var(--primary-color) !important;
+            --bs-btn-border-color: none !important;
+        }
+
+        a.btn.btn-success:hover {
+            background-color: var(--hover-button-color) !important;
+            --bs-btn-border-color: none !important;
+        }
+
+
+        .table-responsive {
+            max-width: 600px !important;
+            /* Establece el ancho máximo deseado */
+            margin: auto !important;
+            /* Centrar el div */
+        }
+
         .card {
             margin-bottom: 20px;
+            background-color: #c7a17a;
+            transition: all .4s;
         }
 
         .card-img-top {
@@ -92,7 +199,29 @@ WHERE usuarios.id_rol >= 6
             height: 200px;
             object-fit: cover;
         }
+
+        .card:hover {
+            transition: all .4s;
+            margin-top: -10px;
+            border: 2px solid #c7a17a;
+            box-shadow: 0px 0px 5px 5px #c7a17a;
+        }
+
+        .botones {
+            display: flex;
+            width: 100%;
+            height: auto;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        #btn {
+            background-color: #c7a17a;
+            border: none;
+        }
     </style>
+
+
 </head>
 
 <body>
@@ -100,16 +229,16 @@ WHERE usuarios.id_rol >= 6
 
     <div class="container">
         <div class="container mt-5">
-            <h2 class="mb-4">Trabajadores</h2>
+            <h2 class="mb-4">Empleados</h2>
             <div class="row mb-4">
                 <div class="col">
                     <form method="post" class="form-inline">
                         <div class="form-group mr-2">
                             <input type="text" class="form-control" name="search_term" placeholder="Buscar...">
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search"></i> Buscar</button>
+                        <button type="submit" class="btn btn-primary mr-2" id="btn"><i class="fas fa-search"></i> Buscar</button>
                         <?php if (!empty($search_term)) : ?>
-                            <a href="." class="btn btn-secondary"><i class="fas fa-times"></i> Limpiar</a>
+                            <a href="." class="btn btn-secondary" id="btn"><i class="fas fa-times"></i> Limpiar</a>
                         <?php endif; ?>
                     </form>
                 </div>
@@ -135,19 +264,21 @@ WHERE usuarios.id_rol >= 6
                                     <p class="card-text"><strong>Cédula:</strong> <?php echo $usuario['id_us']; ?></p>
                                     <p class="card-text"><strong>Rol:</strong> <?php echo $usuario['tp_user']; ?></p>
                                     <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
-                                    <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
+                                    <p class="card-text"><strong>Salario:</strong> $ <?= number_format($usuario['salario'], 0, ',', '.') ?> COP</p>
                                     <p class="card-text"><strong>Estado:</strong> <?php echo $usuario['Estado']; ?></p>
                                     <!-- Formulario oculto para enviar el id_us -->
-                                    <form action="liquidacion/editar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
-                                        <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
-                                    </form>
-                                    <!-- Botón para liquidar -->
-                                    <button class="btn btn-success btn-sm" onclick="window.location.href='editar_php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'">Editar</button>
-                                    <form action="despedir.php" method="POST">
-                                        <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
-                                        <input type="hidden" name="despedir" value="15">
-                                        <button type="submit" class="btn btn-success btn-sm">Despedir</button>
-                                    </form>
+                                    <div class="botones">
+                                        <form action="liquidacion/editar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
+                                            <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>" id="btn">
+                                        </form>
+                                        <!-- Botón para liquidar -->
+                                        <button class="btn btn-success btn-sm" onclick="window.location.href='editar_php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'" id="btn">Editar</button>
+                                        <form action="despedir.php" method="POST">
+                                            <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
+                                            <input type="hidden" name="despedir" value="15">
+                                            <button type="submit" class="btn btn-success btn-sm" id="btn">Despedir</button>
+                                        </form>
+                                    </div>
 
 
 
@@ -158,7 +289,7 @@ WHERE usuarios.id_rol >= 6
                     <?php endforeach; ?>
                 <?php else : ?>
                     <div class="col">
-                        <div class="alert alert-warning" role="alert">
+                        <div class="alert alert-warning" role="alert" style="background-color: transparent; border:none;">
                             No se encontraron trabajadores.
                         </div>
                     </div>

@@ -25,7 +25,6 @@ function obtenerNombreMes($mes)
 
 try {
 
-
     // Verificar sesión activa y rol permitido
     if (!isset($_SESSION['id_us']) || ($_SESSION['id_rol'] != 5 && $_SESSION['id_rol'] != 7)) {
         echo '
@@ -65,7 +64,7 @@ try {
     }
 
     // Consulta SQL con filtro de búsqueda
-    $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, roles.tp_user, puestos.cargo, puestos.salario, usuarios.ruta_foto
+    $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, usuarios.id_estado, roles.tp_user, puestos.cargo, puestos.salario, usuarios.ruta_foto
             FROM usuarios 
             LEFT JOIN roles ON usuarios.id_rol = roles.id 
             LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
@@ -116,6 +115,7 @@ try {
     <title>Recursos Humanos</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         :root {
             --primary-color: #c7a17a !important;
@@ -224,12 +224,32 @@ try {
 
         .card {
             margin-bottom: 20px;
+            background-color: #c7a17a;
+            transition: all .4s;
         }
 
         .card-img-top {
             width: 100%;
             height: 200px;
             object-fit: cover;
+        }
+
+        .card:hover {
+            transition: all .4s;
+            margin-top: -10px;
+            border: 2px solid #c7a17a;
+            box-shadow: 0px 0px  5px 5px #c7a17a;
+        }
+        .botones{
+            display: flex;
+            width: 100%;
+            height: auto;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        #btn{
+            background-color: #c7a17a;
+            border: none;
         }
     </style>
 </head>
@@ -239,16 +259,16 @@ try {
 
     <div class="container">
         <div class="container mt-5">
-            <h2 class="mb-4">Trabajadores</h2>
+            <h2 class="mb-4">Empleados</h2>
             <div class="row mb-4">
                 <div class="col">
                     <form method="post" class="form-inline">
                         <div class="form-group mr-2">
                             <input type="text" class="form-control" name="search_term" placeholder="Buscar..." value="<?php echo htmlspecialchars($search_term); ?>">
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-search"></i> Buscar</button>
+                        <button type="submit" class="btn btn-primary mr-2" id="btn" ><i class="fas fa-search"  ></i> Buscar</button>
                         <?php if (!empty($search_term)) : ?>
-                            <a href="." class="btn btn-secondary"><i class="fas fa-times"></i> Limpiar</a>
+                            <a href="." class="btn btn-secondary"><i class="fas fa-times" id="btn"></i> Limpiar</a>
                         <?php endif; ?>
                     </form>
                 </div>
@@ -273,29 +293,34 @@ try {
                                     <p class="card-text"><strong>Cédula:</strong> <?php echo htmlspecialchars($usuario['id_us']); ?></p>
                                     <p class="card-text"><strong>Rol:</strong> <?php echo htmlspecialchars($usuario['tp_user']); ?></p>
                                     <p class="card-text"><strong>Cargo:</strong> <?php echo htmlspecialchars($usuario['cargo']); ?></p>
-                                    <p class="card-text"><strong>Salario:</strong> <?php echo htmlspecialchars($usuario['salario']); ?></p>
+                                    <p class="card-text"><strong>Salario:</strong> $ <?= number_format($usuario['salario'], 0, ',', '.') ?> COP</p>
                                     <!-- Formulario oculto para enviar el id_us -->
                                     <form action="liquidacion/liquidar.php" method="POST" id="liquidar_form_<?php echo htmlspecialchars($usuario['id_us']); ?>">
                                         <input type="hidden" name="id_us" value="<?php echo htmlspecialchars($usuario['id_us']); ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
                                     <?php if ($liquidaciones[$usuario['id_us']]) : ?>
-                                        <button class="btn btn-secondary btn-sm" disabled>
+                                        <button class="btn btn-secondary btn-sm" disabled id="btn">
                                             Este usuario ya tiene una nómina liquidada del mes de <?php echo htmlspecialchars($current_month_spanish); ?>.
                                             Puede liquidar nuevamente la nómina el próximo mes.
                                         </button>
 
+                                    <?php elseif ($usuario['id_estado'] == 15) : ?>
+                                        <button class="btn btn-danger btn-sm" disabled id="btn">
+                                            Este usuario fue despedido.
+                                        </button>
+
                                     <?php else : ?>
-                                        <button class="btn btn-success btn-sm" onclick="liquidarForm(<?php echo htmlspecialchars($usuario['id_us']); ?>)">Liquidar</button>
+                                        <button class="btn btn-success btn-sm" onclick="liquidarForm(<?php echo htmlspecialchars($usuario['id_us']); ?>)" id="btn">Liquidar</button>
                                     <?php endif; ?>
-                                    <button class="btn btn-success btn-sm" onclick="editarEmpleado(<?php echo htmlspecialchars($usuario['id_us']); ?>)">Editar</button>
+                                    <button class="btn btn-success btn-sm" onclick="editarEmpleado(<?php echo htmlspecialchars($usuario['id_us']); ?>)" id="btn">Editar</button>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <div class="col">
-                        <div class="alert alert-warning" role="alert">
+                        <div class="alert alert-warning" role="alert" style="background-color: transparent; border:none;" >
                             No se encontraron trabajadores.
                         </div>
                     </div>
