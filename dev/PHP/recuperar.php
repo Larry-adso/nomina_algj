@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Contraseña</title>
     <link rel="stylesheet" href="css/recuperar.css">
+    <link rel="icon" type="image/png" href="../../img/logo_algj.png">
 
 </head>
 
