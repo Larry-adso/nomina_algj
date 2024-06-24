@@ -7,6 +7,7 @@
     <title>Recuperación de Contraseña</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/metodos.css">    
+	<link rel="icon" type="image/png" href="../../img/logo_algj.png">
 </head>
 
 <body>

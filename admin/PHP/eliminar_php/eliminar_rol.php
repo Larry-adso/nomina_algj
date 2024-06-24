@@ -7,6 +7,7 @@
     <title>Eliminar rol</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/7fd910d257.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="../../../img/logo_algj.png">
 </head>
 
 <body>

@@ -9,6 +9,8 @@
 	<link rel="icon" type="image/png" href="img/logo_algj.png">
 	<link rel="stylesheet" href="css/styles.css" />
 	<script src="views/script.js"></script>
+	<link rel="icon" type="image/png" href="img/logo_algj.png">
+
 	
 </head>
 

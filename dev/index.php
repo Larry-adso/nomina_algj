@@ -75,6 +75,7 @@ if ($id_rol == '4') { // Verifica si el rol del usuario es '4'
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Menu desarrollador</title>
         <link rel="stylesheet" href="PHP/css/dev.css">
+        <link rel="icon" type="image/png" href="../img/logo_algj.png">
         <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
         </style>
     </head>

@@ -8,6 +8,8 @@
 	<title>Contactenos</title>
 	<link rel="icon" type="image/png" href="../img/logo_algj.png">
 	<link rel="stylesheet" href="../css/styles.css" />
+	<link rel="icon" type="image/png" href="../img/logo_algj.png">
+
 	<script src="script.js"></script>
 
 

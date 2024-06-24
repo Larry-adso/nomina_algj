@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 24-06-2024 a las 03:16:36
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 24, 2024 at 03:22 AM
+-- Server version: 10.11.7-MariaDB-cll-lve
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `nomina_algj`
+-- Database: `u762650701_nomina_algj`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `arl`
+-- Table structure for table `arl`
 --
 
 CREATE TABLE `arl` (
@@ -33,7 +33,7 @@ CREATE TABLE `arl` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `arl`
+-- Dumping data for table `arl`
 --
 
 INSERT INTO `arl` (`id_arl`, `valor`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `arl` (`id_arl`, `valor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `aux_trasporte`
+-- Table structure for table `aux_trasporte`
 --
 
 CREATE TABLE `aux_trasporte` (
@@ -55,7 +55,7 @@ CREATE TABLE `aux_trasporte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `aux_trasporte`
+-- Dumping data for table `aux_trasporte`
 --
 
 INSERT INTO `aux_trasporte` (`ID`, `Valor`) VALUES
@@ -64,7 +64,7 @@ INSERT INTO `aux_trasporte` (`ID`, `Valor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `contactanos`
+-- Table structure for table `contactanos`
 --
 
 CREATE TABLE `contactanos` (
@@ -79,7 +79,7 @@ CREATE TABLE `contactanos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `deduccion`
+-- Table structure for table `deduccion`
 --
 
 CREATE TABLE `deduccion` (
@@ -97,7 +97,7 @@ CREATE TABLE `deduccion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empresas`
+-- Table structure for table `empresas`
 --
 
 CREATE TABLE `empresas` (
@@ -112,7 +112,7 @@ CREATE TABLE `empresas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estado`
+-- Table structure for table `estado`
 --
 
 CREATE TABLE `estado` (
@@ -121,7 +121,7 @@ CREATE TABLE `estado` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `estado`
+-- Dumping data for table `estado`
 --
 
 INSERT INTO `estado` (`ID_Es`, `Estado`) VALUES
@@ -141,7 +141,7 @@ INSERT INTO `estado` (`ID_Es`, `Estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `licencia`
+-- Table structure for table `licencia`
 --
 
 CREATE TABLE `licencia` (
@@ -156,7 +156,7 @@ CREATE TABLE `licencia` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `nomina`
+-- Table structure for table `nomina`
 --
 
 CREATE TABLE `nomina` (
@@ -172,7 +172,7 @@ CREATE TABLE `nomina` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pension`
+-- Table structure for table `pension`
 --
 
 CREATE TABLE `pension` (
@@ -184,7 +184,7 @@ CREATE TABLE `pension` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `permisos`
+-- Table structure for table `permisos`
 --
 
 CREATE TABLE `permisos` (
@@ -199,7 +199,7 @@ CREATE TABLE `permisos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `prestamo`
+-- Table structure for table `prestamo`
 --
 
 CREATE TABLE `prestamo` (
@@ -217,7 +217,7 @@ CREATE TABLE `prestamo` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `puestos`
+-- Table structure for table `puestos`
 --
 
 CREATE TABLE `puestos` (
@@ -231,7 +231,7 @@ CREATE TABLE `puestos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -240,7 +240,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`ID`, `Tp_user`) VALUES
@@ -252,7 +252,7 @@ INSERT INTO `roles` (`ID`, `Tp_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `salud`
+-- Table structure for table `salud`
 --
 
 CREATE TABLE `salud` (
@@ -264,7 +264,7 @@ CREATE TABLE `salud` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sumas`
+-- Table structure for table `sumas`
 --
 
 CREATE TABLE `sumas` (
@@ -280,7 +280,7 @@ CREATE TABLE `sumas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tp_licencia`
+-- Table structure for table `tp_licencia`
 --
 
 CREATE TABLE `tp_licencia` (
@@ -289,7 +289,7 @@ CREATE TABLE `tp_licencia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tp_licencia`
+-- Dumping data for table `tp_licencia`
 --
 
 INSERT INTO `tp_licencia` (`ID`, `Tipo`) VALUES
@@ -299,7 +299,7 @@ INSERT INTO `tp_licencia` (`ID`, `Tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `triggers`
+-- Table structure for table `triggers`
 --
 
 CREATE TABLE `triggers` (
@@ -312,7 +312,7 @@ CREATE TABLE `triggers` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -332,7 +332,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_us`, `pass`, `ruta_foto`, `id_puesto`, `id_rol`, `id_estado`, `Codigo`, `id_empresa`, `token`) VALUES
@@ -341,7 +341,7 @@ INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_u
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `v_h_extra`
+-- Table structure for table `v_h_extra`
 --
 
 CREATE TABLE `v_h_extra` (
@@ -351,199 +351,205 @@ CREATE TABLE `v_h_extra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `arl`
+-- Indexes for table `arl`
 --
 ALTER TABLE `arl`
   ADD PRIMARY KEY (`id_arl`);
 
 --
--- Indices de la tabla `aux_trasporte`
+-- Indexes for table `aux_trasporte`
 --
 ALTER TABLE `aux_trasporte`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `contactanos`
+-- Indexes for table `contactanos`
 --
 ALTER TABLE `contactanos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `deduccion`
+-- Indexes for table `deduccion`
 --
 ALTER TABLE `deduccion`
   ADD PRIMARY KEY (`ID_DEDUCCION`);
 
 --
--- Indices de la tabla `empresas`
+-- Indexes for table `empresas`
 --
 ALTER TABLE `empresas`
   ADD PRIMARY KEY (`NIT`);
 
 --
--- Indices de la tabla `estado`
+-- Indexes for table `estado`
 --
 ALTER TABLE `estado`
   ADD PRIMARY KEY (`ID_Es`);
 
 --
--- Indices de la tabla `licencia`
+-- Indexes for table `licencia`
 --
 ALTER TABLE `licencia`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `ID_Estado` (`ID_Estado`);
 
 --
--- Indices de la tabla `nomina`
+-- Indexes for table `nomina`
 --
 ALTER TABLE `nomina`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `pension`
+-- Indexes for table `pension`
 --
 ALTER TABLE `pension`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `permisos`
+-- Indexes for table `permisos`
 --
 ALTER TABLE `permisos`
   ADD PRIMARY KEY (`id_permiso`);
 
 --
--- Indices de la tabla `prestamo`
+-- Indexes for table `prestamo`
 --
 ALTER TABLE `prestamo`
   ADD PRIMARY KEY (`ID_prest`);
 
 --
--- Indices de la tabla `puestos`
+-- Indexes for table `puestos`
 --
 ALTER TABLE `puestos`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `salud`
+-- Indexes for table `salud`
 --
 ALTER TABLE `salud`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `sumas`
+-- Indexes for table `sumas`
 --
 ALTER TABLE `sumas`
   ADD PRIMARY KEY (`ID_INDUCCION`);
 
 --
--- Indices de la tabla `tp_licencia`
+-- Indexes for table `tp_licencia`
 --
 ALTER TABLE `tp_licencia`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_us`);
 
 --
--- Indices de la tabla `v_h_extra`
+-- Indexes for table `v_h_extra`
 --
 ALTER TABLE `v_h_extra`
   ADD PRIMARY KEY (`ID`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `deduccion`
+-- AUTO_INCREMENT for table `contactanos`
+--
+ALTER TABLE `contactanos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `deduccion`
 --
 ALTER TABLE `deduccion`
-  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID_DEDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT de la tabla `estado`
+-- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
   MODIFY `ID_Es` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT de la tabla `licencia`
+-- AUTO_INCREMENT for table `licencia`
 --
 ALTER TABLE `licencia`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
--- AUTO_INCREMENT de la tabla `nomina`
+-- AUTO_INCREMENT for table `nomina`
 --
 ALTER TABLE `nomina`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
--- AUTO_INCREMENT de la tabla `pension`
+-- AUTO_INCREMENT for table `pension`
 --
 ALTER TABLE `pension`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT de la tabla `permisos`
+-- AUTO_INCREMENT for table `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `prestamo`
+-- AUTO_INCREMENT for table `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_prest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT de la tabla `puestos`
+-- AUTO_INCREMENT for table `puestos`
 --
 ALTER TABLE `puestos`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT de la tabla `roles`
+-- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `salud`
+-- AUTO_INCREMENT for table `salud`
 --
 ALTER TABLE `salud`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
--- AUTO_INCREMENT de la tabla `sumas`
+-- AUTO_INCREMENT for table `sumas`
 --
 ALTER TABLE `sumas`
-  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `ID_INDUCCION` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
--- AUTO_INCREMENT de la tabla `tp_licencia`
+-- AUTO_INCREMENT for table `tp_licencia`
 --
 ALTER TABLE `tp_licencia`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1215;
 
 --
--- AUTO_INCREMENT de la tabla `v_h_extra`
+-- AUTO_INCREMENT for table `v_h_extra`
 --
 ALTER TABLE `v_h_extra`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

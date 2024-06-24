@@ -30,6 +30,8 @@ if ($id_rol == '4') {
     <title>Usuarios</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="../../../img/logo_algj.png">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.2.1 -->
