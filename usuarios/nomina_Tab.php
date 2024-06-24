@@ -47,6 +47,7 @@ if ($id_rol == '6') {
     <title>Nóminas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/prestamo.css">
+    <link rel="icon" type="image/png" href="../img/logo_algj.png">
 </head>
 <body style="background-color: #f9f5f0;">
 <?php include 'nav.php'; ?>
