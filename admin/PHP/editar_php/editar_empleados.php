@@ -132,9 +132,9 @@ a.btn.btn-success:hover {
 
 <body>
     <div class="container">
-    <a class="btn btn-success" href="../index.php" style="border:none;" >INICIO</a>
+    <a class="btn btn-success" href="../index.php" style="border:none;"  >INICIO</a>
         <h2>Editar Usuario</h2>
-        <form id="editarUsuarioForm" action="actualizar_usuario.php" method="post" enctype="multipart/form-data">
+        <form id="editarUsuarioForm" action="actualizar_usuario.php" method="post" enctype="multipart/form-data" autocomplete="off">
             <div class="form-group">
                 <label for="id">N° De Identificación</label>
                 <input type="text" class="form-control" id="id" name="id" value="<?= $usuario_editar['id_us'] ?>" required readonly>
