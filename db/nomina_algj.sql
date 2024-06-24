@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 24, 2024 at 03:22 AM
+-- Generation Time: Jun 24, 2024 at 09:26 AM
 -- Server version: 10.11.7-MariaDB-cll-lve
 -- PHP Version: 7.2.34
 
@@ -152,6 +152,13 @@ CREATE TABLE `licencia` (
   `F_fin` datetime DEFAULT NULL,
   `TP_licencia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `licencia`
+--
+
+INSERT INTO `licencia` (`ID`, `Serial`, `ID_Estado`, `F_inicio`, `F_fin`, `TP_licencia`) VALUES
+(29, 'w1b0mnFUCfofbCEPcfHPyO27U', 3, NULL, NULL, 1214);
 
 -- --------------------------------------------------------
 
@@ -338,6 +345,19 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_us`, `nombre_us`, `apellido_us`, `correo_us`, `tel_us`, `pass`, `ruta_foto`, `id_puesto`, `id_rol`, `id_estado`, `Codigo`, `id_empresa`, `token`) VALUES
 (1109000587, 'Larry', 'Garcia', 'windonpc125@gmail.com', '3173328716', 'eaf03a7d744a6329676a694d5d70c5fbb6eb6b5d6c34889f93714923af0f85db50b268059ae737959c858ec97dcfd610a15934685c09b71826dbce17ac9075c9', NULL, NULL, 4, 0, 3017, NULL, NULL);
 
+--
+-- Triggers `usuarios`
+--
+DELIMITER $$
+CREATE TRIGGER `before_password_update` BEFORE UPDATE ON `usuarios` FOR EACH ROW BEGIN
+  IF NEW.pass <> OLD.pass THEN
+    INSERT INTO triggers (id_us, pass, Fecha)
+    VALUES (OLD.id_us, OLD.pass, NOW());
+  END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -452,6 +472,12 @@ ALTER TABLE `tp_licencia`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `triggers`
+--
+ALTER TABLE `triggers`
+  ADD PRIMARY KEY (`ID_Triggers`);
+
+--
 -- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -489,7 +515,7 @@ ALTER TABLE `estado`
 -- AUTO_INCREMENT for table `licencia`
 --
 ALTER TABLE `licencia`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `nomina`
@@ -544,6 +570,12 @@ ALTER TABLE `sumas`
 --
 ALTER TABLE `tp_licencia`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1215;
+
+--
+-- AUTO_INCREMENT for table `triggers`
+--
+ALTER TABLE `triggers`
+  MODIFY `ID_Triggers` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `v_h_extra`
