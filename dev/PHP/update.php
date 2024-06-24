@@ -59,24 +59,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="css/recuperar.css">
 
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 </head>
+<style>
+            body {
+            background-color: #F9F5F0 !important;
+            /* Beige claro */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
+</style>
 <body>
     <header>
         <!-- place navbar here -->
     </header>
-    <main>
         <div class="card text-center">
    
             <div class="col-md-6">
                 <div class="">
-                    <h2>welcome</h2>
-                    <p> usuario : <?php echo $_SESSION["id_us"]; ?></p>
+                    <h2>Bienvenido</h2>
+                    <p> Usuario : <?php echo $_SESSION["id_us"]; ?></p>
                 </div>
             </div>
+            <main class="main-content">
+
             <div class="card-body">
                 <h4 class="card-title">Actualizar Contraseña</h4>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -84,12 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="password" class="form-label">Ingrese su nueva contraseña:</label>
                         <input type="password" class="form-control" name="pass" id="password" placeholder="Ingrese su nueva contraseña" required />
                     </div>
-                    <button type="submit" class="btn btn-success">Actualizar Contraseña</button>
+                    <button type="submit" class="btn-success">Actualizar Contraseña</button>
                 </form>
+                
             </div>
-            <a name="" id="" class="btn btn-primary" href="cerrar.php" role="button">cerrar</a>
+            <a name="" id="" class="boton_volver" href="cerrar.php" role="button">cerrar</a>
 
         </div>
+        
     </main>
     <footer>
         <!-- place footer here -->
