@@ -178,6 +178,13 @@ a.btn.btn-success:hover {
                 </select>
             </div>
             <div class="form-group">
+                <label for="id_puesto">Estado</label>
+                <select class="form-control" id="id_estado" name="id_estado">
+                    <option value="1">Activo</option>
+                    <option value="15">Despedido</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="id_rol">Rol</label>
                 <select class="form-control" id="id_rol" name="id_rol" required>
                     <option value="">Seleccione un rol</option>

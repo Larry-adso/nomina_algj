@@ -31,11 +31,26 @@ try {
     $id_empresa = $stmt->fetchColumn();
 
     // Consulta SQL con filtro de búsqueda y restricción de id_empresa y id_rol
-    $sql = "SELECT usuarios.id_us, usuarios.nombre_us, usuarios.apellido_us, usuarios.correo_us, usuarios.tel_us, roles.tp_user, puestos.cargo, puestos.salario, usuarios.ruta_foto
-        FROM usuarios 
-        LEFT JOIN roles ON usuarios.id_rol = roles.id 
-        LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
-        WHERE usuarios.id_rol >= 6 AND usuarios.id_empresa = :id_empresa";
+    $sql = "SELECT 
+    usuarios.*,
+    usuarios.id_us AS id_estado, 
+    usuarios.nombre_us, 
+    usuarios.apellido_us, 
+    usuarios.correo_us, 
+    usuarios.tel_us, 
+    roles.tp_user, 
+    puestos.cargo, 
+    puestos.salario, 
+    usuarios.ruta_foto,
+    estado.Estado
+FROM usuarios 
+LEFT JOIN roles ON usuarios.id_rol = roles.id 
+LEFT JOIN puestos ON usuarios.id_puesto = puestos.id 
+LEFT JOIN estado ON usuarios.id_estado = estado.ID_Es
+WHERE usuarios.id_rol >= 6 
+  AND usuarios.id_empresa = :id_empresa";
+
+
 
     // Aplicar filtro si se proporciona un término de búsqueda
     if (!empty($search_term)) {
@@ -121,12 +136,19 @@ try {
                                     <p class="card-text"><strong>Rol:</strong> <?php echo $usuario['tp_user']; ?></p>
                                     <p class="card-text"><strong>Cargo:</strong> <?php echo $usuario['cargo']; ?></p>
                                     <p class="card-text"><strong>Salario:</strong> <?php echo $usuario['salario']; ?></p>
+                                    <p class="card-text"><strong>Estado:</strong> <?php echo $usuario['Estado']; ?></p>
                                     <!-- Formulario oculto para enviar el id_us -->
                                     <form action="liquidacion/editar.php" method="POST" style="display: none;" id="liquidar_form_<?php echo $usuario['id_us']; ?>">
                                         <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
                                     </form>
                                     <!-- Botón para liquidar -->
                                     <button class="btn btn-success btn-sm" onclick="window.location.href='editar_php/editar_empleados.php?id_us=<?php echo $usuario['id_us']; ?>'">Editar</button>
+                                    <form action="despedir.php" method="POST">
+                                        <input type="hidden" name="id_us" value="<?php echo $usuario['id_us']; ?>">
+                                        <input type="hidden" name="despedir" value="15">
+                                        <button type="submit" class="btn btn-success btn-sm">Despedir</button>
+                                    </form>
+
 
 
                                 </div>
