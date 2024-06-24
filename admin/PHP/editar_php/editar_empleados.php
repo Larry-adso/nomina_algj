@@ -157,7 +157,8 @@ a.btn.btn-success:hover {
             </div>
             <div class="form-group">
                 <label for="tel_us">Teléfono</label>
-                <input type="text" class="form-control" id="tel_us" name="tel_us" value="<?= $usuario_editar['tel_us'] ?>" required>
+                <input type="text" class="form-control" id="telefono_us" name="tel_us" value="<?= $usuario_editar['tel_us'] ?>" required>
+                <div id="telefono_us_error" class="text-danger"></div>
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
@@ -211,88 +212,106 @@ a.btn.btn-success:hover {
     </div>
 
     <script>
-        const nombreInput = document.getElementById('nombre_us');
-        const apellidoInput = document.getElementById('apellido_us');
-        const correoInput = document.getElementById('correo_us');
-        const codigoInput = document.getElementById('Codigo');
-        const guardarCambiosBtn = document.getElementById('guardarCambiosBtn');
+    const nombreInput = document.getElementById('nombre_us');
+    const apellidoInput = document.getElementById('apellido_us');
+    const correoInput = document.getElementById('correo_us');
+    const codigoInput = document.getElementById('Codigo');
+    const telefonoInput = document.getElementById('telefono_us'); // Nuevo input para teléfono
+    const guardarCambiosBtn = document.getElementById('guardarCambiosBtn');
 
-        // Event listeners para validar en tiempo real
-        nombreInput.addEventListener('input', validarNombre);
-        apellidoInput.addEventListener('input', validarApellido);
-        correoInput.addEventListener('input', validarCorreo);
-        codigoInput.addEventListener('input', validarCodigo);
+    // Event listeners para validar en tiempo real
+    nombreInput.addEventListener('input', validarNombre);
+    apellidoInput.addEventListener('input', validarApellido);
+    correoInput.addEventListener('input', validarCorreo);
+    codigoInput.addEventListener('input', validarCodigo);
+    telefonoInput.addEventListener('input', validarTelefono); // Nuevo event listener para teléfono
 
-        function validarNombre() {
-            const nombre = nombreInput.value.trim();
-            if (/\d/.test(nombre)) {
-                nombreInput.classList.add('border', 'border-danger');
-                document.getElementById('nombre_us_error').textContent = 'Ingrese un nombre válido sin números.';
-                guardarCambiosBtn.disabled = true;
-            } else {
-                nombreInput.classList.remove('border', 'border-danger');
-                document.getElementById('nombre_us_error').textContent = '';
-                habilitarBoton();
-            }
+    function validarNombre() {
+        const nombre = nombreInput.value.trim();
+        if (/\d/.test(nombre)) {
+            nombreInput.classList.add('border', 'border-danger');
+            document.getElementById('nombre_us_error').textContent = 'Ingrese un nombre válido sin números.';
+            guardarCambiosBtn.disabled = true;
+        } else {
+            nombreInput.classList.remove('border', 'border-danger');
+            document.getElementById('nombre_us_error').textContent = '';
+            habilitarBoton();
         }
+    }
 
-        function validarApellido() {
-            const apellido = apellidoInput.value.trim();
-            if (/\d/.test(apellido)) {
-                apellidoInput.classList.add('border', 'border-danger');
-                document.getElementById('apellido_us_error').textContent = 'Ingrese un apellido válido sin números.';
-                guardarCambiosBtn.disabled = true;
-            } else {
-                apellidoInput.classList.remove('border', 'border-danger');
-                document.getElementById('apellido_us_error').textContent = '';
-                habilitarBoton();
-            }
+    function validarApellido() {
+        const apellido = apellidoInput.value.trim();
+        if (/\d/.test(apellido)) {
+            apellidoInput.classList.add('border', 'border-danger');
+            document.getElementById('apellido_us_error').textContent = 'Ingrese un apellido válido sin números.';
+            guardarCambiosBtn.disabled = true;
+        } else {
+            apellidoInput.classList.remove('border', 'border-danger');
+            document.getElementById('apellido_us_error').textContent = '';
+            habilitarBoton();
         }
+    }
 
-        function validarCorreo() {
-            const correo = correoInput.value.trim();
-            if (!isValidEmail(correo)) {
-                correoInput.classList.add('border', 'border-danger');
-                document.getElementById('correo_us_error').textContent = 'Ingrese un correo electrónico válido.';
-                guardarCambiosBtn.disabled = true;
-            } else {
-                correoInput.classList.remove('border', 'border-danger');
-                document.getElementById('correo_us_error').textContent = '';
-                habilitarBoton();
-            }
+    function validarCorreo() {
+        const correo = correoInput.value.trim();
+        if (!isValidEmail(correo)) {
+            correoInput.classList.add('border', 'border-danger');
+            document.getElementById('correo_us_error').textContent = 'Ingrese un correo electrónico válido.';
+            guardarCambiosBtn.disabled = true;
+        } else {
+            correoInput.classList.remove('border', 'border-danger');
+            document.getElementById('correo_us_error').textContent = '';
+            habilitarBoton();
         }
+    }
 
-        function validarCodigo() {
-            const codigo = codigoInput.value.trim();
-            if (isNaN(codigo)) {
-                codigoInput.classList.add('border', 'border-danger');
-                document.getElementById('Codigo_error').textContent = 'Ingrese un código válido (solo números).';
-                guardarCambiosBtn.disabled = true;
-            } else {
-                codigoInput.classList.remove('border', 'border-danger');
-                document.getElementById('Codigo_error').textContent = '';
-                habilitarBoton();
-            }
+    function validarCodigo() {
+        const codigo = codigoInput.value.trim();
+        if (isNaN(codigo)) {
+            codigoInput.classList.add('border', 'border-danger');
+            document.getElementById('Codigo_error').textContent = 'Ingrese un código válido (solo números).';
+            guardarCambiosBtn.disabled = true;
+        } else {
+            codigoInput.classList.remove('border', 'border-danger');
+            document.getElementById('Codigo_error').textContent = '';
+            habilitarBoton();
         }
+    }
 
-        // Función para habilitar el botón de guardar cambios si no hay errores
-        function habilitarBoton() {
-            if (
-                !nombreInput.classList.contains('border-danger') &&
-                !apellidoInput.classList.contains('border-danger') &&
-                !correoInput.classList.contains('border-danger') &&
-                !codigoInput.classList.contains('border-danger')
-            ) {
-                guardarCambiosBtn.disabled = false;
-            }
+    // Nueva función para validar el teléfono
+    function validarTelefono() {
+        const telefono = telefonoInput.value.trim();
+        const soloNumeros = /^[0-9]*$/;
+        if (!soloNumeros.test(telefono) || telefono.length !== 10) {
+            telefonoInput.classList.add('border', 'border-danger');
+            document.getElementById('telefono_us_error').textContent = 'Ingrese un teléfono válido de 10 dígitos.';
+            guardarCambiosBtn.disabled = true;
+        } else {
+            telefonoInput.classList.remove('border', 'border-danger');
+            document.getElementById('telefono_us_error').textContent = '';
+            habilitarBoton();
         }
+    }
 
-        // Función para validar correo electrónico
-        function isValidEmail(email) {
-            const re = /\S+@\S+\.\S+/;
-            return re.test(email);
+    // Función para habilitar el botón de guardar cambios si no hay errores
+    function habilitarBoton() {
+        if (
+            !nombreInput.classList.contains('border-danger') &&
+            !apellidoInput.classList.contains('border-danger') &&
+            !correoInput.classList.contains('border-danger') &&
+            !codigoInput.classList.contains('border-danger') &&
+            !telefonoInput.classList.contains('border-danger') // Verificar también el campo de teléfono
+        ) {
+            guardarCambiosBtn.disabled = false;
         }
-    </script>
+    }
+
+    // Función para validar correo electrónico
+    function isValidEmail(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+</script>
 </body>
 
 

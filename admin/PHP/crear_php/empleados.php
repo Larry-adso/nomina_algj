@@ -175,7 +175,7 @@ $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
             <div class="form-group">
                 <label for="tel_us">Teléfono</label>
                 <input type="text" class="form-control" id="tel_us" name="tel_us" required>
-                <small id="tel_us_error" class="text-danger"></small>
+                <div id="tel_us_error" class="text-danger"></div>
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
@@ -326,9 +326,10 @@ $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
 
         function validarTelefono() {
             const telefono = telInput.value.trim();
-            if (!/^\d+$/.test(telefono)) {
+            const soloNumeros = /^[0-9]*$/;
+            if (!soloNumeros.test(telefono) || telefono.length !== 10) {
                 telInput.classList.add('border', 'border-danger');
-                document.getElementById('tel_us_error').textContent = 'Ingrese un número de teléfono válido (solo números).';
+                document.getElementById('tel_us_error').textContent = 'Ingrese un teléfono válido de 10 dígitos. (Solo numeros)';
                 guardarBtn.disabled = true;
             } else {
                 telInput.classList.remove('border', 'border-danger');

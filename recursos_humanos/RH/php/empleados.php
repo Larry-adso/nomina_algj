@@ -39,91 +39,114 @@ $roles = $query_roles->fetchAll(PDO::FETCH_ASSOC);
     <link rel="icon" type="image/png" href="../../../img/logo_algj.png">
     <style>
         :root {
-    --primary-color: #c7a17a !important;
-    --background-color: #f9f5f0 !important;
-    --dark-color: #151515 !important;
-    --hover-button-color: #9b7752 !important;
-    --button-login-color: #6DC5D1 !important;
-    --button-login-hover: #59a2ac !important;
-    --button-decline-term: #e88162 !important;
-}
+            --primary-color: #c7a17a !important;
+            --background-color: #f9f5f0 !important;
+            --dark-color: #151515 !important;
+            --hover-button-color: #9b7752 !important;
+            --button-login-color: #6DC5D1 !important;
+            --button-login-hover: #59a2ac !important;
+            --button-decline-term: #e88162 !important;
+        }
 
-body {
-    background-color: #F9F5F0 !important; /* Beige claro */
-    color: #0B0B0B !important; /* Negro oscuro */
-}
+        body {
+            background-color: #F9F5F0 !important;
+            /* Beige claro */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
-h1 {
-    color: #0B0B0B !important; /* Negro oscuro */
-}
+        h1 {
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+        }
 
-.card-body {
-    background-color: #FFFFFF !important; /* Blanco */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
-}
+        .card-body {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
 
-.form-control {
-    border: 1px solid #DDDDDD !important; /* Gris claro */
-}
+        .form-control {
+            border: 1px solid #DDDDDD !important;
+            /* Gris claro */
+        }
 
-input.btn.btn-primary, a.btn.btn-primary {
-    background-color: var(--button-login-color) !important;
-    color: #FFFFFF !important; /* Blanco */
-    border: none !important; /* Quitar borde para consistencia */
-}
+        input.btn.btn-primary,
+        a.btn.btn-primary {
+            background-color: var(--button-login-color) !important;
+            color: #FFFFFF !important;
+            /* Blanco */
+            border: none !important;
+            /* Quitar borde para consistencia */
+        }
 
-input.btn.btn-primary:hover {
-    background-color: var(--button-login-hover) !important; /* Un tono más oscuro para el hover */
-    color: #FFFFFF !important;
-}
-a.btn.btn-primary:hover {
-    background-color: var(--button-login-hover) !important; /* Un tono más oscuro para el hover */
-    color: #FFFFFF !important;  
-}
-a.btn.btn-warning {
-    background-color: var(--button-decline-term) !important; /* Rojo */
-    color: #FFFFFF !important; /* Blanco */
-    --bs-btn-border-color: none !important;
+        input.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
 
-}
+        a.btn.btn-primary:hover {
+            background-color: var(--button-login-hover) !important;
+            /* Un tono más oscuro para el hover */
+            color: #FFFFFF !important;
+        }
 
-.table-dark {
-    background-color: #2E2E2E !important; /* Gris oscuro */
-    color: #FFFFFF !important; /* Blanco */
-}
+        a.btn.btn-warning {
+            background-color: var(--button-decline-term) !important;
+            /* Rojo */
+            color: #FFFFFF !important;
+            /* Blanco */
+            --bs-btn-border-color: none !important;
 
-.table-light {
-    background-color: #FFFFFF !important; /* Blanco */
-    color: #0B0B0B !important; /* Negro oscuro */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+        }
 
-}
+        .table-dark {
+            background-color: #2E2E2E !important;
+            /* Gris oscuro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
 
-.thead-dark {
-    background-color: var(--hover-button-color) !important; /* Negro más claro */
-    color: #FFFFFF !important; /* Blanco */
-}
-a.btn.btn-success {
-    background-color: var(--primary-color) !important;
-    --bs-btn-border-color: none !important;
-}
-a.btn.btn-success:hover {
-    background-color: var(--hover-button-color) !important;
-    --bs-btn-border-color: none !important;
-}
+        .table-light {
+            background-color: #FFFFFF !important;
+            /* Blanco */
+            color: #0B0B0B !important;
+            /* Negro oscuro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+
+        }
+
+        .thead-dark {
+            background-color: var(--hover-button-color) !important;
+            /* Negro más claro */
+            color: #FFFFFF !important;
+            /* Blanco */
+        }
+
+        a.btn.btn-success {
+            background-color: var(--primary-color) !important;
+            --bs-btn-border-color: none !important;
+        }
+
+        a.btn.btn-success:hover {
+            background-color: var(--hover-button-color) !important;
+            --bs-btn-border-color: none !important;
+        }
 
 
-.table-responsive {
-    max-width: 600px !important; /* Establece el ancho máximo deseado */
-    margin: auto !important; /* Centrar el div */
-}
-
+        .table-responsive {
+            max-width: 600px !important;
+            /* Establece el ancho máximo deseado */
+            margin: auto !important;
+            /* Centrar el div */
+        }
     </style>
 </head>
 
 <body>
-<a class="btn btn-success" href="../index.php" style="border:none;" >INICIO</a>
+    <a class="btn btn-success" href="../index.php" style="border:none;">INICIO</a>
     <div class="container">
         <h2>Agregar Usuario</h2>
         <form id="agregarUsuarioForm" action="insertar_usuario.php" method="post" enctype="multipart/form-data">
@@ -150,7 +173,7 @@ a.btn.btn-success:hover {
             <div class="form-group">
                 <label for="tel_us">Teléfono</label>
                 <input type="text" class="form-control" id="tel_us" name="tel_us" required>
-                <small id="tel_us_error" class="text-danger"></small>
+                <div id="tel_us_error" class="text-danger"></div>
             </div>
             <div class="form-group">
                 <label for="pass">Contraseña</label>
@@ -211,7 +234,7 @@ a.btn.btn-success:hover {
             <input type="hidden" id="id_empresa" name="id_empresa" value="<?= $id_empresa ?>">
             <div class="form-group">
                 <label for="token"></label>
-                <input type="hidden" class="form-control" id="token" name="token" >
+                <input type="hidden" class="form-control" id="token" name="token">
                 <small id="token_error" class="text-danger"></small>
             </div>
             <button type="submit" class="btn btn-primary" id="guardarBtn" style="background-color:#c7a17a; border:none;">Guardar</button>
@@ -297,9 +320,10 @@ a.btn.btn-success:hover {
 
         function validarTelefono() {
             const telefono = telInput.value.trim();
-            if (!/^\d+$/.test(telefono)) {
+            const soloNumeros = /^[0-9]*$/;
+            if (!soloNumeros.test(telefono) || telefono.length !== 10) {
                 telInput.classList.add('border', 'border-danger');
-                document.getElementById('tel_us_error').textContent = 'Ingrese un número de teléfono válido (solo números).';
+                document.getElementById('tel_us_error').textContent = 'Ingrese un teléfono válido de 10 dígitos.';
                 guardarBtn.disabled = true;
             } else {
                 telInput.classList.remove('border', 'border-danger');
