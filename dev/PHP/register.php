@@ -140,7 +140,7 @@ if ($id_rol == '4') {
                     <p>Se adjunta una imagen con un código de barras. Para mayor facilidad, puedes imprimirlo y
                     escanearlo en la sección de activación para activar tu licencia. </p>
                     <p>RECUERDE QUE DEBE IMPRIMIR EL CODIGO CON UNA IMPRESORA A LASER</p>
-                    <p> Inicia sesión aquí: <a href='https://nominaalgj.000webhostapp.com/dev/PHP/login.php'>Iniciar sesión</a></p>
+                    <p> Inicia sesión aquí: <a href='http://localhost/nomina_algj/dev/PHP/login.php'>Iniciar sesión</a></p>
                     <p>Saludos,<br>Equipo de Soporte</p>
                 </div>
             </body>
