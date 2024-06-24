@@ -88,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Lista de Préstamos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="admin.css">
+    <link rel="icon" type="image/png" href="../../img/logo_algj.png">
     <style>
         :root {
             --primary-color: #c7a17a !important;
