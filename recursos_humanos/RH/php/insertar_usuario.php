@@ -1,6 +1,10 @@
 <?php
 include '../../../conexion/db.php';
 include '../../../conexion/validar_sesion.php';
+require '../../../vendor/autoload.php'; // Ajusta la ruta si es necesario
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_us = $_POST['id'];
@@ -8,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $apellido_us = $_POST['apellido_us'];
     $correo_us = $_POST['correo_us'];
     $tel_us = $_POST['tel_us'];
-    $pass = $_POST['pass']; // Obtener la contraseña sin cifrar
-    $pass = hash('sha512', $pass); // Calcular el hash de la contraseña
+    $pass_original = $_POST['pass']; // Obtener la contraseña sin cifrar
+    $pass = hash('sha512', $pass_original); // Calcular el hash de la contraseña
     $id_puesto = $_POST['id_puesto'];
     $id_rol = $_POST['id_rol'];
     $Codigo = $_POST['Codigo'];
@@ -83,7 +87,73 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':token', $token);
     
     if ($stmt->execute()) {
-        echo "<script>alert('Usuario insertado correctamente'); window.location.href='../index.php';</script>";
+        echo "<script>alert('Usuario insertado correctamente');</script>";
+
+        // Enviar correo electrónico con PHPMailer
+        $mail = new PHPMailer(true);
+        try {
+            // Configuración del servidor SMTP
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';  // Especifica el servidor SMTP de Gmail
+            $mail->SMTPAuth = true;
+            $mail->Username = 'senatrabajos2022@gmail.com';  // Tu dirección de correo
+            $mail->Password = 'ifan ewbg exlf hjck';  // Tu contraseña de correo
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Remitente y destinatario
+            $mail->setFrom('senatrabajos2022@gmail.com', 'Soporte');
+            $mail->addAddress($correo_us, $nombre_us . ' ' . $apellido_us);
+
+            // Contenido del correo
+            $mail->isHTML(true);
+            $mail->Subject = 'Registro exitoso';
+            $mail->Body = "
+            <html>
+            <head>
+                <title>Registro exitoso</title>
+                <style>
+                    .card {
+                        margin: 20px;
+                        padding: 20px;
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                        font-family: Arial, sans-serif;
+                    }
+                    .card p {
+                        margin: 0 0 10px;
+                    }
+                    .card img {
+                        display: block;
+                        margin: 10px 0;
+                        max-width: 100%;
+                        height: auto;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class='card'>
+                    <p>Hola $nombre_us $apellido_us,</p>
+                    <p>Has sido registrado exitosamente en nuestro sistema y asociado a la empresa con NIT: $id_empresa.</p>
+                    
+                    <p>Usuario : $id_us </p>
+                    <p>Contraseña : $pass_original</p>  <!-- Contraseña sin encriptar -->
+                    <p> Inicia sesión aquí: <a href='https://nominaalgj.000webhostapp.com/dev/PHP/login.php'>Iniciar sesión</a></p>
+                    <p>Saludos,<br>Equipo de Soporte</p>
+                </div>
+            </body>
+            </html>
+            ";
+
+            // Enviar el correo
+            $mail->send();
+            echo '<script>alert("Correo enviado exitosamente");</script>';
+        } catch (Exception $e) {
+            echo '<script>alert("No se pudo enviar el correo. Error: ' . $mail->ErrorInfo . '");</script>';
+        }
+
+        echo "<script>window.location.href='../index.php';</script>";
     } else {
         echo "<script>alert('Error al insertar el usuario'); window.location.href='../index.php';</script>";
     }
