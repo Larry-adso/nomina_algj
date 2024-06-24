@@ -3,7 +3,7 @@
 session_start();
 if (!isset($_SESSION['id_us'])) {
     echo '
- <script>
+    <script>
         alert("Por favor inicie sesión e intente nuevamente");
         window.location = "login.php";
     </script>
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass_hashed = hash('sha512', $pass);
 
     // Preparar la consulta SQL
-    $consulta = $conexion->prepare("UPDATE usuarios SET pass = :pass WHERE id_us = :id_usuario");
+    $consulta = $conexion->prepare("UPDATE usuarios SET pass = :pass, id_estado = 1 WHERE id_us = :id_usuario");
 
     // Vincular los parámetros
     $consulta->bindParam(':pass', $pass_hashed, PDO::PARAM_STR);
@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 
 <!doctype html>

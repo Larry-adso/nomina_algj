@@ -41,6 +41,7 @@ if ($id_rol == '4') {
         }
 
         // Resto del código para la inserción si el ID de usuario no está en uso
+        $id_us = $_POST['id_us'];
         $nombre_us = $_POST['nombre_us'];
         $apellido_us = $_POST['apellido_us'];
         $correo_us = $_POST['correo_us'];
@@ -53,8 +54,11 @@ if ($id_rol == '4') {
         // Encriptar la contraseña antes de guardarla en la base de datos
         $encrypted_pass = hash('sha512', $pass);
 
-        $insertSQL = $conexion->prepare("INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, id_rol, Codigo, id_empresa) 
-                                         VALUES (:id_us, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :id_rol, :Codigo, :id_empresa)");
+        // Preparamos la consulta SQL con el campo id_estado
+        $insertSQL = $conexion->prepare("INSERT INTO usuarios (id_us, nombre_us, apellido_us, correo_us, tel_us, pass, id_rol, Codigo, id_empresa, id_estado) 
+                                 VALUES (:id_us, :nombre_us, :apellido_us, :correo_us, :tel_us, :pass, :id_rol, :Codigo, :id_empresa, 5)");
+
+        // Vinculamos los parámetros
         $insertSQL->bindParam(':id_us', $id_us);
         $insertSQL->bindParam(':nombre_us', $nombre_us);
         $insertSQL->bindParam(':apellido_us', $apellido_us);
@@ -65,6 +69,7 @@ if ($id_rol == '4') {
         $insertSQL->bindParam(':Codigo', $Codigo);
         $insertSQL->bindParam(':id_empresa', $id_empresa);
 
+        // Ejecutamos la consulta
         $insertSQL->execute();
 
         // Obtener la URL completa de la imagen del código de barras desde la tabla empresas
