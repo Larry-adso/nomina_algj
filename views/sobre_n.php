@@ -8,6 +8,7 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>SOBRE NOSOTROS</title>
+		<link rel="icon" type="image/png" href="../img/logo_algj.png">
 		<link rel="stylesheet" href="../css/styles.css" />
 		<script src="script.js"></script>
 
